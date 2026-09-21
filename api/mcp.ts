@@ -326,8 +326,4 @@ const handler = createMcpHandler(
   }
 );
 
-export default {
-  fetch(request: Request) {
-    return handler(request);
-  },
-};
+export { handler as GET, handler as POST };
