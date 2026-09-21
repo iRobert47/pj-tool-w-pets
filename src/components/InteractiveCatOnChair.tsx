@@ -25,6 +25,15 @@ const ARTBOARD = 'MiaomiaoV3';
 const clamp = (value: number, min: number, max: number) =>
   Math.min(Math.max(value, min), max);
 
+// 逗貓棒模式 (Wand Mode): the grab zone is centered on the rig's front
+// paws. Derived from scene.rml's artboard coords (body_rig at y=236, paw_L/R
+// at local y=116 -> 352 absolute) as a percentage of the 500x500 artboard;
+// safe to treat as a percentage of the stage too since both are square and
+// Fit.Contain maps them 1:1 with no letterboxing.
+const WAND_ZONE = { x: 50, y: 70.4, radius: 14 };
+const WAND_REST_POS = { x: 82, y: 16 };
+const WAND_GRAB_COOLDOWN_MS = 900;
+
 export const InteractiveCatOnChair: React.FC<InteractiveCatOnChairProps> = ({
   mode = 'sitting',
   size = 'md',
@@ -41,6 +50,15 @@ export const InteractiveCatOnChair: React.FC<InteractiveCatOnChairProps> = ({
   // before each pet -- it decides belly-touch outcome (flip vs. dodge) and
   // grows slowly so that outcome unlocks with repeated gentle petting.
   const [intimacy, setIntimacy] = useState(20);
+
+  // 逗貓棒模式 (Wand Mode): the wand is a draggable toy layered over the
+  // stage. wasInZoneRef/coolingDownRef track transition + cooldown state
+  // outside React state so the drag handler can read them synchronously
+  // without waiting on a re-render.
+  const [wandPos, setWandPos] = useState(WAND_REST_POS);
+  const [isDraggingWand, setIsDraggingWand] = useState(false);
+  const wasInZoneRef = useRef(false);
+  const coolingDownRef = useRef(false);
 
   const { rive, RiveComponent } = useRive({
     src: RIVE_SOURCE,
@@ -143,6 +161,50 @@ export const InteractiveCatOnChair: React.FC<InteractiveCatOnChairProps> = ({
     onIntimacyGain?.(1);
   };
 
+  const triggerGrab = () => {
+    if (coolingDownRef.current) return;
+    coolingDownRef.current = true;
+    setBoolean('isCoolingDown', true);
+    fireTrigger('grabNow');
+    onIntimacyGain?.(1);
+    setTimeout(() => {
+      coolingDownRef.current = false;
+      setBoolean('isCoolingDown', false);
+    }, WAND_GRAB_COOLDOWN_MS);
+  };
+
+  const handleWandPointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
+    event.stopPropagation();
+    event.currentTarget.setPointerCapture(event.pointerId);
+    setIsDraggingWand(true);
+  };
+
+  const handleWandPointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
+    event.stopPropagation();
+    const rect = stageRef.current?.getBoundingClientRect();
+    if (!rect) return;
+
+    const x = clamp(((event.clientX - rect.left) / rect.width) * 100, 4, 96);
+    const y = clamp(((event.clientY - rect.top) / rect.height) * 100, 4, 96);
+    setWandPos({ x, y });
+    updateLook(event.clientX, event.clientY);
+
+    // 步驟1「視線先追」已由上面的 updateLook 涵蓋。以下是步驟2「進抓取區」
+    // 的距離判定，和步驟3「爪子抓」在剛進入範圍那一刻觸發。
+    const inZone =
+      Math.hypot(x - WAND_ZONE.x, y - WAND_ZONE.y) <= WAND_ZONE.radius;
+    setBoolean('wandInGrabZone', inZone);
+    if (inZone && !wasInZoneRef.current) {
+      triggerGrab();
+    }
+    wasInZoneRef.current = inZone;
+  };
+
+  const handleWandPointerUp = (event: React.PointerEvent<HTMLDivElement>) => {
+    event.stopPropagation();
+    setIsDraggingWand(false);
+  };
+
   if (riveFailed) {
     return (
       <LegacyInteractiveCatOnChair
@@ -181,15 +243,53 @@ export const InteractiveCatOnChair: React.FC<InteractiveCatOnChairProps> = ({
           />
         </div>
 
+        {/* 逗貓棒模式: grab-zone hint, only shown while actively dragging so
+            the idle view stays clean. */}
+        {isDraggingWand && (
+          <div
+            className="pointer-events-none absolute z-10 rounded-full border-2 border-dashed border-[#c98a4b]/70"
+            style={{
+              left: `${WAND_ZONE.x}%`,
+              top: `${WAND_ZONE.y}%`,
+              width: `${WAND_ZONE.radius * 2}%`,
+              height: `${WAND_ZONE.radius * 2}%`,
+              transform: 'translate(-50%, -50%)',
+            }}
+          />
+        )}
+
+        {/* 逗貓棒模式: draggable toy. Its own pointer handlers stop
+            propagation so grabbing it never also fires the finger-mode pet
+            reaction on the stage underneath. */}
+        <div
+          onPointerDown={handleWandPointerDown}
+          onPointerMove={handleWandPointerMove}
+          onPointerUp={handleWandPointerUp}
+          className="absolute z-20 cursor-grab touch-none active:cursor-grabbing"
+          style={{
+            left: `${wandPos.x}%`,
+            top: `${wandPos.y}%`,
+            transform: 'translate(-50%, -50%)',
+          }}
+          role="button"
+          aria-label="逗貓棒玩具，可拖曳靠近貓咪"
+        >
+          <svg width="30" height="30" viewBox="0 0 30 30" fill="none">
+            <line x1="8" y1="24" x2="20" y2="10" stroke="#8d6f57" strokeWidth="2.5" strokeLinecap="round" />
+            <circle cx="21" cy="8" r="5" fill="#c98a4b" />
+            <circle cx="21" cy="8" r="5" fill="#c98a4b" fillOpacity="0.001" stroke="#e0a86e" strokeWidth="1.5" />
+          </svg>
+        </div>
+
         {showControls && (
           <div className="pointer-events-none absolute bottom-3 left-1/2 z-10 -translate-x-1/2 whitespace-nowrap rounded-full bg-[#171819]/72 px-3 py-1.5 text-[9px] font-medium text-white/90 backdrop-blur">
-            移動手指看眼神 · 點觸摸貓咪逗牠玩
+            移動手指看眼神 · 點觸摸貓咪逗牠玩 · 拖曳逗貓棒到爪子附近
           </div>
         )}
       </div>
 
       <div className="mt-1.5 text-[9px] text-[#9a8e84]">
-        Step 2 · 手指模式 Finger Mode
+        Step 3 · 手指模式 + 逗貓棒模式
       </div>
     </div>
   );
