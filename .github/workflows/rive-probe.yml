@@ -1,0 +1,50 @@
+name: Rive Probe
+
+on:
+  push:
+    branches:
+      - rive/miaomiao-v2-build
+    paths:
+      - ".github/workflows/rive-probe.yml"
+      - "rive-miaomiao/**"
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Rive CLI
+        shell: bash
+        run: |
+          set -euxo pipefail
+          curl -fsSL https://releases.rive.app/cli/install.sh | sh
+          echo "$HOME/.rive/bin" >> "$GITHUB_PATH"
+          "$HOME/.rive/bin/rive" doctor
+      - name: Inspect samples and schema
+        shell: bash
+        run: |
+          set -euxo pipefail
+          RIVE="$HOME/.rive/bin/rive"
+          echo "===== CLI VERSION ====="
+          "$RIVE" --version || true
+          echo "===== SAMPLES PATH ====="
+          SAMPLES="$("$RIVE" samples --path)"
+          echo "$SAMPLES"
+          for d in rml_triangle pointer_reactive keyboard_menu; do
+            echo "===== SAMPLE: $d ====="
+            if [ -d "$SAMPLES/$d" ]; then
+              find "$SAMPLES/$d" -maxdepth 3 -type f -print -exec sh -c 'echo "---"; sed -n "1,260p" "$1"' _ {} \;
+            fi
+          done
+          echo "===== SCHEMA SEARCH: StateMachineInput ====="
+          "$RIVE" schema --search StateMachineInput || true
+          echo "===== SCHEMA SEARCH: Trigger ====="
+          "$RIVE" schema --search Trigger || true
+          echo "===== SCHEMA SEARCH: StateTransition ====="
+          "$RIVE" schema --search StateTransition || true
+          echo "===== SCHEMA SEARCH: Ellipse ====="
+          "$RIVE" schema Ellipse || true
+          echo "===== SCHEMA SEARCH: Cubic ====="
+          "$RIVE" schema --search cubic || true
+          echo "===== DOCS STATE MACHINES ====="
+          "$RIVE" docs --search "state machine input transition condition" || true
