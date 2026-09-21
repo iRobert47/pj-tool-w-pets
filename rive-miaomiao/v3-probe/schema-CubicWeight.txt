@@ -1,0 +1,30 @@
+CubicWeight  (typeKey 46)
+extends Weight > Component > ArtboardProvider
+
+own properties:
+  inValues                           uint         key 110     = 255
+      Four bone influences packed one byte per slot (0-255); slot i pairs with slot i of the matching indices property.
+  inIndices                          uint         key 111     = 1
+      Four tendon selectors packed one byte per slot, each stored as tendonIndex + 1; a 0 slot is unbound and contributes nothing.
+  outValues                          uint         key 112     = 255
+      Four bone influences packed one byte per slot (0-255); slot i pairs with slot i of the matching indices property.
+  outIndices                         uint         key 113     = 1
+      Four tendon selectors packed one byte per slot, each stored as tendonIndex + 1; a 0 slot is unbound and contributes nothing.
+
+inherited from Weight:
+  values                             uint         key 102     = 255
+      Four bone influences packed one byte per slot (0-255); slot i pairs with slot i of the matching indices property.
+  indices                            uint         key 103     = 1
+      Four tendon selectors packed one byte per slot, each stored as tendonIndex + 1; a 0 slot is unbound and contributes nothing.
+
+inherited from Component:
+  name                               String       key 4
+      Non-unique identifier, used to give friendly names to elements in the hierarchy. Runtimes provide an API for finding components by this [name].
+  parentId                           Id           key 5
+      Identifier used to track parent ContainerComponent.
+  flags                              uint         key 130     = 0
+      Component state. Runtime export folds visibility and selectable state into drawable flags; editor-only flags stay in the editor.
+      bits (write each as its own attribute, e.g. hidden="true"): hidden locked disconnected opaque guide isolated visibleOverride unlockedOverride participatesInLayout complexDependency selectable
+
+9 properties.  A = animatable, B = bindable, D = derived (computed, not authored -- bind to it, do not set it).
+Editor-only properties are hidden; --all shows them.

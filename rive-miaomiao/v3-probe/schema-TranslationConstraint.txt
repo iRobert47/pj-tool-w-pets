@@ -1,0 +1,63 @@
+TranslationConstraint  (typeKey 87)
+extends TransformComponentConstraintY > TransformComponentConstraint > TransformSpaceConstraint > TargetedConstraint > Constraint > Component > ArtboardProvider
+
+inherited from TransformComponentConstraintY:
+  copyFactorY                    B   double       key 185     = 1
+      Copy factor.
+  minValueY                      B   double       key 186     = 0
+      Minimum value.
+  maxValueY                      B   double       key 187     = 0
+      Maximum value.
+  doesCopyY                          bool         key 192     = true
+      Whether the Y component is copied.
+  minY                               bool         key 193     = false
+      Whether min Y is used.
+  maxY                               bool         key 194     = false
+      Whether max Y is used.
+
+inherited from TransformComponentConstraint:
+  minMaxSpaceValue                   uint         key 195     = world
+      The min/max transform space.
+      accepts: world, local
+  copyFactor                     B   double       key 182     = 1
+      Copy factor.
+  minValue                       B   double       key 183     = 0
+      Minimum value.
+  maxValue                       B   double       key 184     = 0
+      Maximum value.
+  offset                             bool         key 188     = false
+      True when the original component (rotation/scale/translation) is used to offset the copied one.
+  doesCopy                           bool         key 189     = true
+      Whether the component is copied.
+  min                                bool         key 190     = false
+      Whether min is used.
+  max                                bool         key 191     = false
+      Whether max is used.
+
+inherited from TransformSpaceConstraint:
+  sourceSpaceValue                   uint         key 179     = world
+      The source transform space.
+      accepts: world, local
+  destSpaceValue                     uint         key 180     = world
+      The destination transform space.
+      accepts: world, local
+
+inherited from TargetedConstraint:
+  targetId                           Id           key 173
+      Identifier used to track the TransformComponent used as the target for the constraint.
+
+inherited from Constraint:
+  strength                      AB   double       key 172     = 1.0
+      Strength of the constraint. 0 means off. 1 means fully constraining.
+
+inherited from Component:
+  name                               String       key 4
+      Non-unique identifier, used to give friendly names to elements in the hierarchy. Runtimes provide an API for finding components by this [name].
+  parentId                           Id           key 5
+      Identifier used to track parent ContainerComponent.
+  flags                              uint         key 130     = 0
+      Component state. Runtime export folds visibility and selectable state into drawable flags; editor-only flags stay in the editor.
+      bits (write each as its own attribute, e.g. hidden="true"): hidden locked disconnected opaque guide isolated visibleOverride unlockedOverride participatesInLayout complexDependency selectable
+
+21 properties.  A = animatable, B = bindable, D = derived (computed, not authored -- bind to it, do not set it).
+Editor-only properties are hidden; --all shows them.
