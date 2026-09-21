@@ -1,0 +1,36 @@
+TransformConstraint  (typeKey 83)
+extends TransformSpaceConstraint > TargetedConstraint > Constraint > Component > ArtboardProvider
+
+own properties:
+  originX                       AB   double       key 372     = 0.0
+      Origin x in normalized coordinates (0.5 = center, 0 = left, 1 = right).
+  originY                       AB   double       key 373     = 0.0
+      Origin y in normalized coordinates (0.5 = center, 0 = top, 1 = bottom).
+
+inherited from TransformSpaceConstraint:
+  sourceSpaceValue                   uint         key 179     = world
+      The source transform space.
+      accepts: world, local
+  destSpaceValue                     uint         key 180     = world
+      The destination transform space.
+      accepts: world, local
+
+inherited from TargetedConstraint:
+  targetId                           Id           key 173
+      Identifier used to track the TransformComponent used as the target for the constraint.
+
+inherited from Constraint:
+  strength                      AB   double       key 172     = 1.0
+      Strength of the constraint. 0 means off. 1 means fully constraining.
+
+inherited from Component:
+  name                               String       key 4
+      Non-unique identifier, used to give friendly names to elements in the hierarchy. Runtimes provide an API for finding components by this [name].
+  parentId                           Id           key 5
+      Identifier used to track parent ContainerComponent.
+  flags                              uint         key 130     = 0
+      Component state. Runtime export folds visibility and selectable state into drawable flags; editor-only flags stay in the editor.
+      bits (write each as its own attribute, e.g. hidden="true"): hidden locked disconnected opaque guide isolated visibleOverride unlockedOverride participatesInLayout complexDependency selectable
+
+9 properties.  A = animatable, B = bindable, D = derived (computed, not authored -- bind to it, do not set it).
+Editor-only properties are hidden; --all shows them.

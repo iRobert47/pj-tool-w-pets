@@ -1,0 +1,30 @@
+Tendon  (typeKey 44)
+extends Component > ArtboardProvider
+
+own properties:
+  boneId                             Id           key 95
+      Identifier used to track the bone this tendon connects to.
+  xx                                 double       key 96      = 1
+      x component of x unit vector in the bind transform
+  yx                                 double       key 97      = 0
+      x component of y unit vector in the bind transform
+  xy                                 double       key 98      = 0
+      y component of x unit vector in the bind transform
+  yy                                 double       key 99      = 1
+      y component of y unit vector in the bind transform
+  tx                                 double       key 100     = 0
+      x position component of the bind transform
+  ty                                 double       key 101     = 0
+      y position component of the bind transform
+
+inherited from Component:
+  name                               String       key 4
+      Non-unique identifier, used to give friendly names to elements in the hierarchy. Runtimes provide an API for finding components by this [name].
+  parentId                           Id           key 5
+      Identifier used to track parent ContainerComponent.
+  flags                              uint         key 130     = 0
+      Component state. Runtime export folds visibility and selectable state into drawable flags; editor-only flags stay in the editor.
+      bits (write each as its own attribute, e.g. hidden="true"): hidden locked disconnected opaque guide isolated visibleOverride unlockedOverride participatesInLayout complexDependency selectable
+
+10 properties.  A = animatable, B = bindable, D = derived (computed, not authored -- bind to it, do not set it).
+Editor-only properties are hidden; --all shows them.

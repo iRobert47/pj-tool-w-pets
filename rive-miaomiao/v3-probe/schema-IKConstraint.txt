@@ -1,0 +1,28 @@
+IKConstraint  (typeKey 81)
+extends TargetedConstraint > Constraint > Component > ArtboardProvider
+
+own properties:
+  invertDirection               AB   bool         key 174     = false
+      True when the direction taken towards the target should be inverted from the default.
+  parentBoneCount                    uint         key 175     = 0
+      The number of bones above this one that are influenced by this IK constraint.
+
+inherited from TargetedConstraint:
+  targetId                           Id           key 173
+      Identifier used to track the TransformComponent used as the target for the constraint.
+
+inherited from Constraint:
+  strength                      AB   double       key 172     = 1.0
+      Strength of the constraint. 0 means off. 1 means fully constraining.
+
+inherited from Component:
+  name                               String       key 4
+      Non-unique identifier, used to give friendly names to elements in the hierarchy. Runtimes provide an API for finding components by this [name].
+  parentId                           Id           key 5
+      Identifier used to track parent ContainerComponent.
+  flags                              uint         key 130     = 0
+      Component state. Runtime export folds visibility and selectable state into drawable flags; editor-only flags stay in the editor.
+      bits (write each as its own attribute, e.g. hidden="true"): hidden locked disconnected opaque guide isolated visibleOverride unlockedOverride participatesInLayout complexDependency selectable
+
+7 properties.  A = animatable, B = bindable, D = derived (computed, not authored -- bind to it, do not set it).
+Editor-only properties are hidden; --all shows them.
