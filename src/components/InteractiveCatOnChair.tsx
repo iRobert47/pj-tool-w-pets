@@ -18,7 +18,7 @@ interface InteractiveCatOnChairProps {
   inPomodoro?: boolean;
 }
 
-const RIVE_SOURCE = '/rive/miaomiao-v3.riv';
+const RIVE_SOURCE = '/rive/miaomiao-v3.riv?v=ear-eye-fix-20260922';
 const STATE_MACHINE = 'MiaomiaoV3StateMachine';
 const ARTBOARD = 'MiaomiaoV3';
 
