@@ -323,11 +323,10 @@ const handler = createMcpHandler(
     },
     instructions:
       'Use show_pet_companion when the user wants to open or interact with their PJ productivity pet companion.',
+  },
+  {
+    basePath: '/api',
   }
 );
 
-export default {
-  fetch(request: Request) {
-    return handler(request);
-  },
-};
+export { handler as GET, handler as POST, handler as DELETE };
