@@ -23,6 +23,9 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Verify Rive pet asset
+        run: curl -fsSL --retry 2 -o /tmp/miaomiao.riv https://public.rive.app/community/runtime-files/23404-43796-interactive-cute-black-cat.riv && test -s /tmp/miaomiao.riv
+
       - name: Type check
         run: npm run lint
 
