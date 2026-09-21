@@ -23,7 +23,7 @@ jobs:
         run: |
           set -euxo pipefail
           sudo apt-get update
-          sudo apt-get install -y libegl1 libgl1 libx11-6 libxkbcommon0 libxcb1 libfontconfig1
+          sudo apt-get install -y libegl1 libgles2 libgl1 libx11-6 libx11-xcb1 libxkbcommon0 libxkbcommon-x11-0 libxcb1 libxcb-xfixes0 libxcb-randr0 libxcb-shape0 libxcb-xkb1 libxrandr2 libxi6 libxcursor1 libxinerama1 libfontconfig1 libwayland-client0
           curl -fsSL https://releases.rive.app/cli/install.sh | bash
           echo "$HOME/.rive/bin" >> "$GITHUB_PATH"
 
