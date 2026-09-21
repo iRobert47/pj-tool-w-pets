@@ -60,6 +60,16 @@ jobs:
 
           "$RIVE" schema --search condition --json > "$OUT/search-condition.json" 2>&1 || true
           "$RIVE" docs --list > "$OUT/docs-list.txt" 2>&1 || true
+          "$RIVE" docs state-machines > "$OUT/docs-state-machines-full.txt" 2>&1 || true
+          "$RIVE" docs easing > "$OUT/docs-easing-full.txt" 2>&1 || true
+          "$RIVE" docs gotchas > "$OUT/docs-gotchas.txt" 2>&1 || true
+          "$RIVE" docs skeleton > "$OUT/docs-skeleton.txt" 2>&1 || true
+          "$RIVE" docs publishing > "$OUT/docs-publishing.txt" 2>&1 || true
+          "$RIVE" schema TransitionBoolCondition > "$OUT/type-TransitionBoolCondition.txt" 2>&1 || true
+          "$RIVE" schema TransitionNumberCondition > "$OUT/type-TransitionNumberCondition.txt" 2>&1 || true
+          "$RIVE" schema TransitionTriggerCondition > "$OUT/type-TransitionTriggerCondition.txt" 2>&1 || true
+          "$RIVE" schema --search BlendAnimation > "$OUT/schema-BlendAnimation.txt" 2>&1 || true
+          "$RIVE" schema --search BlendState1D > "$OUT/schema-BlendState1D-all.txt" 2>&1 || true
           "$RIVE" docs --search "state machine input transition condition" > "$OUT/docs-state-machine.txt" 2>&1 || true
           "$RIVE" docs --search "blend state number input" > "$OUT/docs-blend-state.txt" 2>&1 || true
 
