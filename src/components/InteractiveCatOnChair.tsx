@@ -15,9 +15,7 @@ type InteractionMode = 'pet' | 'treat' | 'play';
 
 const LOTTIE_PAGE_URL =
   'https://lottiefiles.com/free-animation/black-cat-3OBQxyPyXe';
-const LOTTIE_OEMBED_URL =
-  'https://embed.lottiefiles.com/oembed?url=' +
-  encodeURIComponent(LOTTIE_PAGE_URL);
+const LOTTIE_EMBED_API = '/api/lottie-embed';
 const LOTTIE_PREVIEW_URL =
   'https://assets-v2.lottiefiles.com/a/7ea04694-1182-11ee-a98e-1362e8508d70/TB9Ub8h2gy.png';
 
@@ -43,15 +41,12 @@ export const InteractiveCatOnChair: React.FC<InteractiveCatOnChairProps> = ({
 
     const resolveEmbed = async () => {
       try {
-        const response = await fetch(LOTTIE_OEMBED_URL);
+        const response = await fetch(LOTTIE_EMBED_API);
         if (!response.ok) throw new Error('Unable to resolve Lottie embed');
         const payload = await response.json();
 
-        const html = typeof payload?.html === 'string' ? payload.html : '';
-        const match = html.match(/src=["']([^"']+)["']/i);
-
-        if (!cancelled && match?.[1]) {
-          setEmbedSrc(match[1]);
+        if (!cancelled && typeof payload?.src === 'string') {
+          setEmbedSrc(payload.src);
         }
       } catch {
         // Fall back to the animation's own preview artwork below.
