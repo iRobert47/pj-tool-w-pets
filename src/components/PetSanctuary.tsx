@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ASSETS } from '../data/initialData';
 import { Achievement, Pet } from '../types';
-import { InteractiveCatOnChair } from './InteractiveCatOnChair';
+import { MiaomiaoV3 } from './MiaomiaoV3';
 
 interface PetSanctuaryProps {
   pets: Pet[];
@@ -119,9 +119,9 @@ export const PetSanctuary: React.FC<PetSanctuaryProps> = ({
           {/* Interactive Pet Character Showcase */}
           {activePet.id === 'pet-miaomiao' ? (
             <div className="relative z-10 w-full mb-3 flex flex-col items-center">
-              <InteractiveCatOnChair
+              <MiaomiaoV3
                 size="lg"
-                showControls={true}
+                showControls={false}
                 onIntimacyGain={onIntimacyGain}
                 onFeed={onFeed}
                 className="w-full"
