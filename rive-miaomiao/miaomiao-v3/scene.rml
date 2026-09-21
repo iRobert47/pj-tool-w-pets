@@ -8,7 +8,7 @@
     <Node x="250" y="214" name="head_rig" id="0:100">
       <Node x="-34" y="2" name="eye_left_rig" id="0:110">
         <Shape x="0" y="1" name="pupil_left" id="0:120">
-          <Ellipse width="16" height="30" name="Path"/>
+          <Ellipse width="13" height="22" name="Path"/>
           <Fill name="Fill"><SolidColor colorValue="FF101112" name="Color"/></Fill>
         </Shape>
         <Shape name="eye_left_white">
@@ -19,7 +19,7 @@
 
       <Node x="34" y="1" name="eye_right_rig" id="0:111">
         <Shape x="0" y="1" name="pupil_right" id="0:121">
-          <Ellipse width="16" height="30" name="Path"/>
+          <Ellipse width="13" height="22" name="Path"/>
           <Fill name="Fill"><SolidColor colorValue="FF101112" name="Color"/></Fill>
         </Shape>
         <Shape name="eye_right_white">
