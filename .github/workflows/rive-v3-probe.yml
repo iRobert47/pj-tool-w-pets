@@ -35,7 +35,7 @@ jobs:
           "$RIVE" docs rigging > rive-miaomiao/v3-probe/docs-rigging.txt || true
           "$RIVE" docs paths > rive-miaomiao/v3-probe/docs-paths.txt || true
           "$RIVE" docs shapes > rive-miaomiao/v3-probe/docs-shapes.txt || true
-          for T in Path CubicVertex StraightVertex Vertex Bone Skin Tendon Weight Constraint IKConstraint TransformConstraint RotationConstraint; do
+          for T in Path PointsPath CubicVertex CubicAsymmetricVertex CubicMirroredVertex CubicDetachedVertex StraightVertex Vertex RootBone Bone Skin Tendon Weight CubicWeight Constraint IKConstraint TranslationConstraint TransformConstraint RotationConstraint; do
             "$RIVE" schema "$T" > "rive-miaomiao/v3-probe/schema-$T.txt" 2>&1 || true
           done
       - name: Commit probe
