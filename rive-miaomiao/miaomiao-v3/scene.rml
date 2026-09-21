@@ -2,33 +2,58 @@
   <Artboard defaultStateMachineId="0:900" width="500" height="500" styleId="0:5" name="MiaomiaoV3" id="0:2">
     <LayoutComponentStyle name="Artboard Style" id="0:5"/>
 
-    <!-- V3 illustrated rig. Earlier siblings paint above later siblings. -->
+    <!-- V4 reconstruction: organic silhouette, feathered volumetric shading,
+         warm ivory eyes, palette-based fur tones, cat sinks into a real
+         cushion. Earlier siblings paint above later siblings. -->
 
-    <!-- Head rig: expressive eyes over one continuous illustrated head silhouette. -->
+    <!-- Cushion front rim: a hammock-shaped dip, not a flat dome -- the top
+         edge sinks lowest where the cat's weight would press (center) and
+         rises on both sides, so the paws/lower body read as pressed into
+         soft fabric instead of cut off by a hard straight edge. -->
+    <Shape x="250" y="418" name="cushion_front">
+      <PointsPath isClosed="true" name="Path">
+        <CubicMirroredVertex x="-132" y="-22" rotation="-0.30" distance="34"/>
+        <CubicMirroredVertex x="-64" y="8" rotation="-0.65" distance="26"/>
+        <CubicMirroredVertex x="0" y="20" rotation="0" distance="30"/>
+        <CubicMirroredVertex x="64" y="6" rotation="0.68" distance="26"/>
+        <CubicMirroredVertex x="134" y="-24" rotation="0.32" distance="34"/>
+        <CubicMirroredVertex x="96" y="34" rotation="2.55" distance="42"/>
+        <CubicMirroredVertex x="-94" y="34" rotation="-2.55" distance="42"/>
+      </PointsPath>
+      <Fill name="Fill">
+        <LinearGradient startX="-120" startY="-10" endX="110" endY="30" name="CushionFront">
+          <GradientStop colorValue="FFF6F1E9" position="0"/>
+          <GradientStop colorValue="FFE6DACB" position="0.6"/>
+          <GradientStop colorValue="FFD6C6B2" position="1"/>
+        </LinearGradient>
+      </Fill>
+    </Shape>
+
+    <!-- Head rig: expressive eyes over one continuous organic head silhouette. -->
     <Node x="250" y="214" name="head_rig" id="0:100">
       <Node x="-32" y="2" name="eye_left_rig" id="0:110">
         <Shape x="0" y="1" name="pupil_left" id="0:120">
-          <Ellipse width="16" height="28" name="Path"/>
-          <Fill name="Fill"><SolidColor colorValue="FF101112" name="Color"/></Fill>
+          <Ellipse width="16" height="30" name="Path"/>
+          <Fill name="Fill"><SolidColor colorValue="FF111111" name="Color"/></Fill>
         </Shape>
         <Shape name="eye_left_white">
-          <Ellipse width="40" height="38" name="Path"/>
-          <Fill name="Fill"><SolidColor colorValue="FFFAF3E6" name="Color"/></Fill>
+          <Ellipse width="38" height="48" name="Path"/>
+          <Fill name="Fill"><SolidColor colorValue="FFF7F3E8" name="Color"/></Fill>
         </Shape>
       </Node>
 
-      <Node x="32" y="2" name="eye_right_rig" id="0:111">
-        <Shape x="0" y="1" name="pupil_right" id="0:121">
-          <Ellipse width="16" height="28" name="Path"/>
-          <Fill name="Fill"><SolidColor colorValue="FF101112" name="Color"/></Fill>
+      <Node x="33" y="1" name="eye_right_rig" id="0:111">
+        <Shape x="1" y="2" name="pupil_right" id="0:121">
+          <Ellipse width="16" height="30" name="Path"/>
+          <Fill name="Fill"><SolidColor colorValue="FF111111" name="Color"/></Fill>
         </Shape>
         <Shape name="eye_right_white">
-          <Ellipse width="40" height="38" name="Path"/>
-          <Fill name="Fill"><SolidColor colorValue="FFFAF3E6" name="Color"/></Fill>
+          <Ellipse width="38" height="48" name="Path"/>
+          <Fill name="Fill"><SolidColor colorValue="FFF7F3E8" name="Color"/></Fill>
         </Shape>
       </Node>
 
-      <Shape x="0" y="34" name="nose">
+      <Shape x="1" y="35" name="nose">
         <PointsPath isClosed="true" name="Path">
           <CubicMirroredVertex x="-6" y="-2" rotation="0" distance="3"/>
           <CubicMirroredVertex x="6" y="-2" rotation="0" distance="3"/>
@@ -37,157 +62,242 @@
         <Fill name="Fill"><SolidColor colorValue="FF8E7B70" name="Color"/></Fill>
       </Shape>
 
-      <!-- Soft sheen: a low-opacity radial wash painted on top of the fur fill
-           (earlier sibling = on top, so this must precede head_main), sized and
-           centered to stay well inside its silhouette so no hard oval edge
-           shows past the fur. Fakes the plush-photo's rounded rim highlight. -->
-      <Shape x="0" y="-28" name="head_sheen">
-        <Ellipse width="60" height="34" name="Path"/>
+      <!-- Head_Light: large, low-contrast, feathered warm wash over the
+           forehead/upper cheeks. Not a highlight graphic -- reads as volume. -->
+      <Shape x="0" y="-20" name="head_light">
+        <Ellipse width="112" height="66" name="Path"/>
         <Fill name="Fill">
-          <RadialGradient startX="0" startY="-2" endX="24" endY="8" name="Sheen">
-            <GradientStop colorValue="26FFFFFF" position="0"/>
-            <GradientStop colorValue="00FFFFFF" position="1"/>
+          <RadialGradient startX="-4" startY="-8" endX="48" endY="26" name="HeadLight">
+            <GradientStop colorValue="24F5F0E6" position="0"/>
+            <GradientStop colorValue="10F5F0E6" position="0.55"/>
+            <GradientStop colorValue="00F5F0E6" position="1"/>
           </RadialGradient>
         </Fill>
       </Shape>
 
-      <!-- Head silhouette traced from the reference photo (pixel-measured, scaled
-           by head-width to this rig's units). V1 = forehead valley between the
-           ears; V2/V8 ear-root shoulder; V3/V7 cheek-widest; V4/V6 jaw; V5 chin. -->
+      <!-- LowerFace_Shadow: soft dark wash under the cheeks/jaw for the same
+           feathered, geometry-following treatment as Head_Light. -->
+      <Shape x="2" y="38" name="lowerface_shadow">
+        <Ellipse width="98" height="48" name="Path"/>
+        <Fill name="Fill">
+          <RadialGradient startX="0" startY="-4" endX="42" endY="18" name="LowerFaceShadow">
+            <GradientStop colorValue="1E050403" position="0"/>
+            <GradientStop colorValue="00050403" position="1"/>
+          </RadialGradient>
+        </Fill>
+      </Shape>
+
+      <!-- Head_Base: organic closed silhouette, 8 anchors, generous bezier
+           handles so no facet reads as a corner at any zoom. Slightly
+           asymmetric on purpose (not a mirrored pair) -- forehead valley,
+           ear-root shoulders, cheek-widest, jaw, chin. -->
       <Shape name="head_main" id="0:101">
         <PointsPath isClosed="true" name="Path">
-          <CubicMirroredVertex x="0" y="-59" rotation="0" distance="22"/>
-          <CubicMirroredVertex x="73" y="-45" rotation="1.04" distance="35"/>
-          <CubicMirroredVertex x="80" y="8" rotation="1.67" distance="28"/>
-          <CubicMirroredVertex x="61" y="43" rotation="2.18" distance="28"/>
-          <CubicMirroredVertex x="8" y="52" rotation="2.99" distance="30"/>
-          <CubicMirroredVertex x="-61" y="43" rotation="-2.18" distance="28"/>
-          <CubicMirroredVertex x="-80" y="8" rotation="-1.67" distance="28"/>
-          <CubicMirroredVertex x="-73" y="-45" rotation="-1.04" distance="35"/>
+          <CubicMirroredVertex x="2" y="-60" rotation="0" distance="27"/>
+          <CubicMirroredVertex x="74" y="-45" rotation="1.05" distance="37"/>
+          <CubicMirroredVertex x="82" y="10" rotation="1.68" distance="33"/>
+          <CubicMirroredVertex x="59" y="45" rotation="2.19" distance="31"/>
+          <CubicMirroredVertex x="6" y="54" rotation="2.97" distance="35"/>
+          <CubicMirroredVertex x="-63" y="43" rotation="-2.15" distance="32"/>
+          <CubicMirroredVertex x="-80" y="6" rotation="-1.64" distance="33"/>
+          <CubicMirroredVertex x="-72" y="-43" rotation="-1.02" distance="36"/>
         </PointsPath>
-        <!-- Radial, not diagonal-linear: light pools where a rounded form would
-             catch it (upper forehead) and falls off toward the rim, reading as
-             a soft convex volume instead of a flat diagonal tint. -->
         <Fill name="Fill">
-          <RadialGradient startX="-6" startY="-38" endX="55" endY="45" name="FurShade">
-            <GradientStop colorValue="FF3D3E40" position="0"/>
-            <GradientStop colorValue="FF1B1C1D" position="0.6"/>
-            <GradientStop colorValue="FF0C0D0E" position="1"/>
+          <RadialGradient startX="-6" startY="-38" endX="58" endY="48" name="FurShade">
+            <GradientStop colorValue="FF292827" position="0"/>
+            <GradientStop colorValue="FF191918" position="0.45"/>
+            <GradientStop colorValue="FF101010" position="0.8"/>
+            <GradientStop colorValue="FF090909" position="1"/>
           </RadialGradient>
         </Fill>
       </Shape>
 
-      <!-- Ear tip/base traced from reference (tip ~59,-85 from head center; base
-           zone spans the valley-inner edge to the head's own outer edge at the
-           row where ear and head silhouettes merge). Sit behind head. -->
+      <!-- Ear_Back: triangular with a softly rounded tip (bigger tip handle),
+           base pulled down/inward so it tucks under head_main's shoulders --
+           verified gap-free through the twitch/ambient rotation range.
+           Left/right share one locally-symmetric vertex pattern (translating
+           the origin mirrors it correctly); origin/rotation differ slightly
+           on purpose to avoid perfect bilateral symmetry. -->
       <Shape x="-48" y="-61" rotation="-0.12" name="ear_left" id="0:103">
         <PointsPath isClosed="true" name="Path">
-          <CubicMirroredVertex x="-18" y="8" rotation="-1.12" distance="12"/>
-          <CubicMirroredVertex x="-8" y="-23" rotation="-0.30" distance="16"/>
-          <CubicMirroredVertex x="22" y="5" rotation="1.12" distance="13"/>
-          <CubicMirroredVertex x="0" y="-3" rotation="3.1" distance="9"/>
+          <CubicMirroredVertex x="-18" y="8" rotation="-1.10" distance="13"/>
+          <CubicMirroredVertex x="-8" y="-25" rotation="-0.32" distance="20"/>
+          <CubicMirroredVertex x="22" y="5" rotation="1.14" distance="14"/>
+          <CubicMirroredVertex x="0" y="-3" rotation="3.1" distance="10"/>
         </PointsPath>
         <Fill name="Fill">
-          <RadialGradient startX="-10" startY="-14" endX="12" endY="10" name="EarShade">
-            <GradientStop colorValue="FF48494B" position="0"/>
-            <GradientStop colorValue="FF0A0B0C" position="1"/>
+          <RadialGradient startX="-10" startY="-16" endX="14" endY="12" name="EarShade">
+            <GradientStop colorValue="FF292827" position="0"/>
+            <GradientStop colorValue="FF101010" position="0.6"/>
+            <GradientStop colorValue="FF090909" position="1"/>
           </RadialGradient>
         </Fill>
       </Shape>
-      <Shape x="48" y="-61" rotation="0.12" name="ear_right" id="0:105">
+      <Shape x="49" y="-60" rotation="0.13" name="ear_right" id="0:105">
         <PointsPath isClosed="true" name="Path">
-          <CubicMirroredVertex x="-22" y="5" rotation="-1.12" distance="13"/>
-          <CubicMirroredVertex x="-8" y="-23" rotation="-0.30" distance="16"/>
-          <CubicMirroredVertex x="18" y="8" rotation="1.12" distance="12"/>
-          <CubicMirroredVertex x="0" y="-3" rotation="3.1" distance="9"/>
+          <CubicMirroredVertex x="-18" y="8" rotation="-1.10" distance="13"/>
+          <CubicMirroredVertex x="-8" y="-25" rotation="-0.32" distance="20"/>
+          <CubicMirroredVertex x="22" y="5" rotation="1.14" distance="14"/>
+          <CubicMirroredVertex x="0" y="-3" rotation="3.1" distance="10"/>
         </PointsPath>
         <Fill name="Fill">
-          <RadialGradient startX="10" startY="-14" endX="-12" endY="10" name="EarShade">
-            <GradientStop colorValue="FF48494B" position="0"/>
-            <GradientStop colorValue="FF0A0B0C" position="1"/>
+          <RadialGradient startX="10" startY="-16" endX="-14" endY="12" name="EarShade">
+            <GradientStop colorValue="FF292827" position="0"/>
+            <GradientStop colorValue="FF101010" position="0.6"/>
+            <GradientStop colorValue="FF090909" position="1"/>
           </RadialGradient>
         </Fill>
       </Shape>
     </Node>
 
-    <!-- Body: one tapered asymmetrical silhouette, closer to the first cute Rive. -->
+    <!-- Body rig: shoulder/chest/belly/hip suggested through silhouette width
+         changes and feathered shading, not a uniform ellipse. -->
     <Node x="250" y="350" name="body_rig" id="0:200">
-      <!-- Body traced from reference at the same px->unit scale as the head, so
-           head:body size now matches the photo instead of the body dwarfing it. -->
-      <!-- Soft sheen on the shoulders, same trick as the head. Must precede
-           body_main (earlier sibling = on top) or it paints hidden beneath it. -->
-      <Shape x="-5" y="-58" name="body_sheen">
-        <Ellipse width="70" height="38" name="Path"/>
+      <!-- Chest_Light: large, low-contrast, feathered -- same treatment as
+           Head_Light, over the shoulder/chest area. -->
+      <Shape x="-4" y="-56" name="chest_light">
+        <Ellipse width="86" height="46" name="Path"/>
         <Fill name="Fill">
-          <RadialGradient startX="0" startY="0" endX="28" endY="8" name="Sheen">
-            <GradientStop colorValue="22FFFFFF" position="0"/>
-            <GradientStop colorValue="00FFFFFF" position="1"/>
+          <RadialGradient startX="0" startY="-2" endX="34" endY="14" name="ChestLight">
+            <GradientStop colorValue="20F5F0E6" position="0"/>
+            <GradientStop colorValue="0DF5F0E6" position="0.55"/>
+            <GradientStop colorValue="00F5F0E6" position="1"/>
           </RadialGradient>
         </Fill>
       </Shape>
 
+      <!-- Belly_Shadow: soft dark wash over the lower belly for volume. -->
+      <Shape x="2" y="40" name="belly_shadow">
+        <Ellipse width="110" height="58" name="Path"/>
+        <Fill name="Fill">
+          <RadialGradient startX="0" startY="-6" endX="46" endY="20" name="BellyShadow">
+            <GradientStop colorValue="20050403" position="0"/>
+            <GradientStop colorValue="00050403" position="1"/>
+          </RadialGradient>
+        </Fill>
+      </Shape>
+
+      <!-- FrontLeg: individual closed shapes (not strokes), a shade lighter
+           at the torso contact line, blending into the base tone toward the
+           paw so they read as separate forms merging via shading. -->
+      <Shape x="-27" y="4" name="front_leg_left">
+        <PointsPath isClosed="true" name="Path">
+          <CubicMirroredVertex x="0" y="-52" rotation="0" distance="8"/>
+          <CubicMirroredVertex x="9" y="0" rotation="1.5708" distance="46"/>
+          <CubicMirroredVertex x="0" y="52" rotation="3.1416" distance="8"/>
+          <CubicMirroredVertex x="-9" y="0" rotation="-1.5708" distance="46"/>
+        </PointsPath>
+        <Fill name="Fill">
+          <LinearGradient startX="0" startY="-50" endX="0" endY="52" name="LegShade">
+            <GradientStop colorValue="FF292827" position="0"/>
+            <GradientStop colorValue="FF191918" position="0.6"/>
+            <GradientStop colorValue="FF101010" position="1"/>
+          </LinearGradient>
+        </Fill>
+      </Shape>
+      <Shape x="24" y="6" name="front_leg_right">
+        <PointsPath isClosed="true" name="Path">
+          <CubicMirroredVertex x="0" y="-50" rotation="0" distance="8"/>
+          <CubicMirroredVertex x="9" y="0" rotation="1.5708" distance="45"/>
+          <CubicMirroredVertex x="0" y="50" rotation="3.1416" distance="8"/>
+          <CubicMirroredVertex x="-9" y="0" rotation="-1.5708" distance="45"/>
+        </PointsPath>
+        <Fill name="Fill">
+          <LinearGradient startX="0" startY="-48" endX="0" endY="50" name="LegShade">
+            <GradientStop colorValue="FF262625" position="0"/>
+            <GradientStop colorValue="FF181817" position="0.6"/>
+            <GradientStop colorValue="FF0E0E0D" position="1"/>
+          </LinearGradient>
+        </Fill>
+      </Shape>
+
+      <!-- Paw_Shadow: small, tight, feathered dark wash suggesting the paws
+           round off and meet the ground. -->
+      <Shape x="-1" y="60" name="paw_shadow">
+        <Ellipse width="66" height="18" name="Path"/>
+        <Fill name="Fill">
+          <RadialGradient startX="0" startY="0" endX="30" endY="4" name="PawShadow">
+            <GradientStop colorValue="30020202" position="0"/>
+            <GradientStop colorValue="00020202" position="1"/>
+          </RadialGradient>
+        </Fill>
+      </Shape>
+
+      <!-- Torso_Base: organic closed silhouette suggesting shoulder, chest,
+           belly and a wider seated hip mass -- not a simple ellipse. -->
       <Shape name="body_main" id="0:201">
         <PointsPath isClosed="true" name="Path">
-          <CubicMirroredVertex x="-39" y="-82" rotation="-0.55" distance="31"/>
-          <CubicMirroredVertex x="40" y="-77" rotation="0.50" distance="30"/>
-          <CubicMirroredVertex x="72" y="-33" rotation="1.35" distance="29"/>
-          <CubicMirroredVertex x="79" y="33" rotation="1.62" distance="34"/>
-          <CubicMirroredVertex x="44" y="66" rotation="2.40" distance="29"/>
-          <CubicMirroredVertex x="-52" y="63" rotation="-2.47" distance="32"/>
-          <CubicMirroredVertex x="-75" y="23" rotation="-1.72" distance="30"/>
-          <CubicMirroredVertex x="-69" y="-34" rotation="-1.40" distance="29"/>
+          <CubicMirroredVertex x="-40" y="-84" rotation="-0.56" distance="35"/>
+          <CubicMirroredVertex x="42" y="-79" rotation="0.53" distance="34"/>
+          <CubicMirroredVertex x="75" y="-31" rotation="1.33" distance="33"/>
+          <CubicMirroredVertex x="83" y="37" rotation="1.60" distance="39"/>
+          <CubicMirroredVertex x="42" y="69" rotation="2.37" distance="33"/>
+          <CubicMirroredVertex x="-55" y="66" rotation="-2.44" distance="36"/>
+          <CubicMirroredVertex x="-78" y="26" rotation="-1.69" distance="34"/>
+          <CubicMirroredVertex x="-71" y="-36" rotation="-1.41" distance="33"/>
         </PointsPath>
-        <!-- Radial shoulder-highlight in place of the old diagonal tint, matching
-             the head's rounded-volume treatment. -->
         <Fill name="Fill">
-          <RadialGradient startX="-8" startY="-60" endX="55" endY="55" name="BodyShade">
-            <GradientStop colorValue="FF37383A" position="0"/>
-            <GradientStop colorValue="FF17181A" position="0.55"/>
-            <GradientStop colorValue="FF0B0C0D" position="1"/>
+          <RadialGradient startX="-8" startY="-62" endX="60" endY="60" name="BodyShade">
+            <GradientStop colorValue="FF292827" position="0"/>
+            <GradientStop colorValue="FF191918" position="0.45"/>
+            <GradientStop colorValue="FF101010" position="0.8"/>
+            <GradientStop colorValue="FF090909" position="1"/>
           </RadialGradient>
         </Fill>
       </Shape>
-
-      <!-- Two long front-leg highlights are custom open curves, not capsule primitives. -->
-      <Shape name="front_leg_left">
-        <PointsPath isClosed="false" name="Path">
-          <CubicMirroredVertex x="-31" y="-47" rotation="1.50" distance="18"/>
-          <CubicMirroredVertex x="-25" y="57" rotation="1.53" distance="22"/>
-        </PointsPath>
-        <Stroke thickness="18" cap="round" join="round" name="Stroke">
-          <SolidColor colorValue="B82D2E2F" name="Color"/>
-        </Stroke>
-      </Shape>
-      <Shape name="front_leg_right">
-        <PointsPath isClosed="false" name="Path">
-          <CubicMirroredVertex x="27" y="-44" rotation="1.55" distance="18"/>
-          <CubicMirroredVertex x="22" y="59" rotation="1.56" distance="22"/>
-        </PointsPath>
-        <Stroke thickness="18" cap="round" join="round" name="Stroke">
-          <SolidColor colorValue="A8272829" name="Color"/>
-        </Stroke>
-      </Shape>
     </Node>
 
-    <!-- Long expressive tail behind body; a flowing bezier stroke. -->
+    <!-- Tail: closed tapered Bezier shape (root->mid->tip), not a stroke.
+         Root sits behind the torso (later sibling = further back). Vertices
+         are perpendicular-offset from the original S-curve centerline at
+         decreasing half-widths (15 -> 10 -> 6 -> a single tapered tip). -->
     <Shape x="303" y="385" rotation="-0.08" name="tail_main" id="0:240">
-      <PointsPath isClosed="false" name="Path">
-        <CubicDetachedVertex x="0" y="40" inRotation="-1.57" inDistance="18" outRotation="-1.35" outDistance="28"/>
-        <CubicDetachedVertex x="44" y="8" inRotation="2.70" inDistance="28" outRotation="-0.80" outDistance="30"/>
-        <CubicDetachedVertex x="57" y="-47" inRotation="1.50" inDistance="25" outRotation="-1.72" outDistance="24"/>
-        <CubicDetachedVertex x="33" y="-78" inRotation="0.30" inDistance="20" outRotation="-2.20" outDistance="18"/>
+      <PointsPath isClosed="true" name="Path">
+        <CubicMirroredVertex x="18" y="52" rotation="-0.59" distance="11"/>
+        <CubicMirroredVertex x="66" y="-5" rotation="-1.28" distance="14"/>
+        <CubicMirroredVertex x="52" y="-60" rotation="-2.00" distance="10"/>
+        <CubicMirroredVertex x="28" y="-88" rotation="2.92" distance="8"/>
+        <CubicMirroredVertex x="30" y="-55" rotation="1.45" distance="9"/>
+        <CubicMirroredVertex x="38" y="-8" rotation="1.93" distance="13"/>
+        <CubicMirroredVertex x="-8" y="45" rotation="1.89" distance="11"/>
       </PointsPath>
-      <Stroke thickness="28" cap="round" join="round" name="TailStroke">
-        <LinearGradient startX="0" startY="50" endX="50" endY="-85" name="TailShade">
-          <GradientStop colorValue="FF171819" position="0"/>
-          <GradientStop colorValue="FF2B2C2D" position="0.55"/>
-          <GradientStop colorValue="FF111213" position="1"/>
+      <Fill name="Fill">
+        <LinearGradient startX="5" startY="48" endX="28" endY="-88" name="TailShade">
+          <GradientStop colorValue="FF292827" position="0"/>
+          <GradientStop colorValue="FF191918" position="0.5"/>
+          <GradientStop colorValue="FF101010" position="0.8"/>
+          <GradientStop colorValue="FF090909" position="1"/>
         </LinearGradient>
-      </Stroke>
+      </Fill>
     </Shape>
 
-    <!-- Sculptural soft chair, drawn as broad illustrated paths. -->
-    <Shape x="250" y="385" name="chair_inner" id="0:302">
+    <!-- Contact shadow: tight, warm, soft -- grounds the paws on the cushion
+         without a hard-edged blob. -->
+    <Shape x="248" y="408" name="contact_shadow">
+      <Ellipse width="150" height="22" name="Path"/>
+      <Fill name="Fill">
+        <RadialGradient startX="0" startY="0" endX="70" endY="4" name="ContactShadow">
+          <GradientStop colorValue="382E241A" position="0"/>
+          <GradientStop colorValue="002E241A" position="1"/>
+        </RadialGradient>
+      </Fill>
+    </Shape>
+
+    <!-- Cushion_Inner_Depression: soft warm shadow where the cat's weight
+         presses into the fabric, sitting on top of Cushion_Back but behind
+         the cat. -->
+    <Shape x="248" y="400" name="cushion_inner_depression">
+      <Ellipse width="230" height="70" name="Path"/>
+      <Fill name="Fill">
+        <RadialGradient startX="0" startY="0" endX="105" endY="14" name="InnerDepression">
+          <GradientStop colorValue="2CC9B8A0" position="0"/>
+          <GradientStop colorValue="00C9B8A0" position="1"/>
+        </RadialGradient>
+      </Fill>
+    </Shape>
+
+    <!-- Cushion_Back: the main soft pillow silhouette behind the cat. -->
+    <Shape x="250" y="385" name="cushion_back" id="0:302">
       <PointsPath isClosed="true" name="Path">
         <CubicMirroredVertex x="-135" y="-35" rotation="-0.55" distance="58"/>
         <CubicMirroredVertex x="-93" y="-111" rotation="-0.12" distance="54"/>

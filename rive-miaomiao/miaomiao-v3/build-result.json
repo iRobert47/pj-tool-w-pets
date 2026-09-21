@@ -1,1 +1,1 @@
-{"success": true, "command": "build", "data": {"riv": "./build/miaomiao-v3.riv", "bytes": 4420, "buildMs": 21.1, "problems": []}, "errors": [], "warnings": []}
+{"success": true, "command": "build", "data": {"riv": "./build/miaomiao-v3.riv", "bytes": 5638, "buildMs": 63.9, "problems": []}, "errors": [], "warnings": []}
