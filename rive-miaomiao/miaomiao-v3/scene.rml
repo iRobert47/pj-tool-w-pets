@@ -7,42 +7,24 @@
     <!-- Head rig: expressive eyes over one continuous illustrated head silhouette. -->
     <Node x="250" y="214" name="head_rig" id="0:100">
       <Node x="-34" y="2" name="eye_left_rig" id="0:110">
-        <Shape x="-5" y="-7" name="eye_left_highlight">
-          <Ellipse width="7" height="7" name="Path"/>
-          <Fill name="Fill"><SolidColor colorValue="F7FFFFFF" name="Color"/></Fill>
-        </Shape>
         <Shape x="0" y="1" name="pupil_left" id="0:120">
-          <Ellipse width="16" height="30" name="Path"/>
-          <Fill name="Fill"><SolidColor colorValue="FF101112" name="Color"/></Fill>
+          <Ellipse width="15" height="27" name="Path"/>
+          <Fill name="Fill"><SolidColor colorValue="FF08090A" name="Color"/></Fill>
         </Shape>
         <Shape name="eye_left_white">
           <Ellipse width="42" height="39" name="Path"/>
-          <Fill name="Fill">
-            <RadialGradient startX="-9" startY="-10" endX="22" endY="18" name="EyeGlow">
-              <GradientStop colorValue="FFFFFBF2" position="0"/>
-              <GradientStop colorValue="FFF0DFC2" position="1"/>
-            </RadialGradient>
-          </Fill>
+          <Fill name="Fill"><SolidColor colorValue="FFFFFAEA" name="Color"/></Fill>
         </Shape>
       </Node>
 
       <Node x="34" y="1" name="eye_right_rig" id="0:111">
-        <Shape x="-5" y="-7" name="eye_right_highlight">
-          <Ellipse width="7" height="7" name="Path"/>
-          <Fill name="Fill"><SolidColor colorValue="F7FFFFFF" name="Color"/></Fill>
-        </Shape>
         <Shape x="0" y="1" name="pupil_right" id="0:121">
-          <Ellipse width="16" height="30" name="Path"/>
-          <Fill name="Fill"><SolidColor colorValue="FF101112" name="Color"/></Fill>
+          <Ellipse width="15" height="27" name="Path"/>
+          <Fill name="Fill"><SolidColor colorValue="FF08090A" name="Color"/></Fill>
         </Shape>
         <Shape name="eye_right_white">
           <Ellipse width="42" height="39" name="Path"/>
-          <Fill name="Fill">
-            <RadialGradient startX="-9" startY="-10" endX="22" endY="18" name="EyeGlow">
-              <GradientStop colorValue="FFFFFBF2" position="0"/>
-              <GradientStop colorValue="FFF0DFC2" position="1"/>
-            </RadialGradient>
-          </Fill>
+          <Fill name="Fill"><SolidColor colorValue="FFFFFAEA" name="Color"/></Fill>
         </Shape>
       </Node>
 
@@ -58,14 +40,18 @@
       <!-- Head is a custom continuous bezier silhouette, not a primitive ellipse. -->
       <Shape name="head_main" id="0:101">
         <PointsPath isClosed="true" name="Path">
-          <CubicMirroredVertex x="0" y="-62" rotation="0" distance="31"/>
-          <CubicMirroredVertex x="53" y="-48" rotation="0.78" distance="30"/>
-          <CubicMirroredVertex x="78" y="-4" rotation="1.46" distance="28"/>
-          <CubicMirroredVertex x="62" y="43" rotation="2.18" distance="28"/>
+          <CubicMirroredVertex x="0" y="-58" rotation="0" distance="20"/>
+          <CubicMirroredVertex x="30" y="-59" rotation="0.08" distance="18"/>
+          <CubicMirroredVertex x="55" y="-51" rotation="0.58" distance="20"/>
+          <CubicMirroredVertex x="75" y="-24" rotation="1.12" distance="22"/>
+          <CubicMirroredVertex x="79" y="3" rotation="1.58" distance="22"/>
+          <CubicMirroredVertex x="63" y="43" rotation="2.18" distance="28"/>
           <CubicMirroredVertex x="8" y="64" rotation="3.02" distance="34"/>
           <CubicMirroredVertex x="-57" y="48" rotation="-2.30" distance="31"/>
           <CubicMirroredVertex x="-80" y="0" rotation="-1.55" distance="29"/>
-          <CubicMirroredVertex x="-55" y="-48" rotation="-0.76" distance="30"/>
+          <CubicMirroredVertex x="-74" y="-25" rotation="-1.10" distance="22"/>
+          <CubicMirroredVertex x="-54" y="-51" rotation="-0.58" distance="20"/>
+          <CubicMirroredVertex x="-30" y="-59" rotation="-0.08" distance="18"/>
         </PointsPath>
         <Fill name="Fill">
           <LinearGradient startX="-60" startY="-60" endX="68" endY="65" name="FurShade">
@@ -76,13 +62,14 @@
         </Fill>
       </Shape>
 
-      <!-- Ears sit behind head. Each is its own illustrated path for twitching. -->
-      <Shape x="-50" y="-59" rotation="-0.12" name="ear_left" id="0:103">
+      <!-- Ears overlap deeply behind head so the ear roots and forehead read as one silhouette.
+           They stay independent only so EarTwitch can animate them. -->
+      <Shape x="-47" y="-51" rotation="-0.08" name="ear_left" id="0:103">
         <PointsPath isClosed="true" name="Path">
-          <CubicMirroredVertex x="-24" y="15" rotation="-1.0" distance="14"/>
-          <CubicMirroredVertex x="-3" y="-51" rotation="-0.22" distance="15"/>
-          <CubicMirroredVertex x="25" y="18" rotation="1.02" distance="16"/>
-          <CubicMirroredVertex x="0" y="5" rotation="3.1" distance="14"/>
+          <CubicMirroredVertex x="-31" y="24" rotation="-1.06" distance="16"/>
+          <CubicMirroredVertex x="-5" y="-55" rotation="-0.18" distance="17"/>
+          <CubicMirroredVertex x="31" y="25" rotation="1.06" distance="18"/>
+          <CubicMirroredVertex x="0" y="11" rotation="3.1" distance="17"/>
         </PointsPath>
         <Fill name="Fill">
           <LinearGradient startX="-10" startY="-45" endX="18" endY="20" name="EarShade">
@@ -91,12 +78,12 @@
           </LinearGradient>
         </Fill>
       </Shape>
-      <Shape x="50" y="-58" rotation="0.12" name="ear_right" id="0:105">
+      <Shape x="47" y="-51" rotation="0.08" name="ear_right" id="0:105">
         <PointsPath isClosed="true" name="Path">
-          <CubicMirroredVertex x="-25" y="18" rotation="-1.02" distance="16"/>
-          <CubicMirroredVertex x="3" y="-52" rotation="0.22" distance="15"/>
-          <CubicMirroredVertex x="24" y="15" rotation="1.0" distance="14"/>
-          <CubicMirroredVertex x="0" y="5" rotation="3.1" distance="14"/>
+          <CubicMirroredVertex x="-31" y="25" rotation="-1.06" distance="18"/>
+          <CubicMirroredVertex x="5" y="-55" rotation="0.18" distance="17"/>
+          <CubicMirroredVertex x="31" y="24" rotation="1.06" distance="16"/>
+          <CubicMirroredVertex x="0" y="11" rotation="3.1" distance="17"/>
         </PointsPath>
         <Fill name="Fill">
           <LinearGradient startX="-18" startY="-45" endX="10" endY="20" name="EarShade">
