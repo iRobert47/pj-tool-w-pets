@@ -1,0 +1,9 @@
+StateMachineTrigger  (typeKey 58)
+extends StateMachineInput > StateMachineComponent > ArtboardProvider
+
+inherited from StateMachineComponent:
+  name                               String       key 138
+      Non-unique identifier, used to give friendly names to state machine components (like layers or inputs).
+
+1 property.  A = animatable, B = bindable, D = derived (computed, not authored -- bind to it, do not set it).
+Editor-only properties are hidden; --all shows them.

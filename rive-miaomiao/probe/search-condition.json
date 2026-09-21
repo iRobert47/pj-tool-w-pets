@@ -1,0 +1,14 @@
+[
+  {"name": "ScriptedTransitionCondition", "kind": "type", "type": "ScriptedTransitionCondition"},
+  {"name": "TransitionArtboardCondition", "kind": "type", "type": "TransitionArtboardCondition"},
+  {"name": "TransitionBoolCondition", "kind": "type", "type": "TransitionBoolCondition"},
+  {"name": "TransitionFocusCondition", "kind": "type", "type": "TransitionFocusCondition"},
+  {"name": "TransitionNumberCondition", "kind": "type", "type": "TransitionNumberCondition"},
+  {"name": "TransitionTriggerCondition", "kind": "type", "type": "TransitionTriggerCondition"},
+  {"name": "TransitionViewModelCondition", "kind": "type", "type": "TransitionViewModelCondition"},
+  {"name": "StateMachine.conditionsPanelSize", "kind": "property", "type": "StateMachine"},
+  {"name": "StateMachine.minimizeConditionFlows", "kind": "property", "type": "StateMachine"},
+  {"name": "StateMachine.pinConditionsPanel", "kind": "property", "type": "StateMachine"},
+  {"name": "StateMachine.resizableConditionsPanel", "kind": "property", "type": "StateMachine"},
+  {"name": "TransitionCondition.conditionOrder", "kind": "property", "type": "TransitionCondition", "note": "(abstract base -- set it on a type that extends it)"}
+]

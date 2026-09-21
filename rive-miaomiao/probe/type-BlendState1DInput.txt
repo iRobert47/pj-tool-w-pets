@@ -1,0 +1,13 @@
+BlendState1DInput  (typeKey 76)
+extends BlendState1D > BlendState > LayerState > StateMachineLayerComponent > ArtboardProvider
+
+own properties:
+  inputId                            Id           key 167
+      Id of the input that drives the mix value for this blend state.
+
+inherited from LayerState:
+  flags                              uint         key 536     = 0
+      bits (write each as its own attribute, e.g. random="true"): random reset
+
+2 properties.  A = animatable, B = bindable, D = derived (computed, not authored -- bind to it, do not set it).
+Editor-only properties are hidden; --all shows them.

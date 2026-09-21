@@ -1,0 +1,12 @@
+StateMachineNumber  (typeKey 56)
+extends StateMachineInput > StateMachineComponent > ArtboardProvider
+
+own properties:
+  value                              double       key 140     = 0
+
+inherited from StateMachineComponent:
+  name                               String       key 138
+      Non-unique identifier, used to give friendly names to state machine components (like layers or inputs).
+
+2 properties.  A = animatable, B = bindable, D = derived (computed, not authored -- bind to it, do not set it).
+Editor-only properties are hidden; --all shows them.

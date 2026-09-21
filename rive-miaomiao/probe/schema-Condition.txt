@@ -1,0 +1,15 @@
+types:
+  ScriptedTransitionCondition
+  TransitionArtboardCondition
+  TransitionBoolCondition
+  TransitionFocusCondition
+  TransitionNumberCondition
+  TransitionTriggerCondition
+  TransitionViewModelCondition
+
+properties:
+  StateMachine.conditionsPanelSize
+  StateMachine.minimizeConditionFlows
+  StateMachine.pinConditionsPanel
+  StateMachine.resizableConditionsPanel
+  TransitionCondition.conditionOrder   (abstract base -- set it on a type that extends it)

@@ -1,0 +1,18 @@
+types:
+  TransitionPropertyArtboardComparator
+  TransitionPropertyComponentComparator
+  TransitionPropertyViewModelComparator
+  TransitionSelfComparator
+  TransitionValueArtboardComparator
+  TransitionValueAssetComparator
+  TransitionValueBooleanComparator
+  TransitionValueColorComparator
+  TransitionValueEnumComparator
+  TransitionValueIdComparator
+  TransitionValueNumberComparator
+  TransitionValueStringComparator
+  TransitionValueTriggerComparator
+
+properties:
+  TransitionViewModelCondition.leftComparatorId
+  TransitionViewModelCondition.rightComparatorId
