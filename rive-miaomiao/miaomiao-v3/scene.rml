@@ -1,0 +1,476 @@
+<Rive version="1" kind="fragment">
+  <Artboard defaultStateMachineId="0:900" width="500" height="500" styleId="0:5" name="MiaomiaoV3" id="0:2">
+    <LayoutComponentStyle name="Artboard Style" id="0:5"/>
+
+    <!-- ============================================================
+         Miaomiao V3.1 — Original Illustrated Rig
+         Original free-form vector paths; no Marketplace runtime asset.
+         Earlier siblings paint on top in RML.
+         ============================================================ -->
+
+    <!-- HEAD GROUP: face details paint above the head silhouette -->
+    <Node x="250" y="215" name="HeadGroup" id="0:90">
+      <Node x="-31" y="0" name="EyeLeftGroup" id="0:110">
+        <Shape x="-5" y="-5" name="EyeLeftHighlight" id="0:130">
+          <Ellipse width="6" height="6" name="Path"/>
+          <Fill name="Fill"><SolidColor colorValue="F5FFFFFF" name="Color"/></Fill>
+        </Shape>
+        <Shape name="PupilLeft" id="0:120">
+          <PointsPath isClosed="true" name="Path">
+            <CubicMirroredVertex x="-6" y="0" rotation="-1.5708" distance="7"/>
+            <CubicMirroredVertex x="0" y="-13" rotation="0" distance="6"/>
+            <CubicMirroredVertex x="6" y="0" rotation="1.5708" distance="7"/>
+            <CubicMirroredVertex x="0" y="13" rotation="3.14159" distance="6"/>
+          </PointsPath>
+          <Fill name="Fill"><SolidColor colorValue="FF111314" name="Color"/></Fill>
+        </Shape>
+        <Shape name="EyeLeftWhite" id="0:112">
+          <PointsPath isClosed="true" name="Path">
+            <CubicMirroredVertex x="-19" y="0" rotation="-0.62" distance="10"/>
+            <CubicMirroredVertex x="0" y="-14" rotation="0.62" distance="10"/>
+            <CubicMirroredVertex x="19" y="0" rotation="2.52" distance="10"/>
+            <CubicMirroredVertex x="0" y="14" rotation="-2.52" distance="10"/>
+          </PointsPath>
+          <Fill name="Fill"><SolidColor colorValue="FFF2E8D7" name="Color"/></Fill>
+        </Shape>
+      </Node>
+
+      <Node x="31" y="0" name="EyeRightGroup" id="0:111">
+        <Shape x="-5" y="-5" name="EyeRightHighlight" id="0:131">
+          <Ellipse width="6" height="6" name="Path"/>
+          <Fill name="Fill"><SolidColor colorValue="F5FFFFFF" name="Color"/></Fill>
+        </Shape>
+        <Shape name="PupilRight" id="0:121">
+          <PointsPath isClosed="true" name="Path">
+            <CubicMirroredVertex x="-6" y="0" rotation="-1.5708" distance="7"/>
+            <CubicMirroredVertex x="0" y="-13" rotation="0" distance="6"/>
+            <CubicMirroredVertex x="6" y="0" rotation="1.5708" distance="7"/>
+            <CubicMirroredVertex x="0" y="13" rotation="3.14159" distance="6"/>
+          </PointsPath>
+          <Fill name="Fill"><SolidColor colorValue="FF111314" name="Color"/></Fill>
+        </Shape>
+        <Shape name="EyeRightWhite" id="0:113">
+          <PointsPath isClosed="true" name="Path">
+            <CubicMirroredVertex x="-19" y="0" rotation="-0.62" distance="10"/>
+            <CubicMirroredVertex x="0" y="-14" rotation="0.62" distance="10"/>
+            <CubicMirroredVertex x="19" y="0" rotation="2.52" distance="10"/>
+            <CubicMirroredVertex x="0" y="14" rotation="-2.52" distance="10"/>
+          </PointsPath>
+          <Fill name="Fill"><SolidColor colorValue="FFF2E8D7" name="Color"/></Fill>
+        </Shape>
+      </Node>
+
+      <!-- small restrained nose -->
+      <Shape x="0" y="31" name="Nose" id="0:140">
+        <PointsPath isClosed="true" name="Path">
+          <CubicMirroredVertex x="-6" y="-1" rotation="-0.5" distance="3"/>
+          <CubicMirroredVertex x="0" y="4" rotation="0.5" distance="3"/>
+          <CubicMirroredVertex x="6" y="-1" rotation="2.64" distance="3"/>
+          <CubicMirroredVertex x="0" y="-5" rotation="-2.64" distance="3"/>
+        </PointsPath>
+        <Fill name="Fill"><SolidColor colorValue="FF8F7C72" name="Color"/></Fill>
+      </Shape>
+
+      <!-- face silhouette -->
+      <Shape name="HeadSilhouette" id="0:100">
+        <PointsPath isClosed="true" name="Path">
+          <CubicAsymmetricVertex x="-69" y="-28" rotation="1.95" inDistance="21" outDistance="22"/>
+          <CubicAsymmetricVertex x="-74" y="10" rotation="1.28" inDistance="17" outDistance="24"/>
+          <CubicAsymmetricVertex x="-55" y="42" rotation="0.63" inDistance="20" outDistance="23"/>
+          <CubicAsymmetricVertex x="-20" y="58" rotation="0.2" inDistance="22" outDistance="22"/>
+          <CubicAsymmetricVertex x="14" y="59" rotation="-0.06" inDistance="18" outDistance="22"/>
+          <CubicAsymmetricVertex x="49" y="47" rotation="-0.55" inDistance="20" outDistance="24"/>
+          <CubicAsymmetricVertex x="70" y="18" rotation="-1.14" inDistance="21" outDistance="21"/>
+          <CubicAsymmetricVertex x="69" y="-23" rotation="-1.9" inDistance="18" outDistance="23"/>
+          <CubicAsymmetricVertex x="46" y="-47" rotation="-2.62" inDistance="18" outDistance="26"/>
+          <CubicAsymmetricVertex x="4" y="-56" rotation="3.11" inDistance="25" outDistance="26"/>
+          <CubicAsymmetricVertex x="-42" y="-48" rotation="2.72" inDistance="22" outDistance="23"/>
+        </PointsPath>
+        <Fill name="Fill"><SolidColor colorValue="FF181A1B" name="Color"/></Fill>
+      </Shape>
+
+      <!-- ears behind the face -->
+      <Node x="-47" y="-42" rotation="-0.06" name="EarLeftGroup" id="0:102">
+        <Shape name="EarLeft" id="0:103">
+          <PointsPath isClosed="true" name="Path">
+            <CubicAsymmetricVertex x="-18" y="21" rotation="-1.78" inDistance="8" outDistance="20"/>
+            <CubicAsymmetricVertex x="-8" y="-31" rotation="-1.18" inDistance="18" outDistance="17"/>
+            <CubicAsymmetricVertex x="8" y="-58" rotation="0.7" inDistance="14" outDistance="22"/>
+            <CubicAsymmetricVertex x="26" y="20" rotation="1.93" inDistance="24" outDistance="10"/>
+          </PointsPath>
+          <Fill name="Fill"><SolidColor colorValue="FF151718" name="Color"/></Fill>
+        </Shape>
+        <Shape x="2" y="-9" name="EarLeftInner" id="0:106">
+          <PointsPath isClosed="true" name="Path">
+            <StraightVertex x="-8" y="13" radius="5"/>
+            <StraightVertex x="0" y="-31" radius="6"/>
+            <StraightVertex x="12" y="14" radius="5"/>
+          </PointsPath>
+          <Fill name="Fill"><SolidColor colorValue="805E5152" name="Color"/></Fill>
+        </Shape>
+      </Node>
+
+      <Node x="47" y="-42" rotation="0.06" name="EarRightGroup" id="0:104">
+        <Shape name="EarRight" id="0:105">
+          <PointsPath isClosed="true" name="Path">
+            <CubicAsymmetricVertex x="-26" y="20" rotation="-1.93" inDistance="10" outDistance="24"/>
+            <CubicAsymmetricVertex x="-8" y="-58" rotation="-0.7" inDistance="22" outDistance="14"/>
+            <CubicAsymmetricVertex x="8" y="-31" rotation="1.18" inDistance="17" outDistance="18"/>
+            <CubicAsymmetricVertex x="18" y="21" rotation="1.78" inDistance="20" outDistance="8"/>
+          </PointsPath>
+          <Fill name="Fill"><SolidColor colorValue="FF151718" name="Color"/></Fill>
+        </Shape>
+        <Shape x="-2" y="-9" name="EarRightInner" id="0:107">
+          <PointsPath isClosed="true" name="Path">
+            <StraightVertex x="-12" y="14" radius="5"/>
+            <StraightVertex x="0" y="-31" radius="6"/>
+            <StraightVertex x="8" y="13" radius="5"/>
+          </PointsPath>
+          <Fill name="Fill"><SolidColor colorValue="805E5152" name="Color"/></Fill>
+        </Shape>
+      </Node>
+    </Node>
+
+    <!-- BODY GROUP -->
+    <Node x="250" y="357" name="BodyGroup" id="0:200">
+      <!-- front paws above torso -->
+      <Shape x="-29" y="42" rotation="-0.04" name="FrontPawLeft" id="0:210">
+        <PointsPath isClosed="true" name="Path">
+          <CubicAsymmetricVertex x="-15" y="-48" rotation="1.62" inDistance="17" outDistance="20"/>
+          <CubicAsymmetricVertex x="-12" y="34" rotation="1.18" inDistance="24" outDistance="16"/>
+          <CubicAsymmetricVertex x="0" y="48" rotation="0.1" inDistance="14" outDistance="14"/>
+          <CubicAsymmetricVertex x="15" y="36" rotation="-1.18" inDistance="15" outDistance="24"/>
+          <CubicAsymmetricVertex x="14" y="-46" rotation="-1.63" inDistance="20" outDistance="17"/>
+        </PointsPath>
+        <Fill name="Fill"><SolidColor colorValue="FF202223" name="Color"/></Fill>
+      </Shape>
+      <Shape x="28" y="44" rotation="0.04" name="FrontPawRight" id="0:211">
+        <PointsPath isClosed="true" name="Path">
+          <CubicAsymmetricVertex x="-14" y="-46" rotation="1.63" inDistance="17" outDistance="20"/>
+          <CubicAsymmetricVertex x="-15" y="36" rotation="1.18" inDistance="24" outDistance="15"/>
+          <CubicAsymmetricVertex x="0" y="48" rotation="-0.1" inDistance="14" outDistance="14"/>
+          <CubicAsymmetricVertex x="12" y="34" rotation="-1.18" inDistance="16" outDistance="24"/>
+          <CubicAsymmetricVertex x="15" y="-48" rotation="-1.62" inDistance="20" outDistance="17"/>
+        </PointsPath>
+        <Fill name="Fill"><SolidColor colorValue="FF202223" name="Color"/></Fill>
+      </Shape>
+
+      <!-- soft chest plane gives illustration depth without 3D rendering -->
+      <Shape y="4" name="ChestPlane" id="0:220">
+        <PointsPath isClosed="true" name="Path">
+          <CubicAsymmetricVertex x="-30" y="-65" rotation="1.9" inDistance="13" outDistance="20"/>
+          <CubicAsymmetricVertex x="-39" y="23" rotation="1.22" inDistance="28" outDistance="25"/>
+          <CubicAsymmetricVertex x="-16" y="77" rotation="0.48" inDistance="22" outDistance="24"/>
+          <CubicAsymmetricVertex x="18" y="78" rotation="-0.45" inDistance="22" outDistance="24"/>
+          <CubicAsymmetricVertex x="38" y="22" rotation="-1.23" inDistance="25" outDistance="28"/>
+          <CubicAsymmetricVertex x="28" y="-66" rotation="-1.92" inDistance="20" outDistance="13"/>
+        </PointsPath>
+        <Fill name="Fill"><SolidColor colorValue="2A61686A" name="Color"/></Fill>
+      </Shape>
+
+      <Shape name="BodySilhouette" id="0:201">
+        <PointsPath isClosed="true" name="Path">
+          <CubicAsymmetricVertex x="-35" y="-94" rotation="2.36" inDistance="22" outDistance="23"/>
+          <CubicAsymmetricVertex x="-66" y="-63" rotation="1.78" inDistance="23" outDistance="30"/>
+          <CubicAsymmetricVertex x="-79" y="6" rotation="1.5" inDistance="28" outDistance="31"/>
+          <CubicAsymmetricVertex x="-72" y="71" rotation="0.82" inDistance="27" outDistance="27"/>
+          <CubicAsymmetricVertex x="-41" y="102" rotation="0.3" inDistance="23" outDistance="25"/>
+          <CubicAsymmetricVertex x="0" y="110" rotation="-0.04" inDistance="24" outDistance="25"/>
+          <CubicAsymmetricVertex x="45" y="100" rotation="-0.47" inDistance="25" outDistance="27"/>
+          <CubicAsymmetricVertex x="73" y="66" rotation="-1.03" inDistance="27" outDistance="30"/>
+          <CubicAsymmetricVertex x="79" y="2" rotation="-1.62" inDistance="29" outDistance="30"/>
+          <CubicAsymmetricVertex x="58" y="-61" rotation="-2.05" inDistance="29" outDistance="25"/>
+          <CubicAsymmetricVertex x="34" y="-95" rotation="-2.75" inDistance="21" outDistance="23"/>
+        </PointsPath>
+        <Fill name="Fill"><SolidColor colorValue="FF17191A" name="Color"/></Fill>
+      </Shape>
+    </Node>
+
+    <!-- ONE CONTINUOUS TAIL PATH behind body; vertices deform for sway -->
+    <Shape x="310" y="392" rotation="0.08" name="TailMain" id="0:240">
+      <PointsPath isClosed="true" name="Path" id="0:241">
+        <CubicAsymmetricVertex x="-7" y="20" rotation="-0.92" inDistance="13" outDistance="20" name="TailBaseInner" id="0:242"/>
+        <CubicAsymmetricVertex x="17" y="-17" rotation="-0.85" inDistance="18" outDistance="25" name="TailInnerMid" id="0:243"/>
+        <CubicAsymmetricVertex x="37" y="-60" rotation="-0.84" inDistance="20" outDistance="28" name="TailInnerUpper" id="0:244"/>
+        <CubicAsymmetricVertex x="72" y="-92" rotation="-0.12" inDistance="23" outDistance="15" name="TailTipInner" id="0:245"/>
+        <CubicAsymmetricVertex x="89" y="-84" rotation="1.55" inDistance="12" outDistance="19" name="TailTipOuter" id="0:246"/>
+        <CubicAsymmetricVertex x="58" y="-50" rotation="2.24" inDistance="25" outDistance="23" name="TailOuterUpper" id="0:247"/>
+        <CubicAsymmetricVertex x="35" y="-8" rotation="2.17" inDistance="25" outDistance="20" name="TailOuterMid" id="0:248"/>
+        <CubicAsymmetricVertex x="12" y="29" rotation="2.2" inDistance="18" outDistance="12" name="TailBaseOuter" id="0:249"/>
+      </PointsPath>
+      <Fill name="Fill"><SolidColor colorValue="FF151718" name="Color"/></Fill>
+    </Shape>
+
+    <!-- CHAIR: free-form shell, not rectangle primitives -->
+    <Shape x="250" y="397" name="ChairSeat" id="0:302">
+      <PointsPath isClosed="true" name="Path">
+        <CubicAsymmetricVertex x="-142" y="-10" rotation="0.12" inDistance="30" outDistance="42"/>
+        <CubicAsymmetricVertex x="-102" y="30" rotation="0.55" inDistance="32" outDistance="40"/>
+        <CubicAsymmetricVertex x="0" y="46" rotation="0" inDistance="48" outDistance="48"/>
+        <CubicAsymmetricVertex x="108" y="29" rotation="-0.58" inDistance="42" outDistance="35"/>
+        <CubicAsymmetricVertex x="142" y="-10" rotation="-1.9" inDistance="30" outDistance="38"/>
+        <CubicAsymmetricVertex x="98" y="-30" rotation="3.03" inDistance="36" outDistance="45"/>
+        <CubicAsymmetricVertex x="0" y="-36" rotation="3.14" inDistance="47" outDistance="47"/>
+        <CubicAsymmetricVertex x="-98" y="-30" rotation="-3.03" inDistance="45" outDistance="36"/>
+      </PointsPath>
+      <Fill name="Fill"><SolidColor colorValue="FFE8E0D5" name="Color"/></Fill>
+    </Shape>
+
+    <Shape x="250" y="330" name="ChairBack" id="0:301">
+      <PointsPath isClosed="true" name="Path">
+        <CubicAsymmetricVertex x="-151" y="48" rotation="-1.77" inDistance="40" outDistance="48"/>
+        <CubicAsymmetricVertex x="-155" y="-34" rotation="-1.22" inDistance="46" outDistance="48"/>
+        <CubicAsymmetricVertex x="-102" y="-95" rotation="-0.55" inDistance="42" outDistance="52"/>
+        <CubicAsymmetricVertex x="0" y="-116" rotation="0" inDistance="55" outDistance="55"/>
+        <CubicAsymmetricVertex x="106" y="-94" rotation="0.58" inDistance="52" outDistance="44"/>
+        <CubicAsymmetricVertex x="157" y="-32" rotation="1.25" inDistance="48" outDistance="46"/>
+        <CubicAsymmetricVertex x="150" y="50" rotation="1.85" inDistance="48" outDistance="44"/>
+        <CubicAsymmetricVertex x="86" y="92" rotation="2.82" inDistance="45" outDistance="48"/>
+        <CubicAsymmetricVertex x="0" y="103" rotation="3.14" inDistance="50" outDistance="50"/>
+        <CubicAsymmetricVertex x="-88" y="91" rotation="-2.83" inDistance="48" outDistance="45"/>
+      </PointsPath>
+      <Fill name="Fill"><SolidColor colorValue="FFD0C3B4" name="Color"/></Fill>
+    </Shape>
+
+    <Shape x="250" y="469" name="GroundShadow" id="0:303">
+      <Ellipse width="260" height="24" name="Path"/>
+      <Fill name="Fill"><SolidColor colorValue="24463F39" name="Color"/></Fill>
+    </Shape>
+
+    <!-- ============================================================
+         STATE MACHINE
+         ============================================================ -->
+    <StateMachine name="MiaomiaoV3StateMachine" id="0:900">
+      <StateMachineNumber name="lookX" value="50" id="0:901"/>
+      <StateMachineNumber name="lookY" value="50" id="0:902"/>
+      <StateMachineBool name="isIdle" value="true" id="0:903"/>
+      <StateMachineBool name="isFocused" id="0:904"/>
+      <StateMachineTrigger name="blinkNow" id="0:905"/>
+      <StateMachineTrigger name="earTwitchNow" id="0:906"/>
+
+      <StateMachineLayer name="BaseIdle" id="0:910">
+        <AnyState x="520" y="-100"/>
+        <ExitState x="680" y="-100"/>
+        <EntryState x="0" y="0"><StateTransition stateToId="0:911"/></EntryState>
+        <AnimationState x="180" y="0" animationId="0:1000" id="0:911"/>
+      </StateMachineLayer>
+
+      <StateMachineLayer name="Blink" id="0:920">
+        <AnyState x="520" y="-110">
+          <StateTransition stateToId="0:922" duration="45"><TransitionTriggerCondition inputId="0:905"/></StateTransition>
+        </AnyState>
+        <ExitState x="680" y="-110"/>
+        <EntryState x="0" y="0"><StateTransition stateToId="0:921"/></EntryState>
+        <AnimationState x="180" y="0" animationId="0:1001" id="0:921"/>
+        <AnimationState x="350" y="0" reset="true" animationId="0:1002" id="0:922">
+          <StateTransition stateToId="0:921" duration="50" enableExitTime="true" exitTimeIsPercetange="true" exitTime="100"/>
+        </AnimationState>
+      </StateMachineLayer>
+
+      <StateMachineLayer name="GazeX" id="0:930">
+        <AnyState x="600" y="-100"/>
+        <ExitState x="760" y="-100"/>
+        <EntryState x="0" y="0"><StateTransition stateToId="0:931"/></EntryState>
+        <BlendState1DInput x="200" y="0" inputId="0:901" id="0:931">
+          <BlendAnimation1D animationId="0:1010" value="0"/>
+          <BlendAnimation1D animationId="0:1011" value="50"/>
+          <BlendAnimation1D animationId="0:1012" value="100"/>
+        </BlendState1DInput>
+      </StateMachineLayer>
+
+      <StateMachineLayer name="GazeY" id="0:940">
+        <AnyState x="600" y="-100"/>
+        <ExitState x="760" y="-100"/>
+        <EntryState x="0" y="0"><StateTransition stateToId="0:941"/></EntryState>
+        <BlendState1DInput x="200" y="0" inputId="0:902" id="0:941">
+          <BlendAnimation1D animationId="0:1013" value="0"/>
+          <BlendAnimation1D animationId="0:1014" value="50"/>
+          <BlendAnimation1D animationId="0:1015" value="100"/>
+        </BlendState1DInput>
+      </StateMachineLayer>
+
+      <StateMachineLayer name="TailMotion" id="0:950">
+        <AnyState x="520" y="-100"/>
+        <ExitState x="680" y="-100"/>
+        <EntryState x="0" y="0"><StateTransition stateToId="0:951"/></EntryState>
+        <AnimationState x="180" y="0" animationId="0:1020" id="0:951"/>
+      </StateMachineLayer>
+
+      <StateMachineLayer name="EarMotion" id="0:960">
+        <AnyState x="540" y="-110">
+          <StateTransition stateToId="0:962" duration="50"><TransitionTriggerCondition inputId="0:906"/></StateTransition>
+        </AnyState>
+        <ExitState x="700" y="-110"/>
+        <EntryState x="0" y="0"><StateTransition stateToId="0:961"/></EntryState>
+        <AnimationState x="180" y="0" animationId="0:1030" id="0:961"/>
+        <AnimationState x="360" y="0" reset="true" animationId="0:1031" id="0:962">
+          <StateTransition stateToId="0:961" duration="60" enableExitTime="true" exitTimeIsPercetange="true" exitTime="100"/>
+        </AnimationState>
+      </StateMachineLayer>
+    </StateMachine>
+
+    <!-- ============================================================
+         ANIMATIONS
+         ============================================================ -->
+
+    <!-- breathing + tiny head settle -->
+    <LinearAnimation loopValue="pingPong" fps="60" duration="105" name="IdleBreathing" id="0:1000">
+      <KeyedObject objectId="0:200">
+        <KeyedProperty propertyKey="17">
+          <KeyFrameDouble value="0.988" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.42" y1="0" x2="0.58" y2="1"/></KeyFrameDouble>
+          <KeyFrameDouble value="1.012" frame="105" interpolationType="linear"/>
+        </KeyedProperty>
+      </KeyedObject>
+      <KeyedObject objectId="0:90">
+        <KeyedProperty propertyKey="14">
+          <KeyFrameDouble value="216.5" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.42" y1="0" x2="0.58" y2="1"/></KeyFrameDouble>
+          <KeyFrameDouble value="213.5" frame="105" interpolationType="linear"/>
+        </KeyedProperty>
+      </KeyedObject>
+    </LinearAnimation>
+
+    <!-- automatic natural blink -->
+    <LinearAnimation loopValue="loop" fps="60" duration="210" name="AutoBlink" id="0:1001">
+      <KeyedObject objectId="0:110">
+        <KeyedProperty propertyKey="17">
+          <KeyFrameDouble value="1" frame="0" interpolationType="linear"/>
+          <KeyFrameDouble value="1" frame="78" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.7" y2="1"/></KeyFrameDouble>
+          <KeyFrameDouble value="0.08" frame="82" interpolationType="hold"/>
+          <KeyFrameDouble value="1" frame="87" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.7" y2="1"/></KeyFrameDouble>
+          <KeyFrameDouble value="1" frame="151" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.7" y2="1"/></KeyFrameDouble>
+          <KeyFrameDouble value="0.1" frame="155" interpolationType="hold"/>
+          <KeyFrameDouble value="1" frame="160" interpolationType="linear"/>
+          <KeyFrameDouble value="1" frame="210" interpolationType="linear"/>
+        </KeyedProperty>
+      </KeyedObject>
+      <KeyedObject objectId="0:111">
+        <KeyedProperty propertyKey="17">
+          <KeyFrameDouble value="1" frame="0" interpolationType="linear"/>
+          <KeyFrameDouble value="1" frame="78" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.7" y2="1"/></KeyFrameDouble>
+          <KeyFrameDouble value="0.08" frame="82" interpolationType="hold"/>
+          <KeyFrameDouble value="1" frame="87" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.7" y2="1"/></KeyFrameDouble>
+          <KeyFrameDouble value="1" frame="151" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.7" y2="1"/></KeyFrameDouble>
+          <KeyFrameDouble value="0.1" frame="155" interpolationType="hold"/>
+          <KeyFrameDouble value="1" frame="160" interpolationType="linear"/>
+          <KeyFrameDouble value="1" frame="210" interpolationType="linear"/>
+        </KeyedProperty>
+      </KeyedObject>
+    </LinearAnimation>
+
+    <LinearAnimation fps="60" duration="20" name="QuickBlink" id="0:1002">
+      <KeyedObject objectId="0:110"><KeyedProperty propertyKey="17">
+        <KeyFrameDouble value="1" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.1" y1="0" x2="0.3" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="0.06" frame="7" interpolationType="hold"/>
+        <KeyFrameDouble value="1" frame="20" interpolationType="linear"/>
+      </KeyedProperty></KeyedObject>
+      <KeyedObject objectId="0:111"><KeyedProperty propertyKey="17">
+        <KeyFrameDouble value="1" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.1" y1="0" x2="0.3" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="0.06" frame="7" interpolationType="hold"/>
+        <KeyFrameDouble value="1" frame="20" interpolationType="linear"/>
+      </KeyedProperty></KeyedObject>
+    </LinearAnimation>
+
+    <!-- gaze: pupil first, head follows slightly on horizontal axis -->
+    <LinearAnimation fps="60" duration="1" name="LookLeft" id="0:1010">
+      <KeyedObject objectId="0:120"><KeyedProperty propertyKey="13"><KeyFrameDouble value="-5" frame="0"/></KeyedProperty></KeyedObject>
+      <KeyedObject objectId="0:121"><KeyedProperty propertyKey="13"><KeyFrameDouble value="-5" frame="0"/></KeyedProperty></KeyedObject>
+      <KeyedObject objectId="0:90"><KeyedProperty propertyKey="15"><KeyFrameDouble value="-0.055" frame="0"/></KeyedProperty></KeyedObject>
+    </LinearAnimation>
+    <LinearAnimation fps="60" duration="1" name="LookCenterX" id="0:1011">
+      <KeyedObject objectId="0:120"><KeyedProperty propertyKey="13"><KeyFrameDouble value="0" frame="0"/></KeyedProperty></KeyedObject>
+      <KeyedObject objectId="0:121"><KeyedProperty propertyKey="13"><KeyFrameDouble value="0" frame="0"/></KeyedProperty></KeyedObject>
+      <KeyedObject objectId="0:90"><KeyedProperty propertyKey="15"><KeyFrameDouble value="0" frame="0"/></KeyedProperty></KeyedObject>
+    </LinearAnimation>
+    <LinearAnimation fps="60" duration="1" name="LookRight" id="0:1012">
+      <KeyedObject objectId="0:120"><KeyedProperty propertyKey="13"><KeyFrameDouble value="5" frame="0"/></KeyedProperty></KeyedObject>
+      <KeyedObject objectId="0:121"><KeyedProperty propertyKey="13"><KeyFrameDouble value="5" frame="0"/></KeyedProperty></KeyedObject>
+      <KeyedObject objectId="0:90"><KeyedProperty propertyKey="15"><KeyFrameDouble value="0.055" frame="0"/></KeyedProperty></KeyedObject>
+    </LinearAnimation>
+
+    <LinearAnimation fps="60" duration="1" name="LookUp" id="0:1013">
+      <KeyedObject objectId="0:120"><KeyedProperty propertyKey="14"><KeyFrameDouble value="-4" frame="0"/></KeyedProperty></KeyedObject>
+      <KeyedObject objectId="0:121"><KeyedProperty propertyKey="14"><KeyFrameDouble value="-4" frame="0"/></KeyedProperty></KeyedObject>
+    </LinearAnimation>
+    <LinearAnimation fps="60" duration="1" name="LookCenterY" id="0:1014">
+      <KeyedObject objectId="0:120"><KeyedProperty propertyKey="14"><KeyFrameDouble value="0" frame="0"/></KeyedProperty></KeyedObject>
+      <KeyedObject objectId="0:121"><KeyedProperty propertyKey="14"><KeyFrameDouble value="0" frame="0"/></KeyedProperty></KeyedObject>
+    </LinearAnimation>
+    <LinearAnimation fps="60" duration="1" name="LookDown" id="0:1015">
+      <KeyedObject objectId="0:120"><KeyedProperty propertyKey="14"><KeyFrameDouble value="4" frame="0"/></KeyedProperty></KeyedObject>
+      <KeyedObject objectId="0:121"><KeyedProperty propertyKey="14"><KeyFrameDouble value="4" frame="0"/></KeyedProperty></KeyedObject>
+    </LinearAnimation>
+
+    <!-- tail vertex deformation: mid moves first, tip travels further -->
+    <LinearAnimation loopValue="pingPong" fps="60" duration="150" name="TailSway" id="0:1020">
+      <KeyedObject objectId="0:243">
+        <KeyedProperty propertyKey="24">
+          <KeyFrameDouble value="17" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.4" y1="0" x2="0.5" y2="1"/></KeyFrameDouble>
+          <KeyFrameDouble value="23" frame="150" interpolationType="linear"/>
+        </KeyedProperty>
+      </KeyedObject>
+      <KeyedObject objectId="0:244">
+        <KeyedProperty propertyKey="24">
+          <KeyFrameDouble value="37" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.35" y1="0" x2="0.55" y2="1"/></KeyFrameDouble>
+          <KeyFrameDouble value="49" frame="150" interpolationType="linear"/>
+        </KeyedProperty>
+        <KeyedProperty propertyKey="25">
+          <KeyFrameDouble value="-60" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.35" y1="0" x2="0.55" y2="1"/></KeyFrameDouble>
+          <KeyFrameDouble value="-55" frame="150" interpolationType="linear"/>
+        </KeyedProperty>
+      </KeyedObject>
+      <KeyedObject objectId="0:245">
+        <KeyedProperty propertyKey="24">
+          <KeyFrameDouble value="72" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.3" y1="0" x2="0.6" y2="1"/></KeyFrameDouble>
+          <KeyFrameDouble value="91" frame="150" interpolationType="linear"/>
+        </KeyedProperty>
+        <KeyedProperty propertyKey="25">
+          <KeyFrameDouble value="-92" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.3" y1="0" x2="0.6" y2="1"/></KeyFrameDouble>
+          <KeyFrameDouble value="-79" frame="150" interpolationType="linear"/>
+        </KeyedProperty>
+      </KeyedObject>
+      <KeyedObject objectId="0:246">
+        <KeyedProperty propertyKey="24">
+          <KeyFrameDouble value="89" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.3" y1="0" x2="0.6" y2="1"/></KeyFrameDouble>
+          <KeyFrameDouble value="105" frame="150" interpolationType="linear"/>
+        </KeyedProperty>
+        <KeyedProperty propertyKey="25">
+          <KeyFrameDouble value="-84" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.3" y1="0" x2="0.6" y2="1"/></KeyFrameDouble>
+          <KeyFrameDouble value="-69" frame="150" interpolationType="linear"/>
+        </KeyedProperty>
+      </KeyedObject>
+      <KeyedObject objectId="0:247">
+        <KeyedProperty propertyKey="24">
+          <KeyFrameDouble value="58" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.35" y1="0" x2="0.55" y2="1"/></KeyFrameDouble>
+          <KeyFrameDouble value="70" frame="150" interpolationType="linear"/>
+        </KeyedProperty>
+      </KeyedObject>
+    </LinearAnimation>
+
+    <!-- ear life: mostly still, tiny offset twitch -->
+    <LinearAnimation loopValue="loop" fps="60" duration="240" name="EarIdle" id="0:1030">
+      <KeyedObject objectId="0:102"><KeyedProperty propertyKey="15">
+        <KeyFrameDouble value="-0.06" frame="0" interpolationType="linear"/>
+        <KeyFrameDouble value="-0.06" frame="116" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.4" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="-0.12" frame="121" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.4" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="-0.05" frame="128" interpolationType="linear"/>
+        <KeyFrameDouble value="-0.06" frame="240" interpolationType="linear"/>
+      </KeyedProperty></KeyedObject>
+      <KeyedObject objectId="0:104"><KeyedProperty propertyKey="15">
+        <KeyFrameDouble value="0.06" frame="0" interpolationType="linear"/>
+        <KeyFrameDouble value="0.06" frame="184" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.4" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="0.12" frame="190" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.4" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="0.055" frame="198" interpolationType="linear"/>
+        <KeyFrameDouble value="0.06" frame="240" interpolationType="linear"/>
+      </KeyedProperty></KeyedObject>
+    </LinearAnimation>
+
+    <LinearAnimation fps="60" duration="28" name="EarTwitch" id="0:1031">
+      <KeyedObject objectId="0:102"><KeyedProperty propertyKey="15">
+        <KeyFrameDouble value="-0.06" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.1" y1="0" x2="0.25" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="-0.2" frame="9" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.55" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="-0.04" frame="16" interpolationType="cubic"><CubicEaseInterpolator x1="0.4" y1="0" x2="0.7" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="-0.06" frame="28" interpolationType="linear"/>
+      </KeyedProperty></KeyedObject>
+    </LinearAnimation>
+  </Artboard>
+</Rive>
