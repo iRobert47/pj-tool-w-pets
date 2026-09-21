@@ -1,0 +1,9 @@
+{
+  "schema": 1,
+  "summary": true,
+  "problems": [],
+  "artboards": [
+    {"name": "MiaomiaoV3", "objects": 412, "types": {"AnimationState": 6, "AnyState": 6, "Artboard": 1, "BlendAnimation1D": 6, "BlendState1DInput": 2, "CubicAsymmetricVertex": 72, "CubicEaseInterpolator": 25, "CubicMirroredVertex": 20, "Ellipse": 3, "EntryState": 6, "ExitState": 6, "Fill": 20, "KeyFrameDouble": 71, "KeyedObject": 29, "KeyedProperty": 32, "LayoutComponentStyle": 1, "LinearAnimation": 12, "Node": 6, "PointsPath": 17, "Shape": 20, "SolidColor": 20, "StateMachine": 1, "StateMachineBool": 2, "StateMachineLayer": 6, "StateMachineNumber": 2, "StateMachineTrigger": 2, "StateTransition": 10, "StraightVertex": 6, "TransitionTriggerCondition": 2}}
+  ],
+  "roots": {"objects": 1, "types": {"Backboard": 1}}
+}
