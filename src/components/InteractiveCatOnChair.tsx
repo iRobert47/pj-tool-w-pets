@@ -174,7 +174,7 @@ export const InteractiveCatOnChair: React.FC<InteractiveCatOnChairProps> = ({
 
         <div className="pointer-events-none absolute left-3 top-3 z-10 flex items-center gap-1.5 rounded-full border border-white/70 bg-white/72 px-2.5 py-1 text-[9px] font-semibold text-[#4b4039] backdrop-blur-md">
           <span className={`h-1.5 w-1.5 rounded-full ${isWatching ? 'bg-[#8d6f57]' : 'bg-[#b7a99b]'}`} />
-          Miaomiao V3 · Illustrated Rig
+          Miaomiao · Illustrated Rig
         </div>
 
         {showControls && (
