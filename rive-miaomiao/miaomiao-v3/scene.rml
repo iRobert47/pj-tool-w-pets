@@ -334,6 +334,16 @@
       <StateMachineTrigger name="blinkNow" id="0:920"/>
       <StateMachineTrigger name="earTwitchNow" id="0:921"/>
 
+      <!-- Batch 1: 手指模式 (Finger Mode). touchZone: 0=head/cheek/back,
+           1=belly, 2=tail -- app sets this before firing petTouchNow.
+           intimacyLevel (0-100) decides belly flip vs dodge; app maintains
+           it and sets it before firing. The 80/20 head enjoy/dodge split is
+           native Rive random selection (see PetReaction layer below), not
+           app-side dice-rolling. -->
+      <StateMachineNumber name="touchZone" value="-1" id="0:922"/>
+      <StateMachineNumber name="intimacyLevel" value="0" id="0:923"/>
+      <StateMachineTrigger name="petTouchNow" id="0:924"/>
+
       <StateMachineLayer name="BaseIdle" id="0:930">
         <AnyState x="520" y="-100"/>
         <ExitState x="680" y="-100"/>
@@ -395,6 +405,59 @@
         <AnimationState x="180" y="0" animationId="0:1030" id="0:981"/>
         <AnimationState x="380" y="0" reset="true" animationId="0:1031" id="0:982">
           <StateTransition stateToId="0:981" duration="35" enableExitTime="true" exitTimeIsPercetange="true" exitTime="100"/>
+        </AnimationState>
+      </StateMachineLayer>
+
+      <!-- PetReaction (手指模式): all five outgoing transitions read
+           touchZone/intimacyLevel + the petTouchNow trigger. HeadEnjoy and
+           HeadDodge share the exact same condition (touchZone==0 AND
+           trigger), so when both become eligible at once, AnyState's
+           random="true" + each transition's randomWeight is what picks
+           between them (80/20) -- this is native Rive random selection,
+           not a dice roll the app pre-computes. Belly and tail outcomes are
+           deterministic threshold checks instead. -->
+      <StateMachineLayer name="PetReaction" id="0:990">
+        <AnyState x="560" y="-260" random="true">
+          <StateTransition stateToId="0:992" duration="20" randomWeight="80">
+            <TransitionTriggerCondition inputId="0:924"/>
+            <TransitionNumberCondition inputId="0:922" opValue="equal" value="0"/>
+          </StateTransition>
+          <StateTransition stateToId="0:993" duration="15" randomWeight="20">
+            <TransitionTriggerCondition inputId="0:924"/>
+            <TransitionNumberCondition inputId="0:922" opValue="equal" value="0"/>
+          </StateTransition>
+          <StateTransition stateToId="0:994" duration="20">
+            <TransitionTriggerCondition inputId="0:924"/>
+            <TransitionNumberCondition inputId="0:922" opValue="equal" value="1"/>
+            <TransitionNumberCondition inputId="0:923" opValue="greaterThanOrEqual" value="50"/>
+          </StateTransition>
+          <StateTransition stateToId="0:995" duration="15">
+            <TransitionTriggerCondition inputId="0:924"/>
+            <TransitionNumberCondition inputId="0:922" opValue="equal" value="1"/>
+            <TransitionNumberCondition inputId="0:923" opValue="lessThan" value="50"/>
+          </StateTransition>
+          <StateTransition stateToId="0:996" duration="15">
+            <TransitionTriggerCondition inputId="0:924"/>
+            <TransitionNumberCondition inputId="0:922" opValue="equal" value="2"/>
+          </StateTransition>
+        </AnyState>
+        <ExitState x="760" y="-260"/>
+        <EntryState x="0" y="0"><StateTransition stateToId="0:991"/></EntryState>
+        <AnimationState x="180" y="-260" animationId="0:1099" id="0:991"/>
+        <AnimationState x="380" y="-360" reset="true" animationId="0:1100" id="0:992">
+          <StateTransition stateToId="0:991" duration="30" enableExitTime="true" exitTimeIsPercetange="true" exitTime="100"/>
+        </AnimationState>
+        <AnimationState x="380" y="-300" reset="true" animationId="0:1101" id="0:993">
+          <StateTransition stateToId="0:991" duration="20" enableExitTime="true" exitTimeIsPercetange="true" exitTime="100"/>
+        </AnimationState>
+        <AnimationState x="380" y="-240" reset="true" animationId="0:1102" id="0:994">
+          <StateTransition stateToId="0:991" duration="30" enableExitTime="true" exitTimeIsPercetange="true" exitTime="100"/>
+        </AnimationState>
+        <AnimationState x="380" y="-180" reset="true" animationId="0:1103" id="0:995">
+          <StateTransition stateToId="0:991" duration="20" enableExitTime="true" exitTimeIsPercetange="true" exitTime="100"/>
+        </AnimationState>
+        <AnimationState x="380" y="-120" reset="true" animationId="0:1104" id="0:996">
+          <StateTransition stateToId="0:991" duration="20" enableExitTime="true" exitTimeIsPercetange="true" exitTime="100"/>
         </AnimationState>
       </StateMachineLayer>
     </StateMachine>
@@ -497,6 +560,95 @@
         <KeyFrameDouble value="0.28" frame="7" interpolationType="hold"/>
         <KeyFrameDouble value="0.05" frame="14" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.58" y2="1"/></KeyFrameDouble>
         <KeyFrameDouble value="0.12" frame="24" interpolationType="linear"/>
+      </KeyedProperty></KeyedObject>
+    </LinearAnimation>
+
+    <!-- Batch 1 (手指模式) reaction poses. These route through body_rig's
+         rotation(15)/scaleX(16), which no other layer keys, so PetReaction
+         (last layer in the machine) can freely override them and hand back
+         to silence (PetRest keys nothing) without fighting Idle's breathing
+         (scaleY) or Gaze's head_rig x/y. TailDodge is the one exception --
+         it targets tail_main directly since a tail-touch reaction is
+         naturally a tail motion; its end value (0.01) sits mid-way inside
+         TailSway's -0.12..0.14 range to keep the hand-back pop small. -->
+    <LinearAnimation fps="60" duration="1" name="PetRest" id="0:1099">
+      <KeyedObject objectId="0:200"><KeyedProperty propertyKey="15">
+        <KeyFrameDouble value="0" frame="0" interpolationType="linear"/>
+      </KeyedProperty></KeyedObject>
+    </LinearAnimation>
+
+    <!-- Head/cheek/back pet, happy outcome (80% via randomWeight on the
+         AnyState transition): lean into the touch, slight contented puff. -->
+    <LinearAnimation fps="60" duration="45" name="HeadEnjoy" id="0:1100">
+      <KeyedObject objectId="0:200">
+        <KeyedProperty propertyKey="15">
+          <KeyFrameDouble value="0" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.2" y2="1"/></KeyFrameDouble>
+          <KeyFrameDouble value="-0.07" frame="12" interpolationType="cubic"><CubicEaseInterpolator x1="0.3" y1="0" x2="0.3" y2="1"/></KeyFrameDouble>
+          <KeyFrameDouble value="-0.06" frame="30" interpolationType="cubic"><CubicEaseInterpolator x1="0.3" y1="0" x2="0.5" y2="1"/></KeyFrameDouble>
+          <KeyFrameDouble value="0" frame="45" interpolationType="linear"/>
+        </KeyedProperty>
+        <KeyedProperty propertyKey="16">
+          <KeyFrameDouble value="1" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.2" y2="1"/></KeyFrameDouble>
+          <KeyFrameDouble value="1.03" frame="12" interpolationType="cubic"><CubicEaseInterpolator x1="0.3" y1="0" x2="0.3" y2="1"/></KeyFrameDouble>
+          <KeyFrameDouble value="1.025" frame="30" interpolationType="cubic"><CubicEaseInterpolator x1="0.3" y1="0" x2="0.5" y2="1"/></KeyFrameDouble>
+          <KeyFrameDouble value="1" frame="45" interpolationType="linear"/>
+        </KeyedProperty>
+      </KeyedObject>
+    </LinearAnimation>
+
+    <!-- Head/cheek/back pet, dodge outcome (remaining 20%): quick flinch
+         away and back, no puff. -->
+    <LinearAnimation fps="60" duration="20" name="HeadDodge" id="0:1101">
+      <KeyedObject objectId="0:200"><KeyedProperty propertyKey="15">
+        <KeyFrameDouble value="0" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.1" y1="0" x2="0.2" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="0.09" frame="6" interpolationType="hold"/>
+        <KeyFrameDouble value="0" frame="20" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.5" y2="1"/></KeyFrameDouble>
+      </KeyedProperty></KeyedObject>
+    </LinearAnimation>
+
+    <!-- Belly touch, high-intimacy outcome: a playful wobble-roll approximating
+         a belly-up reaction (the rig has no true belly-up pose/geometry yet). -->
+    <LinearAnimation fps="60" duration="50" name="BellyFlip" id="0:1102">
+      <KeyedObject objectId="0:200">
+        <KeyedProperty propertyKey="15">
+          <KeyFrameDouble value="0" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.3" y1="0" x2="0.3" y2="1"/></KeyFrameDouble>
+          <KeyFrameDouble value="0.10" frame="14" interpolationType="cubic"><CubicEaseInterpolator x1="0.3" y1="0" x2="0.3" y2="1"/></KeyFrameDouble>
+          <KeyFrameDouble value="-0.08" frame="30" interpolationType="cubic"><CubicEaseInterpolator x1="0.3" y1="0" x2="0.3" y2="1"/></KeyFrameDouble>
+          <KeyFrameDouble value="0" frame="50" interpolationType="cubic"><CubicEaseInterpolator x1="0.3" y1="0" x2="0.5" y2="1"/></KeyFrameDouble>
+        </KeyedProperty>
+        <KeyedProperty propertyKey="16">
+          <KeyFrameDouble value="1" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.3" y1="0" x2="0.3" y2="1"/></KeyFrameDouble>
+          <KeyFrameDouble value="0.93" frame="14" interpolationType="cubic"><CubicEaseInterpolator x1="0.3" y1="0" x2="0.3" y2="1"/></KeyFrameDouble>
+          <KeyFrameDouble value="1.06" frame="30" interpolationType="cubic"><CubicEaseInterpolator x1="0.3" y1="0" x2="0.3" y2="1"/></KeyFrameDouble>
+          <KeyFrameDouble value="1" frame="50" interpolationType="cubic"><CubicEaseInterpolator x1="0.3" y1="0" x2="0.5" y2="1"/></KeyFrameDouble>
+        </KeyedProperty>
+      </KeyedObject>
+    </LinearAnimation>
+
+    <!-- Belly touch, low-intimacy outcome: quick pull-away flinch. -->
+    <LinearAnimation fps="60" duration="18" name="BellyDodge" id="0:1103">
+      <KeyedObject objectId="0:200">
+        <KeyedProperty propertyKey="15">
+          <KeyFrameDouble value="0" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.1" y1="0" x2="0.2" y2="1"/></KeyFrameDouble>
+          <KeyFrameDouble value="-0.06" frame="6" interpolationType="hold"/>
+          <KeyFrameDouble value="0" frame="18" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.5" y2="1"/></KeyFrameDouble>
+        </KeyedProperty>
+        <KeyedProperty propertyKey="16">
+          <KeyFrameDouble value="1" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.1" y1="0" x2="0.2" y2="1"/></KeyFrameDouble>
+          <KeyFrameDouble value="0.97" frame="6" interpolationType="hold"/>
+          <KeyFrameDouble value="1" frame="18" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.5" y2="1"/></KeyFrameDouble>
+        </KeyedProperty>
+      </KeyedObject>
+    </LinearAnimation>
+
+    <!-- Tail touch: a quick whip-away, ending near TailSway's own mid-range
+         so the hand-back to that layer's continuously-running value doesn't
+         pop far. -->
+    <LinearAnimation fps="60" duration="20" name="TailDodge" id="0:1104">
+      <KeyedObject objectId="0:240"><KeyedProperty propertyKey="15">
+        <KeyFrameDouble value="0.01" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.1" y1="0" x2="0.2" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="-0.32" frame="7" interpolationType="hold"/>
+        <KeyFrameDouble value="0.01" frame="20" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.5" y2="1"/></KeyFrameDouble>
       </KeyedProperty></KeyedObject>
     </LinearAnimation>
   </Artboard>

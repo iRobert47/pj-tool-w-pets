@@ -37,6 +37,10 @@ export const InteractiveCatOnChair: React.FC<InteractiveCatOnChairProps> = ({
   const stageRef = useRef<HTMLDivElement | null>(null);
   const [riveFailed, setRiveFailed] = useState(false);
   const [inputNames, setInputNames] = useState<string[]>([]);
+  // 手指模式 (Finger Mode): intimacyLevel is app-owned and fed into the rig
+  // before each pet -- it decides belly-touch outcome (flip vs. dodge) and
+  // grows slowly so that outcome unlocks with repeated gentle petting.
+  const [intimacy, setIntimacy] = useState(20);
 
   const { rive, RiveComponent } = useRive({
     src: RIVE_SOURCE,
@@ -120,15 +124,23 @@ export const InteractiveCatOnChair: React.FC<InteractiveCatOnChairProps> = ({
   const handlePointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
     updateLook(event.clientX, event.clientY);
     const rect = stageRef.current?.getBoundingClientRect();
-    const x = rect ? event.clientX - rect.left : 0;
+    if (!rect) return;
 
-    // Step 1 only: tap gives a tiny life response, not a pet interaction yet.
-    if (rect && x > rect.width * 0.5) {
-      fireTrigger('earTwitchNow');
-    } else {
-      fireTrigger('blinkNow');
-    }
-    onIntimacyGain?.(0);
+    // 手指模式: zone is a rough guess from tap position -- top band reads as
+    // head/cheek/back, a trailing column on the right (where the tail
+    // curls) reads as tail, everything else is belly. touchZone/
+    // intimacyLevel/petTouchNow match the PetReaction layer added in
+    // scene.rml's Batch 1.
+    const relX = (event.clientX - rect.left) / rect.width;
+    const relY = (event.clientY - rect.top) / rect.height;
+    const touchZone = relY < 0.42 ? 0 : relX > 0.72 ? 2 : 1;
+
+    setNumber('touchZone', touchZone);
+    setNumber('intimacyLevel', intimacy);
+    fireTrigger('petTouchNow');
+
+    setIntimacy((prev) => Math.min(100, prev + 6));
+    onIntimacyGain?.(1);
   };
 
   if (riveFailed) {
@@ -171,13 +183,13 @@ export const InteractiveCatOnChair: React.FC<InteractiveCatOnChairProps> = ({
 
         {showControls && (
           <div className="pointer-events-none absolute bottom-3 left-1/2 z-10 -translate-x-1/2 whitespace-nowrap rounded-full bg-[#171819]/72 px-3 py-1.5 text-[9px] font-medium text-white/90 backdrop-blur">
-            移動手指看眼神 · 點左側眨眼 · 點右側耳動
+            移動手指看眼神 · 點觸摸貓咪逗牠玩
           </div>
         )}
       </div>
 
       <div className="mt-1.5 text-[9px] text-[#9a8e84]">
-        Step 1 · Idle / Blink / Look / Tail / Ear
+        Step 2 · 手指模式 Finger Mode
       </div>
     </div>
   );
