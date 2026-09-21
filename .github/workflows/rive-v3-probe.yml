@@ -1,0 +1,49 @@
+name: Probe Rive V3 Path Rigging
+
+on:
+  push:
+    branches:
+      - feature/miaomiao-v3-illustrated-rig
+    paths:
+      - ".github/workflows/rive-v3-probe.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feature/miaomiao-v3-illustrated-rig
+      - name: Install Rive CLI
+        shell: bash
+        run: |
+          set -euxo pipefail
+          sudo apt-get update
+          sudo apt-get install -y libegl1 libgles2 libgl1 libx11-6 libx11-xcb1 libxkbcommon0 libxkbcommon-x11-0 libxcb1 libxcb-xfixes0 libxcb-randr0 libxcb-shape0 libxcb-xkb1 libxrandr2 libxi6 libxcursor1 libxinerama1 libfontconfig1 libwayland-client0
+          curl -fsSL https://releases.rive.app/cli/install.sh | bash
+          echo "$HOME/.rive/bin" >> "$GITHUB_PATH"
+      - name: Capture current schemas and docs
+        shell: bash
+        run: |
+          set -euxo pipefail
+          RIVE="$HOME/.rive/bin/rive"
+          mkdir -p rive-miaomiao/v3-probe
+          "$RIVE" --version > rive-miaomiao/v3-probe/version.txt
+          "$RIVE" docs rigging > rive-miaomiao/v3-probe/docs-rigging.txt || true
+          "$RIVE" docs paths > rive-miaomiao/v3-probe/docs-paths.txt || true
+          "$RIVE" docs shapes > rive-miaomiao/v3-probe/docs-shapes.txt || true
+          for T in Path CubicVertex StraightVertex Vertex Bone Skin Tendon Weight Constraint IKConstraint TransformConstraint RotationConstraint; do
+            "$RIVE" schema "$T" > "rive-miaomiao/v3-probe/schema-$T.txt" 2>&1 || true
+          done
+      - name: Commit probe
+        shell: bash
+        run: |
+          set -euxo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add rive-miaomiao/v3-probe
+          git commit -m "chore: capture Rive v3 path rigging schema"
+          git push origin HEAD:feature/miaomiao-v3-illustrated-rig
