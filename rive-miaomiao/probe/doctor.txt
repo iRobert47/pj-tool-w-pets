@@ -1,1 +1,5 @@
-/home/runner/.rive/bin/rive: error while loading shared libraries: libGLESv2.so.2: cannot open shared object file: No such file or directory
+   ok  version    rive 1.1.0, installed at /home/runner/.rive selecting 1.1.0
+   ok  update     up to date (1.1.0)
+ warn  auth       Not logged in (prod); --publish and --rev need a session, and push its own
+   ok  live-link  port 9640 available for --serve
+   ok  project    no rive.yaml in /home/runner/work/pj-tool-w-pets/pj-tool-w-pets (run `rive create`, or pass a project dir)
