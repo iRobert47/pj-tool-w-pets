@@ -1,0 +1,76 @@
+name: Rive Probe Writeback
+
+on:
+  push:
+    branches:
+      - rive/miaomiao-v2-build
+    paths:
+      - ".github/workflows/rive-probe-writeback.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: rive/miaomiao-v2-build
+
+      - name: Install Rive CLI
+        shell: bash
+        run: |
+          set -euxo pipefail
+          curl -fsSL https://releases.rive.app/cli/install.sh | sh
+          echo "$HOME/.rive/bin" >> "$GITHUB_PATH"
+
+      - name: Export official samples and schema notes
+        shell: bash
+        run: |
+          set -uxo pipefail
+          RIVE="$HOME/.rive/bin/rive"
+          OUT="rive-miaomiao/probe"
+          mkdir -p "$OUT"
+
+          "$RIVE" doctor > "$OUT/doctor.txt" 2>&1 || true
+          "$RIVE" --version > "$OUT/version.txt" 2>&1 || true
+
+          SAMPLES="$("$RIVE" samples --path 2>/dev/null || true)"
+          printf '%s\n' "$SAMPLES" > "$OUT/samples-path.txt"
+
+          if [ -n "$SAMPLES" ] && [ -d "$SAMPLES" ]; then
+            for d in rml_triangle pointer_reactive keyboard_menu; do
+              if [ -d "$SAMPLES/$d" ]; then
+                mkdir -p "$OUT/samples/$d"
+                cp -R "$SAMPLES/$d"/. "$OUT/samples/$d"/
+              fi
+            done
+          fi
+
+          for q in StateMachineInput StateMachineNumber StateMachineBool StateMachineTrigger                    StateTransition TransitionCondition InputCondition NumberInput BooleanInput TriggerInput                    BlendState BlendState1D BlendStateDirect LinearAnimation KeyFrameDouble Ellipse Rectangle Triangle; do
+            "$RIVE" schema --search "$q" > "$OUT/schema-$q.txt" 2>&1 || true
+          done
+
+          "$RIVE" docs --search "state machine input transition condition" > "$OUT/docs-state-machine.txt" 2>&1 || true
+          "$RIVE" docs --search "blend state number input" > "$OUT/docs-blend-state.txt" 2>&1 || true
+
+          rm -rf /tmp/rive-scaffold
+          "$RIVE" create /tmp/rive-scaffold > "$OUT/create.txt" 2>&1 || true
+          if [ -d /tmp/rive-scaffold ]; then
+            cp /tmp/rive-scaffold/AGENTS.md "$OUT/AGENTS.md" 2>/dev/null || true
+            cp /tmp/rive-scaffold/CLAUDE.md "$OUT/CLAUDE.md" 2>/dev/null || true
+          fi
+
+      - name: Commit probe output
+        shell: bash
+        run: |
+          set -euxo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add rive-miaomiao/probe
+          if git diff --cached --quiet; then
+            exit 0
+          fi
+          git commit -m "chore: capture Rive CLI schema and official samples"
+          git push origin HEAD:rive/miaomiao-v2-build
