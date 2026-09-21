@@ -1,0 +1,74 @@
+name: Build Miaomiao Rive V3.1
+
+on:
+  push:
+    branches:
+      - feature/miaomiao-v3-illustrated-rig
+    paths:
+      - "rive-miaomiao/miaomiao-v3/**"
+      - ".github/workflows/rive-build-miaomiao-v3.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feature/miaomiao-v3-illustrated-rig
+
+      - name: Install Rive CLI runtime
+        shell: bash
+        run: |
+          set -euxo pipefail
+          sudo apt-get update
+          sudo apt-get install -y libegl1 libgles2 libgl1 libx11-6 libx11-xcb1 libxkbcommon0 libxkbcommon-x11-0 libxcb1 libxcb-xfixes0 libxcb-randr0 libxcb-shape0 libxcb-xkb1 libxrandr2 libxi6 libxcursor1 libxinerama1 libfontconfig1 libwayland-client0
+          curl -fsSL https://releases.rive.app/cli/install.sh | bash
+          echo "$HOME/.rive/bin" >> "$GITHUB_PATH"
+
+      - name: Verify and compile original illustrated rig
+        shell: bash
+        run: |
+          set -euxo pipefail
+          cd rive-miaomiao/miaomiao-v3
+          RIVE="$HOME/.rive/bin/rive"
+          "$RIVE" . --verify --format=json | tee verify.json
+          "$RIVE" inspect . --summary | tee inspect-summary.txt
+          "$RIVE" . --once --format=json | tee build-result.json
+          "$RIVE" . --screenshot=build/miaomiao-v3-preview.png --advance=90 || true
+          test -s build/miaomiao-v3.riv
+
+      - name: Stage deliverables
+        shell: bash
+        run: |
+          set -euxo pipefail
+          mkdir -p public/rive
+          cp rive-miaomiao/miaomiao-v3/build/miaomiao-v3.riv public/rive/miaomiao-v3.riv
+          if [ -f rive-miaomiao/miaomiao-v3/build/miaomiao-v3-preview.png ]; then
+            cp rive-miaomiao/miaomiao-v3/build/miaomiao-v3-preview.png public/rive/miaomiao-v3-preview.png
+          fi
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: miaomiao-v3-original-rive
+          path: |
+            public/rive/miaomiao-v3.riv
+            public/rive/miaomiao-v3-preview.png
+            rive-miaomiao/miaomiao-v3/verify.json
+            rive-miaomiao/miaomiao-v3/inspect-summary.txt
+            rive-miaomiao/miaomiao-v3/build-result.json
+          if-no-files-found: error
+
+      - name: Commit compiled Rive
+        shell: bash
+        run: |
+          set -euxo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/rive/miaomiao-v3.riv public/rive/miaomiao-v3-preview.png rive-miaomiao/miaomiao-v3/verify.json rive-miaomiao/miaomiao-v3/inspect-summary.txt rive-miaomiao/miaomiao-v3/build-result.json || true
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "build: compile Miaomiao V3.1 original Rive"
+          git push origin HEAD:feature/miaomiao-v3-illustrated-rig
