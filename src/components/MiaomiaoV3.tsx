@@ -17,7 +17,7 @@ interface MiaomiaoV3Props {
   inPomodoro?: boolean;
 }
 
-const RIVE_SOURCE = '/rive/miaomiao-v3.riv';
+const RIVE_SOURCE = '/rive/miaomiao-v3.riv?v=31-original-20260922';
 const ARTBOARD = 'MiaomiaoV3';
 const STATE_MACHINE = 'MiaomiaoV3StateMachine';
 
