@@ -3,7 +3,7 @@
   "summary": true,
   "problems": [],
   "artboards": [
-    {"name": "MiaomiaoV3", "objects": 317, "types": {"AnimationState": 6, "AnyState": 6, "Artboard": 1, "BlendAnimation1D": 6, "BlendState1DInput": 2, "CubicDetachedVertex": 4, "CubicEaseInterpolator": 12, "CubicMirroredVertex": 41, "Ellipse": 5, "EntryState": 6, "ExitState": 6, "Fill": 13, "GradientStop": 21, "KeyFrameDouble": 48, "KeyedObject": 26, "KeyedProperty": 26, "LayoutComponentStyle": 1, "LinearAnimation": 12, "LinearGradient": 7, "Node": 4, "PointsPath": 10, "RadialGradient": 1, "Rectangle": 1, "Shape": 16, "SolidColor": 8, "StateMachine": 1, "StateMachineBool": 2, "StateMachineLayer": 6, "StateMachineNumber": 2, "StateMachineTrigger": 2, "StateTransition": 10, "Stroke": 3, "TransitionTriggerCondition": 2}}
+    {"name": "MiaomiaoV3", "objects": 329, "types": {"AnimationState": 6, "AnyState": 6, "Artboard": 1, "BlendAnimation1D": 6, "BlendState1DInput": 2, "CubicDetachedVertex": 4, "CubicEaseInterpolator": 12, "CubicMirroredVertex": 41, "Ellipse": 7, "EntryState": 6, "ExitState": 6, "Fill": 15, "GradientStop": 25, "KeyFrameDouble": 48, "KeyedObject": 26, "KeyedProperty": 26, "LayoutComponentStyle": 1, "LinearAnimation": 12, "LinearGradient": 3, "Node": 4, "PointsPath": 10, "RadialGradient": 7, "Rectangle": 1, "Shape": 18, "SolidColor": 8, "StateMachine": 1, "StateMachineBool": 2, "StateMachineLayer": 6, "StateMachineNumber": 2, "StateMachineTrigger": 2, "StateTransition": 10, "Stroke": 3, "TransitionTriggerCondition": 2}}
   ],
   "roots": {"objects": 1, "types": {"Backboard": 1}}
 }

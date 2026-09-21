@@ -37,6 +37,20 @@
         <Fill name="Fill"><SolidColor colorValue="FF8E7B70" name="Color"/></Fill>
       </Shape>
 
+      <!-- Soft sheen: a low-opacity radial wash painted on top of the fur fill
+           (earlier sibling = on top, so this must precede head_main), sized and
+           centered to stay well inside its silhouette so no hard oval edge
+           shows past the fur. Fakes the plush-photo's rounded rim highlight. -->
+      <Shape x="0" y="-28" name="head_sheen">
+        <Ellipse width="60" height="34" name="Path"/>
+        <Fill name="Fill">
+          <RadialGradient startX="0" startY="-2" endX="24" endY="8" name="Sheen">
+            <GradientStop colorValue="26FFFFFF" position="0"/>
+            <GradientStop colorValue="00FFFFFF" position="1"/>
+          </RadialGradient>
+        </Fill>
+      </Shape>
+
       <!-- Head silhouette traced from the reference photo (pixel-measured, scaled
            by head-width to this rig's units). V1 = forehead valley between the
            ears; V2/V8 ear-root shoulder; V3/V7 cheek-widest; V4/V6 jaw; V5 chin. -->
@@ -51,12 +65,15 @@
           <CubicMirroredVertex x="-80" y="8" rotation="-1.67" distance="28"/>
           <CubicMirroredVertex x="-73" y="-45" rotation="-1.04" distance="35"/>
         </PointsPath>
+        <!-- Radial, not diagonal-linear: light pools where a rounded form would
+             catch it (upper forehead) and falls off toward the rim, reading as
+             a soft convex volume instead of a flat diagonal tint. -->
         <Fill name="Fill">
-          <LinearGradient startX="-60" startY="-60" endX="68" endY="65" name="FurShade">
-            <GradientStop colorValue="FF2A2B2C" position="0"/>
-            <GradientStop colorValue="FF151617" position="0.55"/>
-            <GradientStop colorValue="FF0F1011" position="1"/>
-          </LinearGradient>
+          <RadialGradient startX="-6" startY="-38" endX="55" endY="45" name="FurShade">
+            <GradientStop colorValue="FF3D3E40" position="0"/>
+            <GradientStop colorValue="FF1B1C1D" position="0.6"/>
+            <GradientStop colorValue="FF0C0D0E" position="1"/>
+          </RadialGradient>
         </Fill>
       </Shape>
 
@@ -71,10 +88,10 @@
           <CubicMirroredVertex x="0" y="-3" rotation="3.1" distance="9"/>
         </PointsPath>
         <Fill name="Fill">
-          <LinearGradient startX="-10" startY="-45" endX="18" endY="20" name="EarShade">
-            <GradientStop colorValue="FF343335" position="0"/>
-            <GradientStop colorValue="FF111213" position="1"/>
-          </LinearGradient>
+          <RadialGradient startX="-10" startY="-14" endX="12" endY="10" name="EarShade">
+            <GradientStop colorValue="FF48494B" position="0"/>
+            <GradientStop colorValue="FF0A0B0C" position="1"/>
+          </RadialGradient>
         </Fill>
       </Shape>
       <Shape x="48" y="-61" rotation="0.12" name="ear_right" id="0:105">
@@ -85,10 +102,10 @@
           <CubicMirroredVertex x="0" y="-3" rotation="3.1" distance="9"/>
         </PointsPath>
         <Fill name="Fill">
-          <LinearGradient startX="-18" startY="-45" endX="10" endY="20" name="EarShade">
-            <GradientStop colorValue="FF343335" position="0"/>
-            <GradientStop colorValue="FF111213" position="1"/>
-          </LinearGradient>
+          <RadialGradient startX="10" startY="-14" endX="-12" endY="10" name="EarShade">
+            <GradientStop colorValue="FF48494B" position="0"/>
+            <GradientStop colorValue="FF0A0B0C" position="1"/>
+          </RadialGradient>
         </Fill>
       </Shape>
     </Node>
@@ -97,6 +114,18 @@
     <Node x="250" y="350" name="body_rig" id="0:200">
       <!-- Body traced from reference at the same px->unit scale as the head, so
            head:body size now matches the photo instead of the body dwarfing it. -->
+      <!-- Soft sheen on the shoulders, same trick as the head. Must precede
+           body_main (earlier sibling = on top) or it paints hidden beneath it. -->
+      <Shape x="-5" y="-58" name="body_sheen">
+        <Ellipse width="70" height="38" name="Path"/>
+        <Fill name="Fill">
+          <RadialGradient startX="0" startY="0" endX="28" endY="8" name="Sheen">
+            <GradientStop colorValue="22FFFFFF" position="0"/>
+            <GradientStop colorValue="00FFFFFF" position="1"/>
+          </RadialGradient>
+        </Fill>
+      </Shape>
+
       <Shape name="body_main" id="0:201">
         <PointsPath isClosed="true" name="Path">
           <CubicMirroredVertex x="-39" y="-82" rotation="-0.55" distance="31"/>
@@ -108,12 +137,14 @@
           <CubicMirroredVertex x="-75" y="23" rotation="-1.72" distance="30"/>
           <CubicMirroredVertex x="-69" y="-34" rotation="-1.40" distance="29"/>
         </PointsPath>
+        <!-- Radial shoulder-highlight in place of the old diagonal tint, matching
+             the head's rounded-volume treatment. -->
         <Fill name="Fill">
-          <LinearGradient startX="-55" startY="-92" endX="70" endY="95" name="BodyShade">
-            <GradientStop colorValue="FF292A2B" position="0"/>
-            <GradientStop colorValue="FF151617" position="0.52"/>
-            <GradientStop colorValue="FF0E0F10" position="1"/>
-          </LinearGradient>
+          <RadialGradient startX="-8" startY="-60" endX="55" endY="55" name="BodyShade">
+            <GradientStop colorValue="FF37383A" position="0"/>
+            <GradientStop colorValue="FF17181A" position="0.55"/>
+            <GradientStop colorValue="FF0B0C0D" position="1"/>
+          </RadialGradient>
         </Fill>
       </Shape>
 
