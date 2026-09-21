@@ -17,7 +17,7 @@ interface MiaomiaoV3Props {
   inPomodoro?: boolean;
 }
 
-const RIVE_SOURCE = '/rive/miaomiao-v3.riv?v=31-original-20260922';
+const RIVE_SOURCE = '/rive/miaomiao-v3.riv?v=32-clean-20260922';
 const ARTBOARD = 'MiaomiaoV3';
 const STATE_MACHINE = 'MiaomiaoV3StateMachine';
 
@@ -34,6 +34,8 @@ export const MiaomiaoV3: React.FC<MiaomiaoV3Props> = ({
   const targetLookRef = useRef({ x: 50, y: 50 });
   const currentLookRef = useRef({ x: 50, y: 50 });
   const animationFrameRef = useRef<number | null>(null);
+  const pointerInsideRef = useRef(false);
+  const lifeTimerRef = useRef<number | null>(null);
   const [riveFailed, setRiveFailed] = useState(false);
   const [inputVersion, setInputVersion] = useState(0);
   const [isWatching, setIsWatching] = useState(false);
@@ -117,8 +119,41 @@ export const MiaomiaoV3: React.FC<MiaomiaoV3Props> = ({
     };
   }, [rive, inputVersion]);
 
+  useEffect(() => {
+    if (!rive || mode === 'sleeping') return;
+
+    const scheduleNext = () => {
+      const delay = 2200 + Math.random() * 2400;
+      lifeTimerRef.current = window.setTimeout(() => {
+        if (!pointerInsideRef.current) {
+          // Quiet micro-saccades keep Miaomiao alive even when untouched.
+          targetLookRef.current = {
+            x: 43 + Math.random() * 14,
+            y: 44 + Math.random() * 12,
+          };
+
+          if (Math.random() > 0.58) {
+            fireTrigger('earTwitchNow');
+          }
+          if (Math.random() > 0.78) {
+            fireTrigger('blinkNow');
+          }
+        }
+        scheduleNext();
+      }, delay);
+    };
+
+    scheduleNext();
+    return () => {
+      if (lifeTimerRef.current !== null) {
+        window.clearTimeout(lifeTimerRef.current);
+      }
+    };
+  }, [rive, inputVersion, mode]);
+
   const handlePointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
     if (!stageRef.current || mode === 'sleeping') return;
+    pointerInsideRef.current = true;
 
     const rect = stageRef.current.getBoundingClientRect();
     targetLookRef.current = {
@@ -129,6 +164,7 @@ export const MiaomiaoV3: React.FC<MiaomiaoV3Props> = ({
   };
 
   const handlePointerEnter = () => {
+    pointerInsideRef.current = true;
     setIsWatching(true);
     // Small secondary response: the ear notices before the body does.
     if (Math.random() > 0.45) fireTrigger('earTwitchNow');
@@ -139,6 +175,7 @@ export const MiaomiaoV3: React.FC<MiaomiaoV3Props> = ({
   };
 
   const handlePointerLeave = () => {
+    pointerInsideRef.current = false;
     setIsWatching(false);
     targetLookRef.current = { x: 50, y: 50 };
   };
@@ -155,7 +192,7 @@ export const MiaomiaoV3: React.FC<MiaomiaoV3Props> = ({
       <div className={`flex flex-col items-center ${className}`}>
         <div className={`${sizeClasses} grid place-items-center rounded-[36px] border border-[#ddd5cb] bg-[#f5f1eb]`}>
           <div className="text-center">
-            <div className="text-sm font-semibold text-[#292725]">Miaomiao V3.1</div>
+            <div className="text-sm font-semibold text-[#292725]">Miaomiao V3.2</div>
             <div className="mt-1 text-[10px] text-[#8c8379]">Rive asset unavailable</div>
           </div>
         </div>
@@ -168,7 +205,7 @@ export const MiaomiaoV3: React.FC<MiaomiaoV3Props> = ({
       <div className="mb-2 flex items-center gap-2 rounded-full border border-[#e9e2d9] bg-[#fbf8f3]/95 px-3 py-1.5 shadow-[0_5px_18px_rgba(37,33,29,0.05)] backdrop-blur">
         <span className="h-1.5 w-1.5 rounded-full bg-[#252625]" />
         <span className="text-[10px] font-semibold tracking-[0.08em] text-[#615b55]">
-          MIAOMIAO V3.1 · ORIGINAL RIG
+          MIAOMIAO V3.2 · CLEAN ILLUSTRATED RIG
         </span>
       </div>
 
@@ -184,7 +221,7 @@ export const MiaomiaoV3: React.FC<MiaomiaoV3Props> = ({
         <div className="absolute inset-0 z-[1]">
           <RiveComponent
             className="h-full w-full"
-            aria-label="Miaomiao V3.1 original illustrated black cat"
+            aria-label="Miaomiao V3.2 clean illustrated black cat"
           />
         </div>
 
@@ -202,7 +239,7 @@ export const MiaomiaoV3: React.FC<MiaomiaoV3Props> = ({
       </div>
 
       <div className="mt-1.5 text-[8px] tracking-[0.06em] text-[#9b938b]">
-        ORIGINAL MIAOMIAO CHARACTER RIG · V3.1
+        CLEAN ILLUSTRATED CHARACTER RIG · V3.2
       </div>
     </div>
   );
