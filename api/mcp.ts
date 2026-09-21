@@ -6,6 +6,7 @@ import {
 } from '@modelcontextprotocol/ext-apps/server';
 import { z } from 'zod';
 
+// Vercel preview trigger: ChatGPT pet companion prototype
 const RESOURCE_URI = 'ui://pj-pet/companion-v1.html';
 const LOTTIE_PAGE_URL =
   'https://lottiefiles.com/free-animation/black-cat-3OBQxyPyXe';
