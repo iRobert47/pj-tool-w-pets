@@ -21,6 +21,11 @@ interface InteractiveCatOnChairProps {
 
 type InteractionMode = 'pet' | 'play' | 'treat';
 
+type ToolPosition = {
+  x: number;
+  y: number;
+};
+
 const RIVE_SOURCE =
   'https://public.rive.app/community/runtime-files/23404-43796-interactive-cute-black-cat.riv';
 const RIVE_MARKETPLACE_URL =
@@ -47,6 +52,9 @@ const matchesAlias = (name: string, key: keyof typeof aliases) => {
   return aliases[key].some((alias) => candidate.includes(alias));
 };
 
+const clamp = (value: number, min: number, max: number) =>
+  Math.min(Math.max(value, min), max);
+
 export const InteractiveCatOnChair: React.FC<InteractiveCatOnChairProps> = ({
   mode = 'sitting',
   size = 'md',
@@ -57,10 +65,17 @@ export const InteractiveCatOnChair: React.FC<InteractiveCatOnChairProps> = ({
   inPomodoro = false,
 }) => {
   const stageRef = useRef<HTMLDivElement | null>(null);
+  const playCooldownRef = useRef(false);
+  const snackTimerRef = useRef<number | null>(null);
+
   const [interactionMode, setInteractionMode] = useState<InteractionMode>('pet');
   const [riveFailed, setRiveFailed] = useState(false);
   const [feedback, setFeedback] = useState<string | null>(null);
   const [inputNames, setInputNames] = useState<string[]>([]);
+  const [toolPosition, setToolPosition] = useState<ToolPosition>({ x: 50, y: 54 });
+  const [pointerInside, setPointerInside] = useState(false);
+  const [pointerDown, setPointerDown] = useState(false);
+  const [snackVisible, setSnackVisible] = useState(false);
 
   const { rive, RiveComponent } = useRive({
     src: RIVE_SOURCE,
@@ -83,6 +98,15 @@ export const InteractiveCatOnChair: React.FC<InteractiveCatOnChairProps> = ({
       setInputNames([]);
     }
   }, [rive]);
+
+  useEffect(
+    () => () => {
+      if (snackTimerRef.current !== null) {
+        window.clearTimeout(snackTimerRef.current);
+      }
+    },
+    []
+  );
 
   const stateInputs = useMemo(() => {
     if (!rive) return [];
@@ -149,56 +173,167 @@ export const InteractiveCatOnChair: React.FC<InteractiveCatOnChairProps> = ({
     }
   }, [rive, mode, inPomodoro, inputNames]);
 
+  const getPointerPosition = (clientX: number, clientY: number) => {
+    if (!stageRef.current) return null;
+    const rect = stageRef.current.getBoundingClientRect();
+
+    return {
+      x: clamp(((clientX - rect.left) / rect.width) * 100, 2, 98),
+      y: clamp(((clientY - rect.top) / rect.height) * 100, 2, 98),
+      rect,
+    };
+  };
+
   const updateLook = (clientX: number, clientY: number) => {
     if (!stageRef.current || !rive || inPomodoro || mode === 'sleeping') return;
 
     const rect = stageRef.current.getBoundingClientRect();
-    const nx = Math.max(
+    const nx = clamp(
+      (clientX - (rect.left + rect.width / 2)) / (rect.width / 2),
       -1,
-      Math.min(1, (clientX - (rect.left + rect.width / 2)) / (rect.width / 2))
+      1
     );
-    const ny = Math.max(
+    const ny = clamp(
+      (clientY - (rect.top + rect.height / 2)) / (rect.height / 2),
       -1,
-      Math.min(1, (clientY - (rect.top + rect.height / 2)) / (rect.height / 2))
+      1
     );
 
     setMatchingNumber('lookX', nx);
     setMatchingNumber('lookY', ny);
   };
 
+  const triggerPlayReaction = () => {
+    if (playCooldownRef.current) return;
+
+    playCooldownRef.current = true;
+    fireMatchingTrigger('play');
+    setMatchingBoolean('play', true);
+    catAudio.playMeow('happy');
+    onIntimacyGain?.(1);
+    showFeedback('撲！');
+
+    window.setTimeout(() => setMatchingBoolean('play', false), 420);
+    window.setTimeout(() => {
+      playCooldownRef.current = false;
+    }, 900);
+  };
+
   const handlePointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
+    const pointer = getPointerPosition(event.clientX, event.clientY);
+    if (!pointer) return;
+
+    setPointerInside(true);
+    setToolPosition({ x: pointer.x, y: pointer.y });
     updateLook(event.clientX, event.clientY);
+
+    if (interactionMode === 'play' && !inPomodoro && mode !== 'sleeping') {
+      const distanceFromCat = Math.hypot(
+        pointer.x - 50,
+        (pointer.y - 50) * 0.9
+      );
+
+      if (distanceFromCat < 24) {
+        triggerPlayReaction();
+      }
+    }
+
+    if (interactionMode === 'pet' && pointerDown) {
+      setMatchingBoolean('pet', true);
+    }
+  };
+
+  const showSnack = () => {
+    if (snackTimerRef.current !== null) {
+      window.clearTimeout(snackTimerRef.current);
+    }
+    setSnackVisible(true);
+    snackTimerRef.current = window.setTimeout(() => {
+      setSnackVisible(false);
+      snackTimerRef.current = null;
+    }, 1050);
   };
 
   const handleInteraction = () => {
     if (interactionMode === 'treat') {
       fireMatchingTrigger('treat');
       setMatchingBoolean('treat', true);
-      window.setTimeout(() => setMatchingBoolean('treat', false), 500);
+      window.setTimeout(() => setMatchingBoolean('treat', false), 520);
+      showSnack();
       catAudio.playMunch();
       onFeed?.(15);
       onIntimacyGain?.(4);
-      showFeedback('吃得很滿足');
+      showFeedback('小魚乾來了');
       return;
     }
 
     if (interactionMode === 'play') {
-      fireMatchingTrigger('play');
-      setMatchingBoolean('play', true);
-      window.setTimeout(() => setMatchingBoolean('play', false), 500);
-      catAudio.playMeow('happy');
-      onIntimacyGain?.(3);
-      showFeedback('抓到你了');
+      triggerPlayReaction();
+      onIntimacyGain?.(2);
+      showFeedback('抓得到嗎？');
       return;
     }
 
     fireMatchingTrigger('pet');
     setMatchingBoolean('pet', true);
-    window.setTimeout(() => setMatchingBoolean('pet', false), 450);
     catAudio.startPurr();
-    window.setTimeout(() => catAudio.stopPurr(), 900);
     onIntimacyGain?.(1);
     showFeedback('呼嚕嚕');
+  };
+
+  const handlePointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
+    const pointer = getPointerPosition(event.clientX, event.clientY);
+    if (pointer) {
+      setToolPosition({ x: pointer.x, y: pointer.y });
+    }
+
+    setPointerInside(true);
+    setPointerDown(true);
+
+    try {
+      event.currentTarget.setPointerCapture(event.pointerId);
+    } catch {
+      // Pointer capture is optional on older browsers.
+    }
+
+    handleInteraction();
+  };
+
+  const handlePointerUp = (event: React.PointerEvent<HTMLDivElement>) => {
+    setPointerDown(false);
+
+    if (interactionMode === 'pet') {
+      setMatchingBoolean('pet', false);
+      catAudio.stopPurr();
+      catAudio.playMeow('gentle');
+    }
+
+    try {
+      if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+        event.currentTarget.releasePointerCapture(event.pointerId);
+      }
+    } catch {
+      // Ignore unsupported pointer-capture releases.
+    }
+  };
+
+  const handlePointerLeave = () => {
+    if (!pointerDown) {
+      setPointerInside(false);
+    }
+  };
+
+  const switchInteractionMode = (nextMode: InteractionMode) => {
+    setInteractionMode(nextMode);
+    setPointerDown(false);
+    setMatchingBoolean('pet', false);
+    setMatchingBoolean('play', false);
+    setMatchingBoolean('treat', false);
+    catAudio.stopPurr();
+
+    if (nextMode === 'pet') showFeedback('用手指摸摸牠');
+    if (nextMode === 'play') showFeedback('晃動逗貓棒');
+    if (nextMode === 'treat') showFeedback('把小魚乾送過去');
   };
 
   if (riveFailed) {
@@ -226,10 +361,10 @@ export const InteractiveCatOnChair: React.FC<InteractiveCatOnChairProps> = ({
     inPomodoro || mode === 'sleeping'
       ? '陪你安靜專注'
       : interactionMode === 'play'
-        ? '準備撲抓'
+        ? '逗貓棒模式'
         : interactionMode === 'treat'
-          ? '聞到零食了'
-          : '正在看著你';
+          ? '餵小魚乾'
+          : '手指摸摸';
 
   const controls: Array<{
     id: InteractionMode;
@@ -237,9 +372,11 @@ export const InteractiveCatOnChair: React.FC<InteractiveCatOnChairProps> = ({
     label: string;
   }> = [
     { id: 'pet', icon: 'touch_app', label: '摸摸' },
-    { id: 'play', icon: 'toys', label: '陪玩' },
-    { id: 'treat', icon: 'restaurant', label: '零食' },
+    { id: 'play', icon: 'toys', label: '逗貓棒' },
+    { id: 'treat', icon: 'restaurant', label: '小魚乾' },
   ];
+
+  const showTool = pointerInside && !inPomodoro && mode !== 'sleeping';
 
   return (
     <div className={`relative flex flex-col items-center select-none ${className}`}>
@@ -253,8 +390,12 @@ export const InteractiveCatOnChair: React.FC<InteractiveCatOnChairProps> = ({
       <div
         ref={stageRef}
         onPointerMove={handlePointerMove}
-        onPointerDown={handleInteraction}
+        onPointerDown={handlePointerDown}
+        onPointerUp={handlePointerUp}
+        onPointerCancel={handlePointerUp}
+        onPointerLeave={handlePointerLeave}
         className={`relative ${sizeClasses} overflow-hidden rounded-[32px] border border-[#e5e8e4] bg-[radial-gradient(circle_at_50%_25%,#ffffff_0%,#f6f8f5_58%,#edf2ed_100%)] shadow-[0_18px_45px_-28px_rgba(24,28,27,0.45)]`}
+        style={{ touchAction: 'none' }}
       >
         <div className="absolute inset-0 z-[1]">
           <RiveComponent
@@ -270,8 +411,75 @@ export const InteractiveCatOnChair: React.FC<InteractiveCatOnChairProps> = ({
           秒喵 · Rive
         </div>
 
+        {showTool && interactionMode === 'pet' && (
+          <div
+            aria-hidden="true"
+            className={`pointer-events-none absolute z-30 -translate-x-[32%] -translate-y-[18%] text-[34px] drop-shadow-[0_5px_8px_rgba(24,28,27,0.22)] transition-transform duration-75 ${
+              pointerDown ? 'scale-90' : 'scale-100'
+            }`}
+            style={{ left: `${toolPosition.x}%`, top: `${toolPosition.y}%` }}
+          >
+            👆
+          </div>
+        )}
+
+        {showTool && interactionMode === 'play' && (
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute z-30 h-24 w-24 -translate-x-[18%] -translate-y-[82%] drop-shadow-[0_5px_8px_rgba(24,28,27,0.18)]"
+            style={{ left: `${toolPosition.x}%`, top: `${toolPosition.y}%` }}
+          >
+            <svg viewBox="0 0 100 100" className="h-full w-full overflow-visible">
+              <line
+                x1="13"
+                y1="12"
+                x2="72"
+                y2="72"
+                stroke="#875330"
+                strokeWidth="4"
+                strokeLinecap="round"
+              />
+              <path
+                d="M72 72 Q81 78 78 88"
+                fill="none"
+                stroke="#cbd5e1"
+                strokeWidth="1.7"
+              />
+              <path d="M78 87 C91 78 97 88 84 96 Z" fill="#ff8a3d" />
+              <path d="M78 87 C66 88 67 99 82 97 Z" fill="#ffb703" />
+              <path d="M78 87 C82 99 93 100 86 89 Z" fill="#e63946" />
+              <circle cx="78" cy="87" r="3.5" fill="#ffd166" />
+            </svg>
+          </div>
+        )}
+
+        {showTool && interactionMode === 'treat' && (
+          <div
+            aria-hidden="true"
+            className={`pointer-events-none absolute z-30 -translate-x-1/2 -translate-y-1/2 text-[30px] drop-shadow-[0_5px_8px_rgba(24,28,27,0.18)] transition-transform duration-100 ${
+              pointerDown ? 'scale-90 rotate-[-8deg]' : 'scale-100'
+            }`}
+            style={{ left: `${toolPosition.x}%`, top: `${toolPosition.y}%` }}
+          >
+            🐟
+          </div>
+        )}
+
+        {snackVisible && (
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute bottom-[12%] left-1/2 z-20 -translate-x-1/2 animate-[petSnackIn_220ms_ease-out] text-center"
+          >
+            <div className="relative h-8 w-16 rounded-[50%] border border-[#e2e4e1] bg-white/95 shadow-[0_5px_12px_rgba(24,28,27,0.12)]">
+              <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-[58%] text-[18px]">
+                🐟
+              </div>
+            </div>
+          </div>
+        )}
+
         {feedback && (
-          <div className="pointer-events-none absolute bottom-3 left-1/2 z-20 -translate-x-1/2 rounded-full border border-white/70 bg-[#181c1b]/88 px-3 py-1.5 text-[10px] font-semibold text-white shadow-lg backdrop-blur">
+          <div className="pointer-events-none absolute bottom-3 left-1/2 z-40 -translate-x-1/2 rounded-full border border-white/70 bg-[#181c1b]/88 px-3 py-1.5 text-[10px] font-semibold text-white shadow-lg backdrop-blur">
             {feedback}
           </div>
         )}
@@ -287,7 +495,7 @@ export const InteractiveCatOnChair: React.FC<InteractiveCatOnChairProps> = ({
                 type="button"
                 onClick={(event) => {
                   event.stopPropagation();
-                  setInteractionMode(control.id);
+                  switchInteractionMode(control.id);
                 }}
                 className={`flex items-center gap-1 rounded-full px-2.5 py-1.5 text-[10px] font-semibold transition-all ${
                   active
@@ -313,6 +521,13 @@ export const InteractiveCatOnChair: React.FC<InteractiveCatOnChairProps> = ({
       >
         Character: Floey · Rive Marketplace · CC BY
       </a>
+
+      <style>{`
+        @keyframes petSnackIn {
+          0% { opacity: 0; transform: translate(-50%, 6px) scale(0.88); }
+          100% { opacity: 1; transform: translate(-50%, 0) scale(1); }
+        }
+      `}</style>
     </div>
   );
 };
