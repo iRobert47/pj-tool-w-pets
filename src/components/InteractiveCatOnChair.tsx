@@ -77,7 +77,8 @@ export const InteractiveCatOnChair: React.FC<InteractiveCatOnChairProps> = ({
   useEffect(() => {
     if (!rive) return;
     try {
-      setInputNames(rive.stateMachineInputs(STATE_MACHINE).map((input) => input.name));
+      const inputs = rive.stateMachineInputs(STATE_MACHINE) ?? [];
+      setInputNames(inputs.map((input) => input.name));
     } catch {
       setInputNames([]);
     }
@@ -86,7 +87,7 @@ export const InteractiveCatOnChair: React.FC<InteractiveCatOnChairProps> = ({
   const stateInputs = useMemo(() => {
     if (!rive) return [];
     try {
-      return rive.stateMachineInputs(STATE_MACHINE);
+      return rive.stateMachineInputs(STATE_MACHINE) ?? [];
     } catch {
       return [];
     }
