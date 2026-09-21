@@ -1,0 +1,7 @@
+{
+  "name": "Pawject 萌寵手帳專案管理",
+  "description": "結合溫暖日系手帳質感與虛擬萌寵陪伴的專案日程管理應用，讓微小進展成為陪伴成長的元氣養分。",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+
