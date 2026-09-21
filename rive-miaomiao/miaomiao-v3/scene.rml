@@ -1,0 +1,395 @@
+<Rive version="1" kind="fragment">
+  <Artboard defaultStateMachineId="0:900" width="500" height="500" styleId="0:5" name="MiaomiaoV3" id="0:2">
+    <LayoutComponentStyle name="Artboard Style" id="0:5"/>
+
+    <!-- V3 illustrated rig. Earlier siblings paint above later siblings. -->
+
+    <!-- Head rig: expressive eyes over one continuous illustrated head silhouette. -->
+    <Node x="250" y="214" name="head_rig" id="0:100">
+      <Node x="-34" y="2" name="eye_left_rig" id="0:110">
+        <Shape x="-5" y="-7" name="eye_left_highlight">
+          <Ellipse width="7" height="7" name="Path"/>
+          <Fill name="Fill"><SolidColor colorValue="F7FFFFFF" name="Color"/></Fill>
+        </Shape>
+        <Shape x="0" y="1" name="pupil_left" id="0:120">
+          <Ellipse width="16" height="30" name="Path"/>
+          <Fill name="Fill"><SolidColor colorValue="FF101112" name="Color"/></Fill>
+        </Shape>
+        <Shape name="eye_left_white">
+          <Ellipse width="42" height="39" name="Path"/>
+          <Fill name="Fill">
+            <RadialGradient startX="-9" startY="-10" endX="22" endY="18" name="EyeGlow">
+              <GradientStop colorValue="FFFFFBF2" position="0"/>
+              <GradientStop colorValue="FFF0DFC2" position="1"/>
+            </RadialGradient>
+          </Fill>
+        </Shape>
+      </Node>
+
+      <Node x="34" y="1" name="eye_right_rig" id="0:111">
+        <Shape x="-5" y="-7" name="eye_right_highlight">
+          <Ellipse width="7" height="7" name="Path"/>
+          <Fill name="Fill"><SolidColor colorValue="F7FFFFFF" name="Color"/></Fill>
+        </Shape>
+        <Shape x="0" y="1" name="pupil_right" id="0:121">
+          <Ellipse width="16" height="30" name="Path"/>
+          <Fill name="Fill"><SolidColor colorValue="FF101112" name="Color"/></Fill>
+        </Shape>
+        <Shape name="eye_right_white">
+          <Ellipse width="42" height="39" name="Path"/>
+          <Fill name="Fill">
+            <RadialGradient startX="-9" startY="-10" endX="22" endY="18" name="EyeGlow">
+              <GradientStop colorValue="FFFFFBF2" position="0"/>
+              <GradientStop colorValue="FFF0DFC2" position="1"/>
+            </RadialGradient>
+          </Fill>
+        </Shape>
+      </Node>
+
+      <Shape x="0" y="34" name="nose">
+        <PointsPath isClosed="true" name="Path">
+          <CubicMirroredVertex x="-6" y="-2" rotation="0" distance="3"/>
+          <CubicMirroredVertex x="6" y="-2" rotation="0" distance="3"/>
+          <CubicMirroredVertex x="0" y="5" rotation="1.5708" distance="3"/>
+        </PointsPath>
+        <Fill name="Fill"><SolidColor colorValue="FF8E7B70" name="Color"/></Fill>
+      </Shape>
+
+      <!-- Head is a custom continuous bezier silhouette, not a primitive ellipse. -->
+      <Shape name="head_main" id="0:101">
+        <PointsPath isClosed="true" name="Path">
+          <CubicMirroredVertex x="0" y="-62" rotation="0" distance="31"/>
+          <CubicMirroredVertex x="53" y="-48" rotation="0.78" distance="30"/>
+          <CubicMirroredVertex x="78" y="-4" rotation="1.46" distance="28"/>
+          <CubicMirroredVertex x="62" y="43" rotation="2.18" distance="28"/>
+          <CubicMirroredVertex x="8" y="64" rotation="3.02" distance="34"/>
+          <CubicMirroredVertex x="-57" y="48" rotation="-2.30" distance="31"/>
+          <CubicMirroredVertex x="-80" y="0" rotation="-1.55" distance="29"/>
+          <CubicMirroredVertex x="-55" y="-48" rotation="-0.76" distance="30"/>
+        </PointsPath>
+        <Fill name="Fill">
+          <LinearGradient startX="-60" startY="-60" endX="68" endY="65" name="FurShade">
+            <GradientStop colorValue="FF2A2B2C" position="0"/>
+            <GradientStop colorValue="FF151617" position="0.55"/>
+            <GradientStop colorValue="FF0F1011" position="1"/>
+          </LinearGradient>
+        </Fill>
+      </Shape>
+
+      <!-- Ears sit behind head. Each is its own illustrated path for twitching. -->
+      <Shape x="-50" y="-59" rotation="-0.12" name="ear_left" id="0:103">
+        <PointsPath isClosed="true" name="Path">
+          <CubicMirroredVertex x="-24" y="15" rotation="-1.0" distance="14"/>
+          <CubicMirroredVertex x="-3" y="-51" rotation="-0.22" distance="15"/>
+          <CubicMirroredVertex x="25" y="18" rotation="1.02" distance="16"/>
+          <CubicMirroredVertex x="0" y="5" rotation="3.1" distance="14"/>
+        </PointsPath>
+        <Fill name="Fill">
+          <LinearGradient startX="-10" startY="-45" endX="18" endY="20" name="EarShade">
+            <GradientStop colorValue="FF343335" position="0"/>
+            <GradientStop colorValue="FF111213" position="1"/>
+          </LinearGradient>
+        </Fill>
+      </Shape>
+      <Shape x="50" y="-58" rotation="0.12" name="ear_right" id="0:105">
+        <PointsPath isClosed="true" name="Path">
+          <CubicMirroredVertex x="-25" y="18" rotation="-1.02" distance="16"/>
+          <CubicMirroredVertex x="3" y="-52" rotation="0.22" distance="15"/>
+          <CubicMirroredVertex x="24" y="15" rotation="1.0" distance="14"/>
+          <CubicMirroredVertex x="0" y="5" rotation="3.1" distance="14"/>
+        </PointsPath>
+        <Fill name="Fill">
+          <LinearGradient startX="-18" startY="-45" endX="10" endY="20" name="EarShade">
+            <GradientStop colorValue="FF343335" position="0"/>
+            <GradientStop colorValue="FF111213" position="1"/>
+          </LinearGradient>
+        </Fill>
+      </Shape>
+    </Node>
+
+    <!-- Body: one tapered asymmetrical silhouette, closer to the first cute Rive. -->
+    <Node x="250" y="350" name="body_rig" id="0:200">
+      <Shape name="body_main" id="0:201">
+        <PointsPath isClosed="true" name="Path">
+          <CubicMirroredVertex x="-36" y="-89" rotation="-0.55" distance="33"/>
+          <CubicMirroredVertex x="37" y="-83" rotation="0.50" distance="32"/>
+          <CubicMirroredVertex x="66" y="-28" rotation="1.35" distance="31"/>
+          <CubicMirroredVertex x="72" y="54" rotation="1.62" distance="36"/>
+          <CubicMirroredVertex x="40" y="95" rotation="2.40" distance="31"/>
+          <CubicMirroredVertex x="-48" y="91" rotation="-2.47" distance="34"/>
+          <CubicMirroredVertex x="-69" y="42" rotation="-1.72" distance="32"/>
+          <CubicMirroredVertex x="-63" y="-29" rotation="-1.40" distance="31"/>
+        </PointsPath>
+        <Fill name="Fill">
+          <LinearGradient startX="-55" startY="-92" endX="70" endY="95" name="BodyShade">
+            <GradientStop colorValue="FF292A2B" position="0"/>
+            <GradientStop colorValue="FF151617" position="0.52"/>
+            <GradientStop colorValue="FF0E0F10" position="1"/>
+          </LinearGradient>
+        </Fill>
+      </Shape>
+
+      <!-- Two long front-leg highlights are custom open curves, not capsule primitives. -->
+      <Shape name="front_leg_left">
+        <PointsPath isClosed="false" name="Path">
+          <CubicMirroredVertex x="-31" y="-47" rotation="1.50" distance="18"/>
+          <CubicMirroredVertex x="-25" y="57" rotation="1.53" distance="22"/>
+        </PointsPath>
+        <Stroke thickness="18" cap="round" join="round" name="Stroke">
+          <SolidColor colorValue="B82D2E2F" name="Color"/>
+        </Stroke>
+      </Shape>
+      <Shape name="front_leg_right">
+        <PointsPath isClosed="false" name="Path">
+          <CubicMirroredVertex x="27" y="-44" rotation="1.55" distance="18"/>
+          <CubicMirroredVertex x="22" y="59" rotation="1.56" distance="22"/>
+        </PointsPath>
+        <Stroke thickness="18" cap="round" join="round" name="Stroke">
+          <SolidColor colorValue="A8272829" name="Color"/>
+        </Stroke>
+      </Shape>
+    </Node>
+
+    <!-- Long expressive tail behind body; a flowing bezier stroke. -->
+    <Shape x="303" y="385" rotation="-0.08" name="tail_main" id="0:240">
+      <PointsPath isClosed="false" name="Path">
+        <CubicDetachedVertex x="0" y="40" inRotation="-1.57" inDistance="18" outRotation="-1.35" outDistance="28"/>
+        <CubicDetachedVertex x="44" y="8" inRotation="2.70" inDistance="28" outRotation="-0.80" outDistance="30"/>
+        <CubicDetachedVertex x="57" y="-47" inRotation="1.50" inDistance="25" outRotation="-1.72" outDistance="24"/>
+        <CubicDetachedVertex x="33" y="-78" inRotation="0.30" inDistance="20" outRotation="-2.20" outDistance="18"/>
+      </PointsPath>
+      <Stroke thickness="28" cap="round" join="round" name="TailStroke">
+        <LinearGradient startX="0" startY="50" endX="50" endY="-85" name="TailShade">
+          <GradientStop colorValue="FF171819" position="0"/>
+          <GradientStop colorValue="FF2B2C2D" position="0.55"/>
+          <GradientStop colorValue="FF111213" position="1"/>
+        </LinearGradient>
+      </Stroke>
+    </Shape>
+
+    <!-- Sculptural soft chair, drawn as broad illustrated paths. -->
+    <Shape x="250" y="385" name="chair_inner" id="0:302">
+      <PointsPath isClosed="true" name="Path">
+        <CubicMirroredVertex x="-135" y="-35" rotation="-0.55" distance="58"/>
+        <CubicMirroredVertex x="-93" y="-111" rotation="-0.12" distance="54"/>
+        <CubicMirroredVertex x="99" y="-105" rotation="0.10" distance="56"/>
+        <CubicMirroredVertex x="140" y="-29" rotation="0.58" distance="56"/>
+        <CubicMirroredVertex x="112" y="51" rotation="2.25" distance="57"/>
+        <CubicMirroredVertex x="-113" y="54" rotation="-2.24" distance="57"/>
+      </PointsPath>
+      <Fill name="Fill">
+        <LinearGradient startX="-130" startY="-100" endX="120" endY="65" name="ChairSoft">
+          <GradientStop colorValue="FFF8F4EE" position="0"/>
+          <GradientStop colorValue="FFE5DBCE" position="0.72"/>
+          <GradientStop colorValue="FFD2C4B5" position="1"/>
+        </LinearGradient>
+      </Fill>
+    </Shape>
+
+    <Shape x="250" y="450" name="chair_base">
+      <PointsPath isClosed="true" name="Path">
+        <CubicMirroredVertex x="-112" y="-15" rotation="-0.10" distance="35"/>
+        <CubicMirroredVertex x="112" y="-15" rotation="0.10" distance="35"/>
+        <CubicMirroredVertex x="88" y="19" rotation="2.85" distance="32"/>
+        <CubicMirroredVertex x="-90" y="19" rotation="-2.85" distance="32"/>
+      </PointsPath>
+      <Fill name="Fill"><SolidColor colorValue="FFB4A391" name="Color"/></Fill>
+    </Shape>
+
+    <Shape x="250" y="474" name="ground_shadow">
+      <Ellipse width="270" height="30" name="Path"/>
+      <Fill name="Fill">
+        <RadialGradient startX="0" startY="0" endX="135" endY="0" name="Shadow">
+          <GradientStop colorValue="42483F3A" position="0"/>
+          <GradientStop colorValue="00483F3A" position="1"/>
+        </RadialGradient>
+      </Fill>
+    </Shape>
+
+    <!-- Warm premium background. -->
+    <Shape x="250" y="250" name="background">
+      <Rectangle width="500" height="500" name="Path"/>
+      <Fill name="Fill">
+        <LinearGradient startX="-250" startY="-250" endX="250" endY="250" name="BackgroundGradient">
+          <GradientStop colorValue="FFFFFCF8" position="0"/>
+          <GradientStop colorValue="FFF4EEE7" position="0.66"/>
+          <GradientStop colorValue="FFE8DED3" position="1"/>
+        </LinearGradient>
+      </Fill>
+    </Shape>
+
+    <StateMachine name="MiaomiaoV3StateMachine" id="0:900">
+      <StateMachineNumber name="lookX" value="50" id="0:901"/>
+      <StateMachineNumber name="lookY" value="50" id="0:902"/>
+      <StateMachineBool name="isIdle" value="true" id="0:910"/>
+      <StateMachineBool name="isFocused" id="0:911"/>
+      <StateMachineTrigger name="blinkNow" id="0:920"/>
+      <StateMachineTrigger name="earTwitchNow" id="0:921"/>
+
+      <StateMachineLayer name="BaseIdle" id="0:930">
+        <AnyState x="520" y="-100"/>
+        <ExitState x="680" y="-100"/>
+        <EntryState x="0" y="0"><StateTransition stateToId="0:931"/></EntryState>
+        <AnimationState x="190" y="0" animationId="0:1000" id="0:931"/>
+      </StateMachineLayer>
+
+      <StateMachineLayer name="Blink" id="0:940">
+        <AnyState x="520" y="-100">
+          <StateTransition stateToId="0:942" duration="30">
+            <TransitionTriggerCondition inputId="0:920"/>
+          </StateTransition>
+        </AnyState>
+        <ExitState x="680" y="-100"/>
+        <EntryState x="0" y="0"><StateTransition stateToId="0:941"/></EntryState>
+        <AnimationState x="180" y="0" animationId="0:1001" id="0:941"/>
+        <AnimationState x="380" y="0" reset="true" animationId="0:1002" id="0:942">
+          <StateTransition stateToId="0:941" duration="40" enableExitTime="true" exitTimeIsPercetange="true" exitTime="100"/>
+        </AnimationState>
+      </StateMachineLayer>
+
+      <StateMachineLayer name="GazeX" id="0:950">
+        <AnyState x="560" y="-100"/>
+        <ExitState x="700" y="-100"/>
+        <EntryState x="0" y="0"><StateTransition stateToId="0:951"/></EntryState>
+        <BlendState1DInput x="210" y="0" inputId="0:901" id="0:951">
+          <BlendAnimation1D animationId="0:1010" value="0"/>
+          <BlendAnimation1D animationId="0:1011" value="50"/>
+          <BlendAnimation1D animationId="0:1012" value="100"/>
+        </BlendState1DInput>
+      </StateMachineLayer>
+
+      <StateMachineLayer name="GazeY" id="0:960">
+        <AnyState x="560" y="-100"/>
+        <ExitState x="700" y="-100"/>
+        <EntryState x="0" y="0"><StateTransition stateToId="0:961"/></EntryState>
+        <BlendState1DInput x="210" y="0" inputId="0:902" id="0:961">
+          <BlendAnimation1D animationId="0:1013" value="0"/>
+          <BlendAnimation1D animationId="0:1014" value="50"/>
+          <BlendAnimation1D animationId="0:1015" value="100"/>
+        </BlendState1DInput>
+      </StateMachineLayer>
+
+      <StateMachineLayer name="TailMotion" id="0:970">
+        <AnyState x="520" y="-100"/>
+        <ExitState x="680" y="-100"/>
+        <EntryState x="0" y="0"><StateTransition stateToId="0:971"/></EntryState>
+        <AnimationState x="190" y="0" animationId="0:1020" id="0:971"/>
+      </StateMachineLayer>
+
+      <StateMachineLayer name="EarMotion" id="0:980">
+        <AnyState x="540" y="-100">
+          <StateTransition stateToId="0:982" duration="25">
+            <TransitionTriggerCondition inputId="0:921"/>
+          </StateTransition>
+        </AnyState>
+        <ExitState x="700" y="-100"/>
+        <EntryState x="0" y="0"><StateTransition stateToId="0:981"/></EntryState>
+        <AnimationState x="180" y="0" animationId="0:1030" id="0:981"/>
+        <AnimationState x="380" y="0" reset="true" animationId="0:1031" id="0:982">
+          <StateTransition stateToId="0:981" duration="35" enableExitTime="true" exitTimeIsPercetange="true" exitTime="100"/>
+        </AnimationState>
+      </StateMachineLayer>
+    </StateMachine>
+
+    <!-- Idle breathing: only body scale, intentionally restrained. -->
+    <LinearAnimation loopValue="pingPong" fps="60" duration="120" name="Idle" id="0:1000">
+      <KeyedObject objectId="0:200"><KeyedProperty propertyKey="17">
+        <KeyFrameDouble value="0.992" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.42" y1="0" x2="0.58" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="1.014" frame="120" interpolationType="linear"/>
+      </KeyedProperty></KeyedObject>
+    </LinearAnimation>
+
+    <!-- Long auto blink with a natural pause; triggerable blink is separate. -->
+    <LinearAnimation loopValue="loop" fps="60" duration="250" name="AutoBlink" id="0:1001">
+      <KeyedObject objectId="0:110"><KeyedProperty propertyKey="17">
+        <KeyFrameDouble value="1" frame="0" interpolationType="linear"/>
+        <KeyFrameDouble value="1" frame="178" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.2" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="0.09" frame="184" interpolationType="hold"/>
+        <KeyFrameDouble value="1" frame="191" interpolationType="cubic"><CubicEaseInterpolator x1="0.3" y1="0" x2="0.5" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="1" frame="250" interpolationType="linear"/>
+      </KeyedProperty></KeyedObject>
+      <KeyedObject objectId="0:111"><KeyedProperty propertyKey="17">
+        <KeyFrameDouble value="1" frame="0" interpolationType="linear"/>
+        <KeyFrameDouble value="1" frame="178" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.2" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="0.09" frame="184" interpolationType="hold"/>
+        <KeyFrameDouble value="1" frame="191" interpolationType="cubic"><CubicEaseInterpolator x1="0.3" y1="0" x2="0.5" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="1" frame="250" interpolationType="linear"/>
+      </KeyedProperty></KeyedObject>
+    </LinearAnimation>
+
+    <LinearAnimation fps="60" duration="18" name="BlinkNow" id="0:1002">
+      <KeyedObject objectId="0:110"><KeyedProperty propertyKey="17">
+        <KeyFrameDouble value="1" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.2" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="0.07" frame="7" interpolationType="hold"/>
+        <KeyFrameDouble value="1" frame="18" interpolationType="linear"/>
+      </KeyedProperty></KeyedObject>
+      <KeyedObject objectId="0:111"><KeyedProperty propertyKey="17">
+        <KeyFrameDouble value="1" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.2" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="0.07" frame="7" interpolationType="hold"/>
+        <KeyFrameDouble value="1" frame="18" interpolationType="linear"/>
+      </KeyedProperty></KeyedObject>
+    </LinearAnimation>
+
+    <!-- Horizontal look poses: pupils lead, head follows only a few pixels. -->
+    <LinearAnimation duration="1" name="LookLeft" id="0:1010">
+      <KeyedObject objectId="0:120"><KeyedProperty propertyKey="13"><KeyFrameDouble value="-7" frame="0" interpolationType="linear"/></KeyedProperty></KeyedObject>
+      <KeyedObject objectId="0:121"><KeyedProperty propertyKey="13"><KeyFrameDouble value="-7" frame="0" interpolationType="linear"/></KeyedProperty></KeyedObject>
+      <KeyedObject objectId="0:100"><KeyedProperty propertyKey="13"><KeyFrameDouble value="246" frame="0" interpolationType="linear"/></KeyedProperty></KeyedObject>
+    </LinearAnimation>
+    <LinearAnimation duration="1" name="LookCenterX" id="0:1011">
+      <KeyedObject objectId="0:120"><KeyedProperty propertyKey="13"><KeyFrameDouble value="0" frame="0" interpolationType="linear"/></KeyedProperty></KeyedObject>
+      <KeyedObject objectId="0:121"><KeyedProperty propertyKey="13"><KeyFrameDouble value="0" frame="0" interpolationType="linear"/></KeyedProperty></KeyedObject>
+      <KeyedObject objectId="0:100"><KeyedProperty propertyKey="13"><KeyFrameDouble value="250" frame="0" interpolationType="linear"/></KeyedProperty></KeyedObject>
+    </LinearAnimation>
+    <LinearAnimation duration="1" name="LookRight" id="0:1012">
+      <KeyedObject objectId="0:120"><KeyedProperty propertyKey="13"><KeyFrameDouble value="7" frame="0" interpolationType="linear"/></KeyedProperty></KeyedObject>
+      <KeyedObject objectId="0:121"><KeyedProperty propertyKey="13"><KeyFrameDouble value="7" frame="0" interpolationType="linear"/></KeyedProperty></KeyedObject>
+      <KeyedObject objectId="0:100"><KeyedProperty propertyKey="13"><KeyFrameDouble value="254" frame="0" interpolationType="linear"/></KeyedProperty></KeyedObject>
+    </LinearAnimation>
+
+    <LinearAnimation duration="1" name="LookUp" id="0:1013">
+      <KeyedObject objectId="0:120"><KeyedProperty propertyKey="14"><KeyFrameDouble value="-5" frame="0" interpolationType="linear"/></KeyedProperty></KeyedObject>
+      <KeyedObject objectId="0:121"><KeyedProperty propertyKey="14"><KeyFrameDouble value="-5" frame="0" interpolationType="linear"/></KeyedProperty></KeyedObject>
+      <KeyedObject objectId="0:100"><KeyedProperty propertyKey="14"><KeyFrameDouble value="211" frame="0" interpolationType="linear"/></KeyedProperty></KeyedObject>
+    </LinearAnimation>
+    <LinearAnimation duration="1" name="LookCenterY" id="0:1014">
+      <KeyedObject objectId="0:120"><KeyedProperty propertyKey="14"><KeyFrameDouble value="1" frame="0" interpolationType="linear"/></KeyedProperty></KeyedObject>
+      <KeyedObject objectId="0:121"><KeyedProperty propertyKey="14"><KeyFrameDouble value="1" frame="0" interpolationType="linear"/></KeyedProperty></KeyedObject>
+      <KeyedObject objectId="0:100"><KeyedProperty propertyKey="14"><KeyFrameDouble value="214" frame="0" interpolationType="linear"/></KeyedProperty></KeyedObject>
+    </LinearAnimation>
+    <LinearAnimation duration="1" name="LookDown" id="0:1015">
+      <KeyedObject objectId="0:120"><KeyedProperty propertyKey="14"><KeyFrameDouble value="6" frame="0" interpolationType="linear"/></KeyedProperty></KeyedObject>
+      <KeyedObject objectId="0:121"><KeyedProperty propertyKey="14"><KeyFrameDouble value="6" frame="0" interpolationType="linear"/></KeyedProperty></KeyedObject>
+      <KeyedObject objectId="0:100"><KeyedProperty propertyKey="14"><KeyFrameDouble value="217" frame="0" interpolationType="linear"/></KeyedProperty></KeyedObject>
+    </LinearAnimation>
+
+    <!-- Tail moves independently from breathing. -->
+    <LinearAnimation loopValue="pingPong" fps="60" duration="150" name="TailSway" id="0:1020">
+      <KeyedObject objectId="0:240"><KeyedProperty propertyKey="15">
+        <KeyFrameDouble value="-0.12" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.42" y1="0" x2="0.58" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="0.14" frame="150" interpolationType="linear"/>
+      </KeyedProperty></KeyedObject>
+    </LinearAnimation>
+
+    <!-- Ear ambient motion stays tiny; trigger creates one sharper twitch. -->
+    <LinearAnimation loopValue="loop" fps="60" duration="360" name="EarAmbient" id="0:1030">
+      <KeyedObject objectId="0:103"><KeyedProperty propertyKey="15">
+        <KeyFrameDouble value="-0.12" frame="0" interpolationType="linear"/>
+        <KeyFrameDouble value="-0.12" frame="250" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.2" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="-0.24" frame="258" interpolationType="hold"/>
+        <KeyFrameDouble value="-0.10" frame="269" interpolationType="cubic"><CubicEaseInterpolator x1="0.3" y1="0" x2="0.5" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="-0.12" frame="285" interpolationType="linear"/>
+        <KeyFrameDouble value="-0.12" frame="360" interpolationType="linear"/>
+      </KeyedProperty></KeyedObject>
+    </LinearAnimation>
+
+    <LinearAnimation fps="60" duration="24" name="EarTwitchNow" id="0:1031">
+      <KeyedObject objectId="0:105"><KeyedProperty propertyKey="15">
+        <KeyFrameDouble value="0.12" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.1" y1="0" x2="0.2" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="0.28" frame="7" interpolationType="hold"/>
+        <KeyFrameDouble value="0.05" frame="14" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.58" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="0.12" frame="24" interpolationType="linear"/>
+      </KeyedProperty></KeyedObject>
+    </LinearAnimation>
+  </Artboard>
+</Rive>
