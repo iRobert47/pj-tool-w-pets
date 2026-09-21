@@ -1,0 +1,600 @@
+<Rive version="1" kind="fragment">
+  <Artboard defaultStateMachineId="0:900" width="500" height="500" styleId="0:5" name="Miaomiao" id="0:2">
+    <LayoutComponentStyle name="Artboard Style" id="0:5"/>
+
+    <!-- Foreground facial details (RML paints first siblings on top). -->
+    <Shape x="218" y="220" name="EyeLeftHighlight" id="0:130">
+      <Ellipse width="8" height="8" name="Path"/>
+      <Fill name="Fill"><SolidColor colorValue="E6FFFFFF" name="Color"/></Fill>
+    </Shape>
+    <Shape x="282" y="220" name="EyeRightHighlight" id="0:131">
+      <Ellipse width="8" height="8" name="Path"/>
+      <Fill name="Fill"><SolidColor colorValue="E6FFFFFF" name="Color"/></Fill>
+    </Shape>
+    <Shape x="218" y="225" name="PupilLeft" id="0:120">
+      <Ellipse width="13" height="30" name="Path"/>
+      <Fill name="Fill"><SolidColor colorValue="FF090B0B" name="Color"/></Fill>
+    </Shape>
+    <Shape x="282" y="225" name="PupilRight" id="0:121">
+      <Ellipse width="13" height="30" name="Path"/>
+      <Fill name="Fill"><SolidColor colorValue="FF090B0B" name="Color"/></Fill>
+    </Shape>
+    <Shape x="218" y="225" name="EyeLeft" id="0:110">
+      <Ellipse width="46" height="35" name="Path"/>
+      <Fill name="Fill"><SolidColor colorValue="FFB8D45E" name="Color"/></Fill>
+    </Shape>
+    <Shape x="282" y="225" name="EyeRight" id="0:111">
+      <Ellipse width="46" height="35" name="Path"/>
+      <Fill name="Fill"><SolidColor colorValue="FFB8D45E" name="Color"/></Fill>
+    </Shape>
+    <Shape x="250" y="255" name="Nose" id="0:140">
+      <Triangle width="18" height="12" rotation="3.1415926" name="Path"/>
+      <Fill name="Fill"><SolidColor colorValue="FFD58686" name="Color"/></Fill>
+    </Shape>
+    <Shape x="237" y="269" name="MuzzleLeft" id="0:141">
+      <Ellipse width="30" height="18" name="Path"/>
+      <Fill name="Fill"><SolidColor colorValue="5EE8E0DC" name="Color"/></Fill>
+    </Shape>
+    <Shape x="263" y="269" name="MuzzleRight" id="0:142">
+      <Ellipse width="30" height="18" name="Path"/>
+      <Fill name="Fill"><SolidColor colorValue="5EE8E0DC" name="Color"/></Fill>
+    </Shape>
+
+    <!-- Front paws / chest details. -->
+    <Shape x="205" y="365" name="PawLeft" id="0:210">
+      <Ellipse width="58" height="92" name="Path"/>
+      <Fill name="Fill"><SolidColor colorValue="FF171B1C" name="Color"/></Fill>
+    </Shape>
+    <Shape x="295" y="365" name="PawRight" id="0:211">
+      <Ellipse width="58" height="92" name="Path"/>
+      <Fill name="Fill"><SolidColor colorValue="FF171B1C" name="Color"/></Fill>
+    </Shape>
+    <Shape x="250" y="362" name="Belly" id="0:220">
+      <Ellipse width="126" height="154" name="Path"/>
+      <Fill name="Fill"><SolidColor colorValue="FF202526" name="Color"/></Fill>
+    </Shape>
+
+    <!-- Head and ears. -->
+    <Shape x="250" y="232" name="Head" id="0:100">
+      <Ellipse width="188" height="160" name="Path"/>
+      <Fill name="Fill"><SolidColor colorValue="FF15191A" name="Color"/></Fill>
+    </Shape>
+    <Shape x="195" y="171" rotation="-0.13" name="EarLeftInner" id="0:103">
+      <Triangle width="48" height="66" name="Path"/>
+      <Fill name="Fill"><SolidColor colorValue="FF744C55" name="Color"/></Fill>
+    </Shape>
+    <Shape x="305" y="171" rotation="0.13" name="EarRightInner" id="0:105">
+      <Triangle width="48" height="66" name="Path"/>
+      <Fill name="Fill"><SolidColor colorValue="FF744C55" name="Color"/></Fill>
+    </Shape>
+    <Shape x="192" y="174" rotation="-0.14" name="EarLeft" id="0:102">
+      <Triangle width="72" height="96" name="Path"/>
+      <Fill name="Fill"><SolidColor colorValue="FF111516" name="Color"/></Fill>
+    </Shape>
+    <Shape x="308" y="174" rotation="0.14" name="EarRight" id="0:104">
+      <Triangle width="72" height="96" name="Path"/>
+      <Fill name="Fill"><SolidColor colorValue="FF111516" name="Color"/></Fill>
+    </Shape>
+
+    <!-- Body / hind paws. -->
+    <Shape x="185" y="420" rotation="-0.08" name="HindPawLeft" id="0:230">
+      <Ellipse width="92" height="56" name="Path"/>
+      <Fill name="Fill"><SolidColor colorValue="FF15191A" name="Color"/></Fill>
+    </Shape>
+    <Shape x="315" y="420" rotation="0.08" name="HindPawRight" id="0:231">
+      <Ellipse width="92" height="56" name="Path"/>
+      <Fill name="Fill"><SolidColor colorValue="FF15191A" name="Color"/></Fill>
+    </Shape>
+    <Shape x="250" y="365" name="Body" id="0:200">
+      <Ellipse width="210" height="230" name="Path"/>
+      <Fill name="Fill"><SolidColor colorValue="FF131718" name="Color"/></Fill>
+    </Shape>
+
+    <!-- Tail is intentionally behind the body but above the chair. -->
+    <Shape x="347" y="382" rotation="0.80" name="TailTip" id="0:242">
+      <Ellipse width="30" height="100" name="Path"/>
+      <Fill name="Fill"><SolidColor colorValue="FF171B1C" name="Color"/></Fill>
+    </Shape>
+    <Shape x="330" y="407" rotation="0.38" name="TailMid" id="0:241">
+      <Ellipse width="36" height="112" name="Path"/>
+      <Fill name="Fill"><SolidColor colorValue="FF15191A" name="Color"/></Fill>
+    </Shape>
+    <Shape x="310" y="429" rotation="0.08" name="TailBase" id="0:240">
+      <Ellipse width="42" height="102" name="Path"/>
+      <Fill name="Fill"><SolidColor colorValue="FF131718" name="Color"/></Fill>
+    </Shape>
+
+    <!-- Chair -->
+    <Shape x="250" y="446" name="ChairSeat" id="0:302">
+      <Rectangle width="330" height="74" cornerRadiusTL="30" cornerRadiusTR="30" cornerRadiusBL="24" cornerRadiusBR="24" name="Path"/>
+      <Fill name="Fill"><SolidColor colorValue="FFB89B7A" name="Color"/></Fill>
+    </Shape>
+    <Shape x="250" y="335" name="ChairBack" id="0:301">
+      <Rectangle width="360" height="280" cornerRadiusTL="62" cornerRadiusTR="62" cornerRadiusBL="32" cornerRadiusBR="32" name="Path"/>
+      <Fill name="Fill"><SolidColor colorValue="FFD1B99A" name="Color"/></Fill>
+    </Shape>
+    <Shape x="250" y="459" name="ChairShadow" id="0:303">
+      <Ellipse width="300" height="36" name="Path"/>
+      <Fill name="Fill"><SolidColor colorValue="2D4A382C" name="Color"/></Fill>
+    </Shape>
+
+    <!-- State machine inputs intentionally use the legacy runtime API because
+         @rive-app/react-canvas exposes these directly through stateMachineInputs(). -->
+    <StateMachine name="MiaomiaoStateMachine" id="0:900">
+      <StateMachineNumber name="lookX" value="50" id="0:901"/>
+      <StateMachineNumber name="lookY" value="50" id="0:902"/>
+      <StateMachineNumber name="toolX" value="50" id="0:903"/>
+      <StateMachineNumber name="toolY" value="50" id="0:904"/>
+      <StateMachineNumber name="touchX" value="50" id="0:905"/>
+      <StateMachineNumber name="touchY" value="50" id="0:906"/>
+      <StateMachineNumber name="interactionIntensity" value="0" id="0:907"/>
+
+      <StateMachineBool name="isPetting" id="0:910"/>
+      <StateMachineBool name="toolVisible" id="0:911"/>
+      <StateMachineBool name="isFingerActive" id="0:912"/>
+      <StateMachineBool name="isWandActive" id="0:913"/>
+      <StateMachineBool name="isSnackActive" id="0:914"/>
+      <StateMachineBool name="isSleeping" id="0:915"/>
+      <StateMachineBool name="isFocused" id="0:916"/>
+      <StateMachineBool name="isPointerDown" id="0:917"/>
+
+      <StateMachineTrigger name="reactEnjoy" id="0:920"/>
+      <StateMachineTrigger name="reactAvoid" id="0:921"/>
+      <StateMachineTrigger name="reactBellyUp" id="0:922"/>
+      <StateMachineTrigger name="pawReachLeft" id="0:923"/>
+      <StateMachineTrigger name="pawReachRight" id="0:924"/>
+      <StateMachineTrigger name="pawGrab" id="0:925"/>
+      <StateMachineTrigger name="sniffSnack" id="0:926"/>
+      <StateMachineTrigger name="approachSnack" id="0:927"/>
+      <StateMachineTrigger name="eatSnack" id="0:928"/>
+      <StateMachineTrigger name="happyAfterEat" id="0:929"/>
+      <StateMachineTrigger name="stretch" id="0:930"/>
+      <StateMachineTrigger name="wakeUp" id="0:931"/>
+      <StateMachineTrigger name="resetToIdle" id="0:932"/>
+
+      <!-- Base idle breathing. -->
+      <StateMachineLayer name="Base Idle" id="0:940">
+        <AnyState x="520" y="-110"/>
+        <ExitState x="680" y="-110"/>
+        <EntryState x="0" y="0"><StateTransition stateToId="0:941"/></EntryState>
+        <AnimationState x="180" y="0" animationId="0:1000" id="0:941"/>
+      </StateMachineLayer>
+
+      <!-- Automatic blinking. -->
+      <StateMachineLayer name="Blink" id="0:945">
+        <AnyState x="520" y="-110"/>
+        <ExitState x="680" y="-110"/>
+        <EntryState x="0" y="0"><StateTransition stateToId="0:946"/></EntryState>
+        <AnimationState x="180" y="0" animationId="0:1001" id="0:946"/>
+      </StateMachineLayer>
+
+      <!-- Ear life. -->
+      <StateMachineLayer name="Ear Twitch" id="0:950">
+        <AnyState x="520" y="-110"/>
+        <ExitState x="680" y="-110"/>
+        <EntryState x="0" y="0"><StateTransition stateToId="0:951"/></EntryState>
+        <AnimationState x="180" y="0" animationId="0:1003" id="0:951"/>
+      </StateMachineLayer>
+
+      <!-- Tail idle. -->
+      <StateMachineLayer name="Tail Idle" id="0:955">
+        <AnyState x="520" y="-110"/>
+        <ExitState x="680" y="-110"/>
+        <EntryState x="0" y="0"><StateTransition stateToId="0:956"/></EntryState>
+        <AnimationState x="180" y="0" animationId="0:1004" id="0:956"/>
+      </StateMachineLayer>
+
+      <!-- Horizontal gaze: idle wander until finger/tool is active, then use lookX (0..100). -->
+      <StateMachineLayer name="Gaze X" id="0:960">
+        <AnyState x="650" y="-110"/>
+        <ExitState x="790" y="-110"/>
+        <EntryState x="0" y="0"><StateTransition stateToId="0:961"/></EntryState>
+        <AnimationState x="180" y="0" animationId="0:1002" id="0:961">
+          <StateTransition stateToId="0:962" duration="90">
+            <TransitionBoolCondition inputId="0:912" opValue="equal"/>
+          </StateTransition>
+          <StateTransition stateToId="0:962" duration="90">
+            <TransitionBoolCondition inputId="0:911" opValue="equal"/>
+          </StateTransition>
+        </AnimationState>
+        <BlendState1DInput x="390" y="0" inputId="0:901" id="0:962">
+          <BlendAnimation1D animationId="0:1010" value="0"/>
+          <BlendAnimation1D animationId="0:1011" value="50"/>
+          <BlendAnimation1D animationId="0:1012" value="100"/>
+          <BlendStateTransition stateToId="0:961" duration="120">
+            <TransitionBoolCondition inputId="0:912" opValue="notEqual"/>
+            <TransitionBoolCondition inputId="0:911" opValue="notEqual"/>
+          </BlendStateTransition>
+        </BlendState1DInput>
+      </StateMachineLayer>
+
+      <!-- Vertical gaze. -->
+      <StateMachineLayer name="Gaze Y" id="0:965">
+        <AnyState x="650" y="-110"/>
+        <ExitState x="790" y="-110"/>
+        <EntryState x="0" y="0"><StateTransition stateToId="0:966"/></EntryState>
+        <AnimationState x="180" y="0" animationId="0:1014" id="0:966">
+          <StateTransition stateToId="0:967" duration="90">
+            <TransitionBoolCondition inputId="0:912" opValue="equal"/>
+          </StateTransition>
+          <StateTransition stateToId="0:967" duration="90">
+            <TransitionBoolCondition inputId="0:911" opValue="equal"/>
+          </StateTransition>
+        </AnimationState>
+        <BlendState1DInput x="390" y="0" inputId="0:902" id="0:967">
+          <BlendAnimation1D animationId="0:1013" value="0"/>
+          <BlendAnimation1D animationId="0:1014" value="50"/>
+          <BlendAnimation1D animationId="0:1015" value="100"/>
+          <BlendStateTransition stateToId="0:966" duration="120">
+            <TransitionBoolCondition inputId="0:912" opValue="notEqual"/>
+            <TransitionBoolCondition inputId="0:911" opValue="notEqual"/>
+          </BlendStateTransition>
+        </BlendState1DInput>
+      </StateMachineLayer>
+
+      <!-- Touch reactions: explicit triggers choose Enjoy / Avoid / BellyUp. -->
+      <StateMachineLayer name="Touch Reactions" id="0:970">
+        <AnyState x="650" y="-120">
+          <StateTransition stateToId="0:972" duration="100"><TransitionTriggerCondition inputId="0:920"/></StateTransition>
+          <StateTransition stateToId="0:973" duration="80"><TransitionTriggerCondition inputId="0:921"/></StateTransition>
+          <StateTransition stateToId="0:974" duration="120"><TransitionTriggerCondition inputId="0:922"/></StateTransition>
+          <StateTransition stateToId="0:975" duration="90"><TransitionTriggerCondition inputId="0:930"/></StateTransition>
+          <StateTransition stateToId="0:971" duration="80"><TransitionTriggerCondition inputId="0:932"/></StateTransition>
+        </AnyState>
+        <ExitState x="810" y="-120"/>
+        <EntryState x="0" y="0"><StateTransition stateToId="0:971"/></EntryState>
+        <AnimationState x="170" y="0" animationId="0:1099" id="0:971"/>
+        <AnimationState x="360" y="-80" reset="true" animationId="0:1020" id="0:972">
+          <StateTransition stateToId="0:971" duration="140" enableExitTime="true" exitTimeIsPercetange="true" exitTime="100"/>
+        </AnimationState>
+        <AnimationState x="360" y="20" reset="true" animationId="0:1021" id="0:973">
+          <StateTransition stateToId="0:971" duration="120" enableExitTime="true" exitTimeIsPercetange="true" exitTime="100"/>
+        </AnimationState>
+        <AnimationState x="360" y="120" reset="true" animationId="0:1022" id="0:974">
+          <StateTransition stateToId="0:971" duration="170" enableExitTime="true" exitTimeIsPercetange="true" exitTime="100"/>
+        </AnimationState>
+        <AnimationState x="360" y="220" reset="true" animationId="0:1060" id="0:975">
+          <StateTransition stateToId="0:971" duration="130" enableExitTime="true" exitTimeIsPercetange="true" exitTime="100"/>
+        </AnimationState>
+      </StateMachineLayer>
+
+      <!-- Wand tracking / paws. -->
+      <StateMachineLayer name="Wand Paws" id="0:980">
+        <AnyState x="700" y="-140">
+          <StateTransition stateToId="0:983" duration="70"><TransitionTriggerCondition inputId="0:923"/></StateTransition>
+          <StateTransition stateToId="0:984" duration="70"><TransitionTriggerCondition inputId="0:924"/></StateTransition>
+          <StateTransition stateToId="0:985" duration="60"><TransitionTriggerCondition inputId="0:925"/></StateTransition>
+          <StateTransition stateToId="0:981" duration="70"><TransitionTriggerCondition inputId="0:932"/></StateTransition>
+        </AnyState>
+        <ExitState x="850" y="-140"/>
+        <EntryState x="0" y="0"><StateTransition stateToId="0:981"/></EntryState>
+        <AnimationState x="170" y="0" animationId="0:1099" id="0:981">
+          <StateTransition stateToId="0:982" duration="100">
+            <TransitionBoolCondition inputId="0:913" opValue="equal"/>
+          </StateTransition>
+        </AnimationState>
+        <AnimationState x="350" y="0" animationId="0:1030" id="0:982">
+          <StateTransition stateToId="0:981" duration="100">
+            <TransitionBoolCondition inputId="0:913" opValue="notEqual"/>
+          </StateTransition>
+        </AnimationState>
+        <AnimationState x="520" y="-80" reset="true" animationId="0:1031" id="0:983">
+          <StateTransition stateToId="0:982" duration="90" enableExitTime="true" exitTimeIsPercetange="true" exitTime="100"/>
+        </AnimationState>
+        <AnimationState x="520" y="20" reset="true" animationId="0:1032" id="0:984">
+          <StateTransition stateToId="0:982" duration="90" enableExitTime="true" exitTimeIsPercetange="true" exitTime="100"/>
+        </AnimationState>
+        <AnimationState x="520" y="120" reset="true" animationId="0:1033" id="0:985">
+          <StateTransition stateToId="0:982" duration="100" enableExitTime="true" exitTimeIsPercetange="true" exitTime="100"/>
+        </AnimationState>
+      </StateMachineLayer>
+
+      <!-- Snack interactions. -->
+      <StateMachineLayer name="Snack" id="0:990">
+        <AnyState x="720" y="-130">
+          <StateTransition stateToId="0:992" duration="90"><TransitionTriggerCondition inputId="0:926"/></StateTransition>
+          <StateTransition stateToId="0:993" duration="90"><TransitionTriggerCondition inputId="0:927"/></StateTransition>
+          <StateTransition stateToId="0:994" duration="80"><TransitionTriggerCondition inputId="0:928"/></StateTransition>
+          <StateTransition stateToId="0:995" duration="90"><TransitionTriggerCondition inputId="0:929"/></StateTransition>
+          <StateTransition stateToId="0:991" duration="70"><TransitionTriggerCondition inputId="0:932"/></StateTransition>
+        </AnyState>
+        <ExitState x="860" y="-130"/>
+        <EntryState x="0" y="0"><StateTransition stateToId="0:991"/></EntryState>
+        <AnimationState x="160" y="0" animationId="0:1099" id="0:991"/>
+        <AnimationState x="360" y="-120" reset="true" animationId="0:1040" id="0:992">
+          <StateTransition stateToId="0:993" duration="90" enableExitTime="true" exitTimeIsPercetange="true" exitTime="100"/>
+        </AnimationState>
+        <AnimationState x="360" y="-20" reset="true" animationId="0:1041" id="0:993">
+          <StateTransition stateToId="0:994" duration="90" enableExitTime="true" exitTimeIsPercetange="true" exitTime="100"/>
+        </AnimationState>
+        <AnimationState x="360" y="80" reset="true" animationId="0:1042" id="0:994">
+          <StateTransition stateToId="0:995" duration="100" enableExitTime="true" exitTimeIsPercetange="true" exitTime="100"/>
+        </AnimationState>
+        <AnimationState x="360" y="180" reset="true" animationId="0:1043" id="0:995">
+          <StateTransition stateToId="0:991" duration="120" enableExitTime="true" exitTimeIsPercetange="true" exitTime="100"/>
+        </AnimationState>
+      </StateMachineLayer>
+
+      <!-- Sleep/wake overrides are last so sleeping eyes/body win over idle. -->
+      <StateMachineLayer name="Sleep" id="0:996">
+        <AnyState x="660" y="-120">
+          <StateTransition stateToId="0:999" duration="100"><TransitionTriggerCondition inputId="0:931"/></StateTransition>
+          <StateTransition stateToId="0:997" duration="100"><TransitionTriggerCondition inputId="0:932"/></StateTransition>
+        </AnyState>
+        <ExitState x="810" y="-120"/>
+        <EntryState x="0" y="0"><StateTransition stateToId="0:997"/></EntryState>
+        <AnimationState x="170" y="0" animationId="0:1099" id="0:997">
+          <StateTransition stateToId="0:998" duration="220">
+            <TransitionBoolCondition inputId="0:915" opValue="equal"/>
+          </StateTransition>
+        </AnimationState>
+        <AnimationState x="360" y="0" animationId="0:1050" id="0:998">
+          <StateTransition stateToId="0:999" duration="160">
+            <TransitionBoolCondition inputId="0:915" opValue="notEqual"/>
+          </StateTransition>
+        </AnimationState>
+        <AnimationState x="530" y="0" reset="true" animationId="0:1052" id="0:999">
+          <StateTransition stateToId="0:997" duration="150" enableExitTime="true" exitTimeIsPercetange="true" exitTime="100"/>
+        </AnimationState>
+      </StateMachineLayer>
+    </StateMachine>
+
+    <!-- Timelines -->
+    <LinearAnimation loopValue="pingPong" fps="60" duration="120" name="IdleSit" id="0:1000">
+      <KeyedObject objectId="0:100"><KeyedProperty propertyKey="14">
+        <KeyFrameDouble value="232" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.42" y1="0" x2="0.58" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="229" frame="120" interpolationType="linear"/>
+      </KeyedProperty></KeyedObject>
+      <KeyedObject objectId="0:200"><KeyedProperty propertyKey="17">
+        <KeyFrameDouble value="1" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.42" y1="0" x2="0.58" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="1.018" frame="120" interpolationType="linear"/>
+      </KeyedProperty></KeyedObject>
+      <KeyedObject objectId="0:220"><KeyedProperty propertyKey="17">
+        <KeyFrameDouble value="1" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.42" y1="0" x2="0.58" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="1.028" frame="120" interpolationType="linear"/>
+      </KeyedProperty></KeyedObject>
+    </LinearAnimation>
+
+    <LinearAnimation loopValue="loop" fps="60" duration="240" name="Blink" id="0:1001">
+      <KeyedObject objectId="0:110"><KeyedProperty propertyKey="17">
+        <KeyFrameDouble value="1" frame="0" interpolationType="hold"/>
+        <KeyFrameDouble value="1" frame="172" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.2" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="0.08" frame="178" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.2" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="1" frame="184" interpolationType="hold"/>
+        <KeyFrameDouble value="1" frame="240" interpolationType="linear"/>
+      </KeyedProperty></KeyedObject>
+      <KeyedObject objectId="0:111"><KeyedProperty propertyKey="17">
+        <KeyFrameDouble value="1" frame="0" interpolationType="hold"/>
+        <KeyFrameDouble value="1" frame="172" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.2" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="0.08" frame="178" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.2" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="1" frame="184" interpolationType="hold"/>
+        <KeyFrameDouble value="1" frame="240" interpolationType="linear"/>
+      </KeyedProperty></KeyedObject>
+    </LinearAnimation>
+
+    <LinearAnimation loopValue="loop" fps="60" duration="300" name="LookAround" id="0:1002">
+      <KeyedObject objectId="0:120"><KeyedProperty propertyKey="13">
+        <KeyFrameDouble value="218" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.42" y1="0" x2="0.58" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="211" frame="90" interpolationType="cubic"><CubicEaseInterpolator x1="0.42" y1="0" x2="0.58" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="225" frame="190" interpolationType="cubic"><CubicEaseInterpolator x1="0.42" y1="0" x2="0.58" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="218" frame="300" interpolationType="linear"/>
+      </KeyedProperty></KeyedObject>
+      <KeyedObject objectId="0:121"><KeyedProperty propertyKey="13">
+        <KeyFrameDouble value="282" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.42" y1="0" x2="0.58" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="275" frame="90" interpolationType="cubic"><CubicEaseInterpolator x1="0.42" y1="0" x2="0.58" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="289" frame="190" interpolationType="cubic"><CubicEaseInterpolator x1="0.42" y1="0" x2="0.58" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="282" frame="300" interpolationType="linear"/>
+      </KeyedProperty></KeyedObject>
+    </LinearAnimation>
+
+    <LinearAnimation loopValue="loop" fps="60" duration="260" name="EarTwitch" id="0:1003">
+      <KeyedObject objectId="0:102"><KeyedProperty propertyKey="15">
+        <KeyFrameDouble value="-0.14" frame="0" interpolationType="hold"/>
+        <KeyFrameDouble value="-0.14" frame="118" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.2" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="-0.30" frame="124" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.2" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="-0.10" frame="131" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.2" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="-0.14" frame="140" interpolationType="hold"/>
+        <KeyFrameDouble value="-0.14" frame="260" interpolationType="linear"/>
+      </KeyedProperty></KeyedObject>
+      <KeyedObject objectId="0:104"><KeyedProperty propertyKey="15">
+        <KeyFrameDouble value="0.14" frame="0" interpolationType="hold"/>
+        <KeyFrameDouble value="0.14" frame="198" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.2" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="0.29" frame="204" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.2" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="0.11" frame="211" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.2" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="0.14" frame="220" interpolationType="hold"/>
+        <KeyFrameDouble value="0.14" frame="260" interpolationType="linear"/>
+      </KeyedProperty></KeyedObject>
+    </LinearAnimation>
+
+    <LinearAnimation loopValue="pingPong" fps="60" duration="90" name="TailIdle" id="0:1004">
+      <KeyedObject objectId="0:241"><KeyedProperty propertyKey="15">
+        <KeyFrameDouble value="0.28" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.42" y1="0" x2="0.58" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="0.52" frame="90" interpolationType="linear"/>
+      </KeyedProperty></KeyedObject>
+      <KeyedObject objectId="0:242"><KeyedProperty propertyKey="15">
+        <KeyFrameDouble value="0.62" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.42" y1="0" x2="0.58" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="1.02" frame="90" interpolationType="linear"/>
+      </KeyedProperty></KeyedObject>
+    </LinearAnimation>
+
+    <!-- Gaze poses -->
+    <LinearAnimation duration="1" name="LookLeft" id="0:1010">
+      <KeyedObject objectId="0:120"><KeyedProperty propertyKey="13"><KeyFrameDouble value="208" interpolationType="linear"/></KeyedProperty></KeyedObject>
+      <KeyedObject objectId="0:121"><KeyedProperty propertyKey="13"><KeyFrameDouble value="272" interpolationType="linear"/></KeyedProperty></KeyedObject>
+    </LinearAnimation>
+    <LinearAnimation duration="1" name="LookCenter" id="0:1011">
+      <KeyedObject objectId="0:120"><KeyedProperty propertyKey="13"><KeyFrameDouble value="218" interpolationType="linear"/></KeyedProperty></KeyedObject>
+      <KeyedObject objectId="0:121"><KeyedProperty propertyKey="13"><KeyFrameDouble value="282" interpolationType="linear"/></KeyedProperty></KeyedObject>
+    </LinearAnimation>
+    <LinearAnimation duration="1" name="LookRight" id="0:1012">
+      <KeyedObject objectId="0:120"><KeyedProperty propertyKey="13"><KeyFrameDouble value="228" interpolationType="linear"/></KeyedProperty></KeyedObject>
+      <KeyedObject objectId="0:121"><KeyedProperty propertyKey="13"><KeyFrameDouble value="292" interpolationType="linear"/></KeyedProperty></KeyedObject>
+    </LinearAnimation>
+    <LinearAnimation duration="1" name="LookUp" id="0:1013">
+      <KeyedObject objectId="0:120"><KeyedProperty propertyKey="14"><KeyFrameDouble value="218" interpolationType="linear"/></KeyedProperty></KeyedObject>
+      <KeyedObject objectId="0:121"><KeyedProperty propertyKey="14"><KeyFrameDouble value="218" interpolationType="linear"/></KeyedProperty></KeyedObject>
+    </LinearAnimation>
+    <LinearAnimation duration="1" name="LookCenterY" id="0:1014">
+      <KeyedObject objectId="0:120"><KeyedProperty propertyKey="14"><KeyFrameDouble value="225" interpolationType="linear"/></KeyedProperty></KeyedObject>
+      <KeyedObject objectId="0:121"><KeyedProperty propertyKey="14"><KeyFrameDouble value="225" interpolationType="linear"/></KeyedProperty></KeyedObject>
+    </LinearAnimation>
+    <LinearAnimation duration="1" name="LookDown" id="0:1015">
+      <KeyedObject objectId="0:120"><KeyedProperty propertyKey="14"><KeyFrameDouble value="232" interpolationType="linear"/></KeyedProperty></KeyedObject>
+      <KeyedObject objectId="0:121"><KeyedProperty propertyKey="14"><KeyFrameDouble value="232" interpolationType="linear"/></KeyedProperty></KeyedObject>
+    </LinearAnimation>
+
+    <!-- Touch reactions -->
+    <LinearAnimation fps="60" duration="72" name="Enjoy" id="0:1020">
+      <KeyedObject objectId="0:100"><KeyedProperty propertyKey="14">
+        <KeyFrameDouble value="232" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.2" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="220" frame="24" interpolationType="cubic"><CubicEaseInterpolator x1="0.42" y1="0" x2="0.58" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="232" frame="72" interpolationType="linear"/>
+      </KeyedProperty></KeyedObject>
+      <KeyedObject objectId="0:110"><KeyedProperty propertyKey="17">
+        <KeyFrameDouble value="1" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.2" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="0.22" frame="18" interpolationType="hold"/>
+        <KeyFrameDouble value="0.22" frame="54" interpolationType="cubic"><CubicEaseInterpolator x1="0.42" y1="0" x2="0.58" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="1" frame="72" interpolationType="linear"/>
+      </KeyedProperty></KeyedObject>
+      <KeyedObject objectId="0:111"><KeyedProperty propertyKey="17">
+        <KeyFrameDouble value="1" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.2" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="0.22" frame="18" interpolationType="hold"/>
+        <KeyFrameDouble value="0.22" frame="54" interpolationType="cubic"><CubicEaseInterpolator x1="0.42" y1="0" x2="0.58" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="1" frame="72" interpolationType="linear"/>
+      </KeyedProperty></KeyedObject>
+    </LinearAnimation>
+
+    <LinearAnimation fps="60" duration="55" name="Avoid" id="0:1021">
+      <KeyedObject objectId="0:100"><KeyedProperty propertyKey="13">
+        <KeyFrameDouble value="250" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.15" y1="0" x2="0.2" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="276" frame="14" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.58" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="250" frame="55" interpolationType="linear"/>
+      </KeyedProperty></KeyedObject>
+      <KeyedObject objectId="0:102"><KeyedProperty propertyKey="15">
+        <KeyFrameDouble value="-0.14" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.15" y1="0" x2="0.2" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="-0.36" frame="14" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.58" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="-0.14" frame="55" interpolationType="linear"/>
+      </KeyedProperty></KeyedObject>
+      <KeyedObject objectId="0:104"><KeyedProperty propertyKey="15">
+        <KeyFrameDouble value="0.14" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.15" y1="0" x2="0.2" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="0.02" frame="14" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.58" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="0.14" frame="55" interpolationType="linear"/>
+      </KeyedProperty></KeyedObject>
+    </LinearAnimation>
+
+    <LinearAnimation fps="60" duration="95" name="BellyUp" id="0:1022">
+      <KeyedObject objectId="0:200"><KeyedProperty propertyKey="15">
+        <KeyFrameDouble value="0" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.2" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="-1.05" frame="34" interpolationType="hold"/>
+        <KeyFrameDouble value="-1.05" frame="65" interpolationType="cubic"><CubicEaseInterpolator x1="0.42" y1="0" x2="0.58" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="0" frame="95" interpolationType="linear"/>
+      </KeyedProperty></KeyedObject>
+      <KeyedObject objectId="0:220"><KeyedProperty propertyKey="16">
+        <KeyFrameDouble value="1" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.2" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="1.18" frame="34" interpolationType="hold"/>
+        <KeyFrameDouble value="1.18" frame="65" interpolationType="cubic"><CubicEaseInterpolator x1="0.42" y1="0" x2="0.58" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="1" frame="95" interpolationType="linear"/>
+      </KeyedProperty></KeyedObject>
+      <KeyedObject objectId="0:210"><KeyedProperty propertyKey="14">
+        <KeyFrameDouble value="365" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.2" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="320" frame="34" interpolationType="hold"/>
+        <KeyFrameDouble value="320" frame="65" interpolationType="cubic"><CubicEaseInterpolator x1="0.42" y1="0" x2="0.58" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="365" frame="95" interpolationType="linear"/>
+      </KeyedProperty></KeyedObject>
+      <KeyedObject objectId="0:211"><KeyedProperty propertyKey="14">
+        <KeyFrameDouble value="365" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.2" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="318" frame="34" interpolationType="hold"/>
+        <KeyFrameDouble value="318" frame="65" interpolationType="cubic"><CubicEaseInterpolator x1="0.42" y1="0" x2="0.58" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="365" frame="95" interpolationType="linear"/>
+      </KeyedProperty></KeyedObject>
+    </LinearAnimation>
+
+    <!-- Wand -->
+    <LinearAnimation loopValue="pingPong" fps="60" duration="45" name="TrackWand" id="0:1030">
+      <KeyedObject objectId="0:102"><KeyedProperty propertyKey="15">
+        <KeyFrameDouble value="-0.17" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.42" y1="0" x2="0.58" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="-0.08" frame="45" interpolationType="linear"/>
+      </KeyedProperty></KeyedObject>
+      <KeyedObject objectId="0:104"><KeyedProperty propertyKey="15">
+        <KeyFrameDouble value="0.08" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.42" y1="0" x2="0.58" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="0.17" frame="45" interpolationType="linear"/>
+      </KeyedProperty></KeyedObject>
+    </LinearAnimation>
+    <LinearAnimation fps="60" duration="40" name="PawReachLeft" id="0:1031">
+      <KeyedObject objectId="0:210">
+        <KeyedProperty propertyKey="13"><KeyFrameDouble value="205" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.1" y1="0" x2="0.2" y2="1"/></KeyFrameDouble><KeyFrameDouble value="164" frame="22" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.58" y2="1"/></KeyFrameDouble><KeyFrameDouble value="205" frame="40" interpolationType="linear"/></KeyedProperty>
+        <KeyedProperty propertyKey="14"><KeyFrameDouble value="365" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.1" y1="0" x2="0.2" y2="1"/></KeyFrameDouble><KeyFrameDouble value="322" frame="22" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.58" y2="1"/></KeyFrameDouble><KeyFrameDouble value="365" frame="40" interpolationType="linear"/></KeyedProperty>
+      </KeyedObject>
+    </LinearAnimation>
+    <LinearAnimation fps="60" duration="40" name="PawReachRight" id="0:1032">
+      <KeyedObject objectId="0:211">
+        <KeyedProperty propertyKey="13"><KeyFrameDouble value="295" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.1" y1="0" x2="0.2" y2="1"/></KeyFrameDouble><KeyFrameDouble value="336" frame="22" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.58" y2="1"/></KeyFrameDouble><KeyFrameDouble value="295" frame="40" interpolationType="linear"/></KeyedProperty>
+        <KeyedProperty propertyKey="14"><KeyFrameDouble value="365" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.1" y1="0" x2="0.2" y2="1"/></KeyFrameDouble><KeyFrameDouble value="322" frame="22" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.58" y2="1"/></KeyFrameDouble><KeyFrameDouble value="365" frame="40" interpolationType="linear"/></KeyedProperty>
+      </KeyedObject>
+    </LinearAnimation>
+    <LinearAnimation fps="60" duration="42" name="PawGrab" id="0:1033">
+      <KeyedObject objectId="0:210">
+        <KeyedProperty propertyKey="13"><KeyFrameDouble value="205" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.1" y1="0" x2="0.2" y2="1"/></KeyFrameDouble><KeyFrameDouble value="238" frame="18" interpolationType="hold"/><KeyFrameDouble value="238" frame="27" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.58" y2="1"/></KeyFrameDouble><KeyFrameDouble value="205" frame="42" interpolationType="linear"/></KeyedProperty>
+        <KeyedProperty propertyKey="14"><KeyFrameDouble value="365" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.1" y1="0" x2="0.2" y2="1"/></KeyFrameDouble><KeyFrameDouble value="318" frame="18" interpolationType="hold"/><KeyFrameDouble value="318" frame="27" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.58" y2="1"/></KeyFrameDouble><KeyFrameDouble value="365" frame="42" interpolationType="linear"/></KeyedProperty>
+      </KeyedObject>
+      <KeyedObject objectId="0:211">
+        <KeyedProperty propertyKey="13"><KeyFrameDouble value="295" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.1" y1="0" x2="0.2" y2="1"/></KeyFrameDouble><KeyFrameDouble value="262" frame="18" interpolationType="hold"/><KeyFrameDouble value="262" frame="27" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.58" y2="1"/></KeyFrameDouble><KeyFrameDouble value="295" frame="42" interpolationType="linear"/></KeyedProperty>
+        <KeyedProperty propertyKey="14"><KeyFrameDouble value="365" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.1" y1="0" x2="0.2" y2="1"/></KeyFrameDouble><KeyFrameDouble value="318" frame="18" interpolationType="hold"/><KeyFrameDouble value="318" frame="27" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.58" y2="1"/></KeyFrameDouble><KeyFrameDouble value="365" frame="42" interpolationType="linear"/></KeyedProperty>
+      </KeyedObject>
+    </LinearAnimation>
+    <LinearAnimation fps="60" duration="28" name="MissReset" id="0:1034">
+      <KeyedObject objectId="0:210"><KeyedProperty propertyKey="13"><KeyFrameDouble value="176" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.42" y1="0" x2="0.58" y2="1"/></KeyFrameDouble><KeyFrameDouble value="205" frame="28" interpolationType="linear"/></KeyedProperty></KeyedObject>
+      <KeyedObject objectId="0:211"><KeyedProperty propertyKey="13"><KeyFrameDouble value="324" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.42" y1="0" x2="0.58" y2="1"/></KeyFrameDouble><KeyFrameDouble value="295" frame="28" interpolationType="linear"/></KeyedProperty></KeyedObject>
+    </LinearAnimation>
+
+    <!-- Snack -->
+    <LinearAnimation fps="60" duration="45" name="SniffSnack" id="0:1040">
+      <KeyedObject objectId="0:100"><KeyedProperty propertyKey="14"><KeyFrameDouble value="232" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.2" y2="1"/></KeyFrameDouble><KeyFrameDouble value="246" frame="24" interpolationType="cubic"><CubicEaseInterpolator x1="0.42" y1="0" x2="0.58" y2="1"/></KeyFrameDouble><KeyFrameDouble value="238" frame="45" interpolationType="linear"/></KeyedProperty></KeyedObject>
+      <KeyedObject objectId="0:140"><KeyedProperty propertyKey="17"><KeyFrameDouble value="1" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.2" y2="1"/></KeyFrameDouble><KeyFrameDouble value="1.18" frame="15" interpolationType="cubic"><CubicEaseInterpolator x1="0.42" y1="0" x2="0.58" y2="1"/></KeyFrameDouble><KeyFrameDouble value="1" frame="45" interpolationType="linear"/></KeyedProperty></KeyedObject>
+    </LinearAnimation>
+    <LinearAnimation fps="60" duration="40" name="ApproachSnack" id="0:1041">
+      <KeyedObject objectId="0:100"><KeyedProperty propertyKey="14"><KeyFrameDouble value="238" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.2" y2="1"/></KeyFrameDouble><KeyFrameDouble value="252" frame="40" interpolationType="linear"/></KeyedProperty></KeyedObject>
+      <KeyedObject objectId="0:200"><KeyedProperty propertyKey="14"><KeyFrameDouble value="365" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.2" y2="1"/></KeyFrameDouble><KeyFrameDouble value="372" frame="40" interpolationType="linear"/></KeyedProperty></KeyedObject>
+    </LinearAnimation>
+    <LinearAnimation fps="60" duration="50" name="EatSnack" id="0:1042">
+      <KeyedObject objectId="0:100"><KeyedProperty propertyKey="14">
+        <KeyFrameDouble value="252" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.2" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="246" frame="10" interpolationType="cubic"><CubicEaseInterpolator x1="0.42" y1="0" x2="0.58" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="252" frame="20" interpolationType="cubic"><CubicEaseInterpolator x1="0.42" y1="0" x2="0.58" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="246" frame="30" interpolationType="cubic"><CubicEaseInterpolator x1="0.42" y1="0" x2="0.58" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="252" frame="40" interpolationType="cubic"><CubicEaseInterpolator x1="0.42" y1="0" x2="0.58" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="238" frame="50" interpolationType="linear"/>
+      </KeyedProperty></KeyedObject>
+    </LinearAnimation>
+    <LinearAnimation fps="60" duration="65" name="HappyAfterEat" id="0:1043">
+      <KeyedObject objectId="0:110"><KeyedProperty propertyKey="17"><KeyFrameDouble value="1" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.2" y2="1"/></KeyFrameDouble><KeyFrameDouble value="0.28" frame="18" interpolationType="hold"/><KeyFrameDouble value="0.28" frame="45" interpolationType="cubic"><CubicEaseInterpolator x1="0.42" y1="0" x2="0.58" y2="1"/></KeyFrameDouble><KeyFrameDouble value="1" frame="65" interpolationType="linear"/></KeyedProperty></KeyedObject>
+      <KeyedObject objectId="0:111"><KeyedProperty propertyKey="17"><KeyFrameDouble value="1" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.2" y2="1"/></KeyFrameDouble><KeyFrameDouble value="0.28" frame="18" interpolationType="hold"/><KeyFrameDouble value="0.28" frame="45" interpolationType="cubic"><CubicEaseInterpolator x1="0.42" y1="0" x2="0.58" y2="1"/></KeyFrameDouble><KeyFrameDouble value="1" frame="65" interpolationType="linear"/></KeyedProperty></KeyedObject>
+      <KeyedObject objectId="0:242"><KeyedProperty propertyKey="15"><KeyFrameDouble value="0.80" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.2" y2="1"/></KeyFrameDouble><KeyFrameDouble value="1.25" frame="18" interpolationType="cubic"><CubicEaseInterpolator x1="0.42" y1="0" x2="0.58" y2="1"/></KeyFrameDouble><KeyFrameDouble value="0.58" frame="38" interpolationType="cubic"><CubicEaseInterpolator x1="0.42" y1="0" x2="0.58" y2="1"/></KeyFrameDouble><KeyFrameDouble value="0.80" frame="65" interpolationType="linear"/></KeyedProperty></KeyedObject>
+    </LinearAnimation>
+
+    <!-- Sleep -->
+    <LinearAnimation loopValue="pingPong" fps="60" duration="110" name="SleepIdle" id="0:1050">
+      <KeyedObject objectId="0:110"><KeyedProperty propertyKey="17"><KeyFrameDouble value="0.08" frame="0" interpolationType="linear"/><KeyFrameDouble value="0.08" frame="110" interpolationType="linear"/></KeyedProperty></KeyedObject>
+      <KeyedObject objectId="0:111"><KeyedProperty propertyKey="17"><KeyFrameDouble value="0.08" frame="0" interpolationType="linear"/><KeyFrameDouble value="0.08" frame="110" interpolationType="linear"/></KeyedProperty></KeyedObject>
+      <KeyedObject objectId="0:100"><KeyedProperty propertyKey="14"><KeyFrameDouble value="240" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.42" y1="0" x2="0.58" y2="1"/></KeyFrameDouble><KeyFrameDouble value="244" frame="110" interpolationType="linear"/></KeyedProperty></KeyedObject>
+      <KeyedObject objectId="0:200"><KeyedProperty propertyKey="17"><KeyFrameDouble value="0.985" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.42" y1="0" x2="0.58" y2="1"/></KeyFrameDouble><KeyFrameDouble value="1.012" frame="110" interpolationType="linear"/></KeyedProperty></KeyedObject>
+    </LinearAnimation>
+    <LinearAnimation loopValue="pingPong" fps="60" duration="100" name="Breathing" id="0:1051">
+      <KeyedObject objectId="0:220"><KeyedProperty propertyKey="17"><KeyFrameDouble value="0.98" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.42" y1="0" x2="0.58" y2="1"/></KeyFrameDouble><KeyFrameDouble value="1.035" frame="100" interpolationType="linear"/></KeyedProperty></KeyedObject>
+    </LinearAnimation>
+    <LinearAnimation fps="60" duration="50" name="WakeUp" id="0:1052">
+      <KeyedObject objectId="0:110"><KeyedProperty propertyKey="17"><KeyFrameDouble value="0.08" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.1" y1="0" x2="0.2" y2="1"/></KeyFrameDouble><KeyFrameDouble value="1.1" frame="24" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.58" y2="1"/></KeyFrameDouble><KeyFrameDouble value="1" frame="50" interpolationType="linear"/></KeyedProperty></KeyedObject>
+      <KeyedObject objectId="0:111"><KeyedProperty propertyKey="17"><KeyFrameDouble value="0.08" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.1" y1="0" x2="0.2" y2="1"/></KeyFrameDouble><KeyFrameDouble value="1.1" frame="24" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.58" y2="1"/></KeyFrameDouble><KeyFrameDouble value="1" frame="50" interpolationType="linear"/></KeyedProperty></KeyedObject>
+      <KeyedObject objectId="0:100"><KeyedProperty propertyKey="14"><KeyFrameDouble value="244" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.1" y1="0" x2="0.2" y2="1"/></KeyFrameDouble><KeyFrameDouble value="226" frame="24" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.58" y2="1"/></KeyFrameDouble><KeyFrameDouble value="232" frame="50" interpolationType="linear"/></KeyedProperty></KeyedObject>
+    </LinearAnimation>
+
+    <LinearAnimation fps="60" duration="70" name="Stretch" id="0:1060">
+      <KeyedObject objectId="0:210"><KeyedProperty propertyKey="14"><KeyFrameDouble value="365" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.2" y2="1"/></KeyFrameDouble><KeyFrameDouble value="410" frame="35" interpolationType="cubic"><CubicEaseInterpolator x1="0.42" y1="0" x2="0.58" y2="1"/></KeyFrameDouble><KeyFrameDouble value="365" frame="70" interpolationType="linear"/></KeyedProperty></KeyedObject>
+      <KeyedObject objectId="0:211"><KeyedProperty propertyKey="14"><KeyFrameDouble value="365" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.2" y2="1"/></KeyFrameDouble><KeyFrameDouble value="410" frame="35" interpolationType="cubic"><CubicEaseInterpolator x1="0.42" y1="0" x2="0.58" y2="1"/></KeyFrameDouble><KeyFrameDouble value="365" frame="70" interpolationType="linear"/></KeyedProperty></KeyedObject>
+      <KeyedObject objectId="0:200"><KeyedProperty propertyKey="17"><KeyFrameDouble value="1" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.2" y2="1"/></KeyFrameDouble><KeyFrameDouble value="1.08" frame="35" interpolationType="cubic"><CubicEaseInterpolator x1="0.42" y1="0" x2="0.58" y2="1"/></KeyFrameDouble><KeyFrameDouble value="1" frame="70" interpolationType="linear"/></KeyedProperty></KeyedObject>
+    </LinearAnimation>
+
+    <!-- Empty neutral timeline for layers that should not overwrite other motion. -->
+    <LinearAnimation duration="1" name="Neutral" id="0:1099"/>
+  </Artboard>
+</Rive>
