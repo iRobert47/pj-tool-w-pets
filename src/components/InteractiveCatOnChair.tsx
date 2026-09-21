@@ -37,7 +37,6 @@ export const InteractiveCatOnChair: React.FC<InteractiveCatOnChairProps> = ({
   const [embedSrc, setEmbedSrc] = useState<string | null>(null);
   const [isLoadingEmbed, setIsLoadingEmbed] = useState(true);
   const [feedback, setFeedback] = useState<string | null>(null);
-  const [interactionPulse, setInteractionPulse] = useState(0);
 
   useEffect(() => {
     let cancelled = false;
@@ -91,8 +90,6 @@ export const InteractiveCatOnChair: React.FC<InteractiveCatOnChairProps> = ({
   };
 
   const handleCharacterInteraction = () => {
-    setInteractionPulse((value) => value + 1);
-
     if (interactionMode === 'treat') {
       catAudio.playMunch();
       onFeed?.(15);
@@ -148,7 +145,6 @@ export const InteractiveCatOnChair: React.FC<InteractiveCatOnChairProps> = ({
         />
 
         <div
-          key={interactionPulse}
           className="absolute inset-0 z-[1] flex items-center justify-center transition-transform duration-500"
           style={{
             transform:
