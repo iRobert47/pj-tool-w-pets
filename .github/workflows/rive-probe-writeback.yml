@@ -22,7 +22,7 @@ jobs:
         shell: bash
         run: |
           set -euxo pipefail
-          curl -fsSL https://releases.rive.app/cli/install.sh | sh
+          curl -fsSL https://releases.rive.app/cli/install.sh | bash
           echo "$HOME/.rive/bin" >> "$GITHUB_PATH"
 
       - name: Export official samples and schema notes
@@ -48,7 +48,7 @@ jobs:
             done
           fi
 
-          for q in StateMachineInput StateMachineNumber StateMachineBool StateMachineTrigger                    StateTransition TransitionCondition InputCondition NumberInput BooleanInput TriggerInput                    BlendState BlendState1D BlendStateDirect LinearAnimation KeyFrameDouble Ellipse Rectangle Triangle; do
+          for q in StateMachineInput StateMachineNumber StateMachineBool StateMachineTrigger StateTransition TransitionCondition InputCondition NumberInput BooleanInput TriggerInput BlendState BlendState1D BlendStateDirect LinearAnimation KeyFrameDouble Ellipse Rectangle Triangle; do
             "$RIVE" schema --search "$q" > "$OUT/schema-$q.txt" 2>&1 || true
           done
 
