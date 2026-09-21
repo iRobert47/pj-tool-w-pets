@@ -6,24 +6,24 @@
 
     <!-- Head rig: expressive eyes over one continuous illustrated head silhouette. -->
     <Node x="250" y="214" name="head_rig" id="0:100">
-      <Node x="-34" y="2" name="eye_left_rig" id="0:110">
+      <Node x="-32" y="2" name="eye_left_rig" id="0:110">
         <Shape x="0" y="1" name="pupil_left" id="0:120">
-          <Ellipse width="13" height="22" name="Path"/>
+          <Ellipse width="16" height="28" name="Path"/>
           <Fill name="Fill"><SolidColor colorValue="FF101112" name="Color"/></Fill>
         </Shape>
         <Shape name="eye_left_white">
-          <Ellipse width="42" height="39" name="Path"/>
+          <Ellipse width="40" height="38" name="Path"/>
           <Fill name="Fill"><SolidColor colorValue="FFFAF3E6" name="Color"/></Fill>
         </Shape>
       </Node>
 
-      <Node x="34" y="1" name="eye_right_rig" id="0:111">
+      <Node x="32" y="2" name="eye_right_rig" id="0:111">
         <Shape x="0" y="1" name="pupil_right" id="0:121">
-          <Ellipse width="13" height="22" name="Path"/>
+          <Ellipse width="16" height="28" name="Path"/>
           <Fill name="Fill"><SolidColor colorValue="FF101112" name="Color"/></Fill>
         </Shape>
         <Shape name="eye_right_white">
-          <Ellipse width="42" height="39" name="Path"/>
+          <Ellipse width="40" height="38" name="Path"/>
           <Fill name="Fill"><SolidColor colorValue="FFFAF3E6" name="Color"/></Fill>
         </Shape>
       </Node>
@@ -37,19 +37,19 @@
         <Fill name="Fill"><SolidColor colorValue="FF8E7B70" name="Color"/></Fill>
       </Shape>
 
-      <!-- Head is a custom continuous bezier silhouette, not a primitive ellipse.
-           Shoulders (V2/V8) are raised and widened so the fill already covers
-           the ear roots before the ear shapes are drawn, killing the gap. -->
+      <!-- Head silhouette traced from the reference photo (pixel-measured, scaled
+           by head-width to this rig's units). V1 = forehead valley between the
+           ears; V2/V8 ear-root shoulder; V3/V7 cheek-widest; V4/V6 jaw; V5 chin. -->
       <Shape name="head_main" id="0:101">
         <PointsPath isClosed="true" name="Path">
           <CubicMirroredVertex x="0" y="-59" rotation="0" distance="22"/>
-          <CubicMirroredVertex x="53" y="-57" rotation="0.86" distance="34"/>
-          <CubicMirroredVertex x="79" y="-3" rotation="1.46" distance="28"/>
-          <CubicMirroredVertex x="62" y="43" rotation="2.18" distance="28"/>
-          <CubicMirroredVertex x="8" y="64" rotation="3.02" distance="34"/>
-          <CubicMirroredVertex x="-57" y="48" rotation="-2.30" distance="31"/>
-          <CubicMirroredVertex x="-81" y="0" rotation="-1.55" distance="29"/>
-          <CubicMirroredVertex x="-54" y="-57" rotation="-0.86" distance="34"/>
+          <CubicMirroredVertex x="73" y="-45" rotation="1.04" distance="35"/>
+          <CubicMirroredVertex x="80" y="8" rotation="1.67" distance="28"/>
+          <CubicMirroredVertex x="61" y="43" rotation="2.18" distance="28"/>
+          <CubicMirroredVertex x="8" y="52" rotation="2.99" distance="30"/>
+          <CubicMirroredVertex x="-61" y="43" rotation="-2.18" distance="28"/>
+          <CubicMirroredVertex x="-80" y="8" rotation="-1.67" distance="28"/>
+          <CubicMirroredVertex x="-73" y="-45" rotation="-1.04" distance="35"/>
         </PointsPath>
         <Fill name="Fill">
           <LinearGradient startX="-60" startY="-60" endX="68" endY="65" name="FurShade">
@@ -60,15 +60,15 @@
         </Fill>
       </Shape>
 
-      <!-- Ears sit behind head, roots pulled down/inward so they tuck under the
-           raised head shoulders above instead of floating above a gap. Base
-           notch (last vertex) is shallower than before to soften the inner cut. -->
-      <Shape x="-43" y="-48" rotation="-0.12" name="ear_left" id="0:103">
+      <!-- Ear tip/base traced from reference (tip ~59,-85 from head center; base
+           zone spans the valley-inner edge to the head's own outer edge at the
+           row where ear and head silhouettes merge). Sit behind head. -->
+      <Shape x="-48" y="-61" rotation="-0.12" name="ear_left" id="0:103">
         <PointsPath isClosed="true" name="Path">
-          <CubicMirroredVertex x="-22" y="20" rotation="-1.12" distance="12"/>
-          <CubicMirroredVertex x="-3" y="-49" rotation="-0.30" distance="15"/>
-          <CubicMirroredVertex x="22" y="22" rotation="1.12" distance="13"/>
-          <CubicMirroredVertex x="0" y="10" rotation="3.1" distance="9"/>
+          <CubicMirroredVertex x="-18" y="8" rotation="-1.12" distance="12"/>
+          <CubicMirroredVertex x="-8" y="-23" rotation="-0.30" distance="16"/>
+          <CubicMirroredVertex x="22" y="5" rotation="1.12" distance="13"/>
+          <CubicMirroredVertex x="0" y="-3" rotation="3.1" distance="9"/>
         </PointsPath>
         <Fill name="Fill">
           <LinearGradient startX="-10" startY="-45" endX="18" endY="20" name="EarShade">
@@ -77,12 +77,12 @@
           </LinearGradient>
         </Fill>
       </Shape>
-      <Shape x="43" y="-48" rotation="0.12" name="ear_right" id="0:105">
+      <Shape x="48" y="-61" rotation="0.12" name="ear_right" id="0:105">
         <PointsPath isClosed="true" name="Path">
-          <CubicMirroredVertex x="-22" y="22" rotation="-1.12" distance="13"/>
-          <CubicMirroredVertex x="3" y="-49" rotation="0.30" distance="15"/>
-          <CubicMirroredVertex x="22" y="20" rotation="1.12" distance="12"/>
-          <CubicMirroredVertex x="0" y="10" rotation="3.1" distance="9"/>
+          <CubicMirroredVertex x="-22" y="5" rotation="-1.12" distance="13"/>
+          <CubicMirroredVertex x="-8" y="-23" rotation="-0.30" distance="16"/>
+          <CubicMirroredVertex x="18" y="8" rotation="1.12" distance="12"/>
+          <CubicMirroredVertex x="0" y="-3" rotation="3.1" distance="9"/>
         </PointsPath>
         <Fill name="Fill">
           <LinearGradient startX="-18" startY="-45" endX="10" endY="20" name="EarShade">
@@ -95,16 +95,18 @@
 
     <!-- Body: one tapered asymmetrical silhouette, closer to the first cute Rive. -->
     <Node x="250" y="350" name="body_rig" id="0:200">
+      <!-- Body traced from reference at the same px->unit scale as the head, so
+           head:body size now matches the photo instead of the body dwarfing it. -->
       <Shape name="body_main" id="0:201">
         <PointsPath isClosed="true" name="Path">
-          <CubicMirroredVertex x="-36" y="-89" rotation="-0.55" distance="33"/>
-          <CubicMirroredVertex x="37" y="-83" rotation="0.50" distance="32"/>
-          <CubicMirroredVertex x="66" y="-28" rotation="1.35" distance="31"/>
-          <CubicMirroredVertex x="72" y="54" rotation="1.62" distance="36"/>
-          <CubicMirroredVertex x="40" y="95" rotation="2.40" distance="31"/>
-          <CubicMirroredVertex x="-48" y="91" rotation="-2.47" distance="34"/>
-          <CubicMirroredVertex x="-69" y="42" rotation="-1.72" distance="32"/>
-          <CubicMirroredVertex x="-63" y="-29" rotation="-1.40" distance="31"/>
+          <CubicMirroredVertex x="-39" y="-82" rotation="-0.55" distance="31"/>
+          <CubicMirroredVertex x="40" y="-77" rotation="0.50" distance="30"/>
+          <CubicMirroredVertex x="72" y="-33" rotation="1.35" distance="29"/>
+          <CubicMirroredVertex x="79" y="33" rotation="1.62" distance="34"/>
+          <CubicMirroredVertex x="44" y="66" rotation="2.40" distance="29"/>
+          <CubicMirroredVertex x="-52" y="63" rotation="-2.47" distance="32"/>
+          <CubicMirroredVertex x="-75" y="23" rotation="-1.72" distance="30"/>
+          <CubicMirroredVertex x="-69" y="-34" rotation="-1.40" distance="29"/>
         </PointsPath>
         <Fill name="Fill">
           <LinearGradient startX="-55" startY="-92" endX="70" endY="95" name="BodyShade">
