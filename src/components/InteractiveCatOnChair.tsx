@@ -37,7 +37,6 @@ export const InteractiveCatOnChair: React.FC<InteractiveCatOnChairProps> = ({
   const stageRef = useRef<HTMLDivElement | null>(null);
   const [riveFailed, setRiveFailed] = useState(false);
   const [inputNames, setInputNames] = useState<string[]>([]);
-  const [isWatching, setIsWatching] = useState(false);
 
   const { rive, RiveComponent } = useRive({
     src: RIVE_SOURCE,
@@ -108,13 +107,11 @@ export const InteractiveCatOnChair: React.FC<InteractiveCatOnChairProps> = ({
   };
 
   const handlePointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
-    setIsWatching(true);
     setBoolean('isFocused', true);
     updateLook(event.clientX, event.clientY);
   };
 
   const handlePointerLeave = () => {
-    setIsWatching(false);
     setBoolean('isFocused', inPomodoro);
     setNumber('lookX', 50);
     setNumber('lookY', 50);
@@ -170,11 +167,6 @@ export const InteractiveCatOnChair: React.FC<InteractiveCatOnChairProps> = ({
             className="h-full w-full"
             aria-label="秒喵 Miaomiao V3 illustrated Rive character"
           />
-        </div>
-
-        <div className="pointer-events-none absolute left-3 top-3 z-10 flex items-center gap-1.5 rounded-full border border-white/70 bg-white/72 px-2.5 py-1 text-[9px] font-semibold text-[#4b4039] backdrop-blur-md">
-          <span className={`h-1.5 w-1.5 rounded-full ${isWatching ? 'bg-[#8d6f57]' : 'bg-[#b7a99b]'}`} />
-          Miaomiao · Illustrated Rig
         </div>
 
         {showControls && (
