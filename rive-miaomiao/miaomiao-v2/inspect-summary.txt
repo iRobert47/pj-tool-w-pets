@@ -3,7 +3,7 @@
   "summary": true,
   "problems": [],
   "artboards": [
-    {"name": "Miaomiao", "objects": 709, "types": {"AnimationState": 24, "AnyState": 10, "Artboard": 1, "BlendAnimation1D": 6, "BlendState1DInput": 2, "BlendStateTransition": 2, "CubicEaseInterpolator": 94, "Ellipse": 19, "EntryState": 10, "ExitState": 10, "Fill": 26, "KeyFrameDouble": 180, "KeyedObject": 60, "KeyedProperty": 64, "LayoutComponentStyle": 1, "LinearAnimation": 28, "Rectangle": 2, "Shape": 26, "SolidColor": 26, "StateMachine": 1, "StateMachineBool": 8, "StateMachineLayer": 10, "StateMachineNumber": 7, "StateMachineTrigger": 13, "StateTransition": 46, "TransitionBoolCondition": 12, "TransitionTriggerCondition": 16, "Triangle": 5}}
+    {"name": "Miaomiao", "objects": 733, "types": {"AnimationState": 24, "AnyState": 10, "Artboard": 1, "BlendAnimation1D": 6, "BlendState1DInput": 2, "BlendStateTransition": 2, "CubicEaseInterpolator": 94, "Ellipse": 22, "EntryState": 10, "ExitState": 10, "Fill": 32, "KeyFrameDouble": 180, "KeyedObject": 60, "KeyedProperty": 64, "LayoutComponentStyle": 1, "LinearAnimation": 28, "Rectangle": 5, "Shape": 32, "SolidColor": 32, "StateMachine": 1, "StateMachineBool": 8, "StateMachineLayer": 10, "StateMachineNumber": 7, "StateMachineTrigger": 13, "StateTransition": 46, "TransitionBoolCondition": 12, "TransitionTriggerCondition": 16, "Triangle": 5}}
   ],
   "roots": {"objects": 1, "types": {"Backboard": 1}}
 }
