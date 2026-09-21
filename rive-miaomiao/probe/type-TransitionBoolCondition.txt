@@ -1,0 +1,14 @@
+TransitionBoolCondition  (typeKey 71)
+extends TransitionValueCondition > TransitionInputCondition > TransitionCondition > ArtboardProvider
+
+inherited from TransitionValueCondition:
+  opValue                            uint8        key 156     = equal
+      Integer representation of the StateMachineOp enum.
+      accepts: equal, notEqual, lessThanOrEqual, greaterThanOrEqual, lessThan, greaterThan
+
+inherited from TransitionInputCondition:
+  inputId                            Id           key 155
+      Id of the StateMachineInput referenced.
+
+2 properties.  A = animatable, B = bindable, D = derived (computed, not authored -- bind to it, do not set it).
+Editor-only properties are hidden; --all shows them.

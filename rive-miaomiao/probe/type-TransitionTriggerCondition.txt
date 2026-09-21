@@ -1,0 +1,9 @@
+TransitionTriggerCondition  (typeKey 68)
+extends TransitionInputCondition > TransitionCondition > ArtboardProvider
+
+inherited from TransitionInputCondition:
+  inputId                            Id           key 155
+      Id of the StateMachineInput referenced.
+
+1 property.  A = animatable, B = bindable, D = derived (computed, not authored -- bind to it, do not set it).
+Editor-only properties are hidden; --all shows them.

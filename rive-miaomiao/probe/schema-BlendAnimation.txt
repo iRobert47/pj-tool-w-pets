@@ -1,0 +1,6 @@
+types:
+  BlendAnimation1D
+  BlendAnimationDirect
+
+properties:
+  BlendStateTransition.exitBlendAnimationId

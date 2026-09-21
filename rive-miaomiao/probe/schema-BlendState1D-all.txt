@@ -1,0 +1,3 @@
+types:
+  BlendState1DInput
+  BlendState1DViewModel
