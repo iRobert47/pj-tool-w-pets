@@ -150,7 +150,7 @@
            by cushion_front (painted frontmost) as they approach it --
            that's the "disappear behind the cushion rim" cue, done via
            existing z-order rather than new logic. -->
-      <Shape x="-18" y="88" name="front_leg_L">
+      <Shape x="-18" y="88" name="front_leg_L" id="0:1220">
         <PointsPath isClosed="true" name="Path">
           <CubicMirroredVertex x="0" y="-20" rotation="0" distance="5"/>
           <CubicMirroredVertex x="6" y="0" rotation="1.5708" distance="18"/>
@@ -164,7 +164,7 @@
           </RadialGradient>
         </Fill>
       </Shape>
-      <Shape x="18" y="88" name="front_leg_R">
+      <Shape x="18" y="88" name="front_leg_R" id="0:1221">
         <PointsPath isClosed="true" name="Path">
           <CubicMirroredVertex x="0" y="-20" rotation="0" distance="5"/>
           <CubicMirroredVertex x="6" y="0" rotation="1.5708" distance="18"/>
@@ -178,7 +178,7 @@
           </RadialGradient>
         </Fill>
       </Shape>
-      <Shape x="-22" y="116" name="paw_L">
+      <Shape x="-22" y="116" name="paw_L" id="0:1222">
         <Ellipse width="22" height="15" name="Path"/>
         <Fill name="Fill">
           <RadialGradient startX="0" startY="0" endX="11" endY="4" name="PawShade">
@@ -187,7 +187,7 @@
           </RadialGradient>
         </Fill>
       </Shape>
-      <Shape x="22" y="116" name="paw_R">
+      <Shape x="22" y="116" name="paw_R" id="0:1223">
         <Ellipse width="22" height="15" name="Path"/>
         <Fill name="Fill">
           <RadialGradient startX="0" startY="0" endX="11" endY="4" name="PawShade">
@@ -344,6 +344,18 @@
       <StateMachineNumber name="intimacyLevel" value="0" id="0:923"/>
       <StateMachineTrigger name="petTouchNow" id="0:924"/>
 
+      <!-- Batch 2: 逗貓棒模式 (Wand Mode). Step 1 (視線先追) reuses the
+           existing lookX/lookY gaze tracking -- no new input needed. Step 2
+           (進抓取區) is pure app-side proximity judgment; wandInGrabZone
+           just gates whether grabNow can produce a reaction, no dedicated
+           "in zone" pose per the storyboard. isCoolingDown is owned by the
+           app's own cooldown timer and is also checked here as a
+           defense-in-depth gate so a stray trigger during cooldown is a
+           no-op even if the app's own guard is bypassed. -->
+      <StateMachineBool name="wandInGrabZone" value="false" id="0:1200"/>
+      <StateMachineBool name="isCoolingDown" value="false" id="0:1201"/>
+      <StateMachineTrigger name="grabNow" id="0:1202"/>
+
       <StateMachineLayer name="BaseIdle" id="0:930">
         <AnyState x="520" y="-100"/>
         <ExitState x="680" y="-100"/>
@@ -458,6 +470,33 @@
         </AnimationState>
         <AnimationState x="380" y="-120" reset="true" animationId="0:1104" id="0:996">
           <StateTransition stateToId="0:991" duration="20" enableExitTime="true" exitTimeIsPercetange="true" exitTime="100"/>
+        </AnimationState>
+      </StateMachineLayer>
+
+      <!-- WandReaction (逗貓棒模式, step 3: 爪子抓): a single reach-and-swipe
+           pose, gated on grab range + not cooling down. Keys
+           front_leg_L/R + paw_L/R (x/y, already-existing internal detail
+           shapes -- no new geometry) plus body_rig (rotation/scaleY) for a
+           small forward pounce-lean. scaleY is Idle's channel, but this
+           layer is listed after BaseIdle so it only wins while GrabReach
+           is actively playing, handing back cleanly once it exits (its own
+           rest state keys nothing). Cooldown itself (step 4) has no
+           dedicated pose per the storyboard -- the app's timer just holds
+           isCoolingDown true, and this layer's rest state naturally leaves
+           the cat in whatever the other layers are already doing. -->
+      <StateMachineLayer name="WandReaction" id="0:1210">
+        <AnyState x="560" y="620">
+          <StateTransition stateToId="0:1212" duration="10">
+            <TransitionTriggerCondition inputId="0:1202"/>
+            <TransitionBoolCondition inputId="0:1200" opValue="equal"/>
+            <TransitionBoolCondition inputId="0:1201" opValue="notEqual"/>
+          </StateTransition>
+        </AnyState>
+        <ExitState x="760" y="620"/>
+        <EntryState x="0" y="560"><StateTransition stateToId="0:1211"/></EntryState>
+        <AnimationState x="180" y="560" animationId="0:1230" id="0:1211"/>
+        <AnimationState x="380" y="560" reset="true" animationId="0:1231" id="0:1212">
+          <StateTransition stateToId="0:1211" duration="20" enableExitTime="true" exitTimeIsPercetange="true" exitTime="100"/>
         </AnimationState>
       </StateMachineLayer>
     </StateMachine>
@@ -650,6 +689,71 @@
         <KeyFrameDouble value="-0.32" frame="7" interpolationType="hold"/>
         <KeyFrameDouble value="0.01" frame="20" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.5" y2="1"/></KeyFrameDouble>
       </KeyedProperty></KeyedObject>
+    </LinearAnimation>
+
+    <!-- Batch 2 (逗貓棒模式) reaction. WandRest keys nothing at all -- it
+         exists only so the layer has a state to sit in between grabs -- so
+         it can never fight PetReaction's rotation/scaleX use of body_rig or
+         Idle's scaleY. GrabReach instead uses body_rig.y plus
+         front_leg_L/R and paw_L/R's own x/y, none of which any other layer
+         ever keys, so the whole thing is conflict-free by construction
+         rather than by hand-off ordering. -->
+    <LinearAnimation fps="60" duration="1" name="WandRest" id="0:1230"/>
+
+    <LinearAnimation fps="60" duration="24" name="GrabReach" id="0:1231">
+      <KeyedObject objectId="0:200"><KeyedProperty propertyKey="14">
+        <KeyFrameDouble value="236" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.2" y2="1"/></KeyFrameDouble>
+        <KeyFrameDouble value="240" frame="8" interpolationType="hold"/>
+        <KeyFrameDouble value="236" frame="24" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.5" y2="1"/></KeyFrameDouble>
+      </KeyedProperty></KeyedObject>
+      <KeyedObject objectId="0:1220">
+        <KeyedProperty propertyKey="13">
+          <KeyFrameDouble value="-18" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.2" y2="1"/></KeyFrameDouble>
+          <KeyFrameDouble value="-23" frame="8" interpolationType="hold"/>
+          <KeyFrameDouble value="-18" frame="24" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.5" y2="1"/></KeyFrameDouble>
+        </KeyedProperty>
+        <KeyedProperty propertyKey="14">
+          <KeyFrameDouble value="88" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.2" y2="1"/></KeyFrameDouble>
+          <KeyFrameDouble value="76" frame="8" interpolationType="hold"/>
+          <KeyFrameDouble value="88" frame="24" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.5" y2="1"/></KeyFrameDouble>
+        </KeyedProperty>
+      </KeyedObject>
+      <KeyedObject objectId="0:1221">
+        <KeyedProperty propertyKey="13">
+          <KeyFrameDouble value="18" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.2" y2="1"/></KeyFrameDouble>
+          <KeyFrameDouble value="23" frame="8" interpolationType="hold"/>
+          <KeyFrameDouble value="18" frame="24" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.5" y2="1"/></KeyFrameDouble>
+        </KeyedProperty>
+        <KeyedProperty propertyKey="14">
+          <KeyFrameDouble value="88" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.2" y2="1"/></KeyFrameDouble>
+          <KeyFrameDouble value="76" frame="8" interpolationType="hold"/>
+          <KeyFrameDouble value="88" frame="24" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.5" y2="1"/></KeyFrameDouble>
+        </KeyedProperty>
+      </KeyedObject>
+      <KeyedObject objectId="0:1222">
+        <KeyedProperty propertyKey="13">
+          <KeyFrameDouble value="-22" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.2" y2="1"/></KeyFrameDouble>
+          <KeyFrameDouble value="-28" frame="8" interpolationType="hold"/>
+          <KeyFrameDouble value="-22" frame="24" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.5" y2="1"/></KeyFrameDouble>
+        </KeyedProperty>
+        <KeyedProperty propertyKey="14">
+          <KeyFrameDouble value="116" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.2" y2="1"/></KeyFrameDouble>
+          <KeyFrameDouble value="98" frame="8" interpolationType="hold"/>
+          <KeyFrameDouble value="116" frame="24" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.5" y2="1"/></KeyFrameDouble>
+        </KeyedProperty>
+      </KeyedObject>
+      <KeyedObject objectId="0:1223">
+        <KeyedProperty propertyKey="13">
+          <KeyFrameDouble value="22" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.2" y2="1"/></KeyFrameDouble>
+          <KeyFrameDouble value="28" frame="8" interpolationType="hold"/>
+          <KeyFrameDouble value="22" frame="24" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.5" y2="1"/></KeyFrameDouble>
+        </KeyedProperty>
+        <KeyedProperty propertyKey="14">
+          <KeyFrameDouble value="116" frame="0" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.2" y2="1"/></KeyFrameDouble>
+          <KeyFrameDouble value="98" frame="8" interpolationType="hold"/>
+          <KeyFrameDouble value="116" frame="24" interpolationType="cubic"><CubicEaseInterpolator x1="0.2" y1="0" x2="0.5" y2="1"/></KeyFrameDouble>
+        </KeyedProperty>
+      </KeyedObject>
     </LinearAnimation>
   </Artboard>
 </Rive>
