@@ -4,12 +4,13 @@ import { Animated, Pressable, ScrollView, StyleSheet, Text, TextInput, View } fr
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import { colors } from '../../src/lib/theme';
-import { WEEKDAYS, addDays, fromIso, hhmm, todayIso, weekOf } from '../../src/lib/dates';
+import { WEEKDAYS, addDays, atTime, fromIso, hhmm, todayIso, weekOf } from '../../src/lib/dates';
 import { Project, Task, addTask, deleteTask, getPet, getProfile, listProjects, listTasks, moveFields, moveTask, restoreTask, setDone, taskDay, updateTask } from '../../src/lib/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Banner from '../../src/components/Banner';
 import InboxSheet, { InboxItem } from '../../src/components/InboxSheet';
 import AchievementCard from '../../src/components/AchievementCard';
+import DeadlineSheet, { DeadlineDraft } from '../../src/components/DeadlineSheet';
 import { useData } from '../../src/lib/useData';
 import WeekStrip from '../../src/components/WeekStrip';
 import ProjectProgress from '../../src/components/ProjectProgress';
@@ -34,6 +35,7 @@ export default function Today() {
   const [seen, setSeen] = useState(0);            // 打開通知匣時看過的數量
   const [dismissed, setDismissed] = useState<Record<string, true>>({});
   const [achv, setAchv] = useState(false);
+  const [editDue, setEditDue] = useState<{ project: Project; task: Task | null } | null>(null);
   const [clock, setClock] = useState(Date.now());
 
   const today = todayIso();
@@ -127,6 +129,32 @@ export default function Today() {
     }
   }, [todayDone, data, today]);
 
+  // 專案進度：新增／編輯／刪除截止（畫面先變，背景再存）
+  function saveDeadline(d: DeadlineDraft) {
+    if (!editDue) return;
+    const { project, task } = editDue;
+    setEditDue(null);
+    const due_at = d.time ? atTime(d.date, d.time) : null;
+    if (task) {
+      const patch: Partial<Task> = { title: d.title, due_date: d.date, due_at, kind: d.milestone ? 'milestone' : task.kind === 'milestone' ? 'deadline' : task.kind };
+      patchLocal(task.id, patch);
+      save(updateTask(task.id, patch));
+    } else {
+      insertLocal({ id: 'tmp-' + Date.now(), project_id: project.id, kind: d.milestone ? 'milestone' : 'deadline', area: project.area, title: d.title, note: null, due_date: d.date, due_at, start_at: null, end_at: null, remind_at: null, done_at: null, location: null, postponed_count: 0 });
+      save(addTask({ title: d.title, projectId: project.id, area: project.area, date: d.date, time: d.time, isDeadline: !d.milestone, milestone: d.milestone }));
+      flash(`已加入「${d.title}」`);
+    }
+  }
+  function deleteDeadline() {
+    const t = editDue?.task;
+    setEditDue(null);
+    if (!t) return;
+    const before = { ...t };
+    patchLocal(t.id, null);
+    save(deleteTask(t));
+    flash(`已刪除「${t.title}」`, () => { insertLocal(before); save(restoreTask(before)); });
+  }
+
   function flash(msg: string, undo?: () => void) {
     clearTimeout(toastTimer.current);
     setToast({ msg, undo });
@@ -215,7 +243,7 @@ export default function Today() {
         <View style={{ marginTop: 18 }}>
           <SectionTitle title="專案進度" sub="接下來的截止" right={<Pressable onPress={() => router.push('/calendar')} hitSlop={8}><Text style={s.link}>整週 ›</Text></Pressable>} />
           <View style={{ marginTop: 6 }}>
-            {projects.length ? <ProjectProgress projects={projects} tasks={tasks} onPressProject={() => router.push('/projects')} />
+            {projects.length ? <ProjectProgress projects={projects} tasks={tasks} onPressProject={() => router.push('/projects')} onPressItem={(t, p) => setEditDue({ project: p, task: t })} onAdd={(p) => setEditDue({ project: p, task: null })} />
               : <Text style={s.empty}>還沒有專案。到「專案」頁新增第一個品牌。</Text>}
           </View>
         </View>
@@ -294,6 +322,7 @@ export default function Today() {
         />
       ) : null}
 
+      <DeadlineSheet open={!!editDue} project={editDue?.project ?? null} task={editDue?.task ?? null} onClose={() => setEditDue(null)} onSave={saveDeadline} onDelete={deleteDeadline} />
       <InboxSheet open={inboxOpen} items={inboxItems} onClose={() => setInboxOpen(false)} topInset={insets.top} />
       <AchievementCard
         open={achv} title="今天過半了" body={`今天完成 ${todayDone} 件事。\n${petName}學會了新動作：伸懶腰。`}

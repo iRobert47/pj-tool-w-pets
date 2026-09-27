@@ -24,7 +24,8 @@ export function setupWeb() {
   add('link', { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,200;9..40,400;9..40,500;9..40,600;9..40,700&family=Noto+Sans+TC:wght@300;400;500;600;700&display=swap' });
   // 讓網頁版像 App：不能縮放、沒有點擊灰框、不會整頁回彈
   const vp = document.querySelector('meta[name="viewport"]');
-  const vpContent = 'width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover, user-scalable=no';
+  // 不用 viewport-fit=cover：加到主畫面時內容留在安全區內，不會被瀏海和底部橫條蓋住
+  const vpContent = 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no';
   if (vp) vp.setAttribute('content', vpContent); else add('meta', { name: 'viewport', content: vpContent });
 
   add('style', {}, `

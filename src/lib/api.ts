@@ -100,14 +100,15 @@ export type NewTask = {
   date?: string | null;     // 做的日子或截止日
   time?: string | null;     // HH:mm
   isDeadline?: boolean;
+  milestone?: boolean;    // ◆ 里程碑（也算截止）
   minutes?: number;
 };
 
 export async function addTask(n: NewTask) {
   const date = n.date ?? todayIso();
   let row: Record<string, unknown> = { title: n.title, project_id: n.projectId, area: n.area ?? 'work' };
-  if (n.isDeadline) {
-    row = { ...row, kind: 'deadline', due_date: date, due_at: n.time ? atTime(date, n.time) : null };
+  if (n.isDeadline || n.milestone) {
+    row = { ...row, kind: n.milestone ? 'milestone' : 'deadline', due_date: date, due_at: n.time ? atTime(date, n.time) : null };
     // 截止前一天早上 9 點提醒；當天的截止提前 30 分
     row.remind_at = date === todayIso() && n.time
       ? new Date(new Date(atTime(date, n.time)).getTime() - 30 * 60000).toISOString()

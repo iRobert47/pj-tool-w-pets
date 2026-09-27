@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Animated, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Animated, Pressable, StyleSheet, Text, TextInput, View, useWindowDimensions } from 'react-native';
 import { Tabs, router } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Path } from 'react-native-svg';
@@ -33,6 +33,11 @@ function Icon({ name, size = 22, color = '#25221D' }: { name: IconName; size?: n
 
 export default function Space() {
   const insets = useSafeAreaInsets();
+  // 對話框跟著秒喵走：秒喵在設計稿座標 (70, 420)，房間場景等比放大、貼齊底部
+  const win = useWindowDimensions();
+  const [box, setBox] = useState({ w: Math.min(win.width, 430), h: win.height });
+  const k = box.w / 390;
+  const catTop = box.h - (844 - 420) * k;
   const { data, reload } = useData(async () => ({ pet: await getPet(), fish: await fishCount() }), [], 'space');
   const [say, setSay] = useState('今天忙了好久，我想出去晃晃。');
   const [act, setAct] = useState<SpaceAct>(null);
@@ -89,7 +94,7 @@ export default function Space() {
   }
 
   return (
-    <View style={s.screen}>
+    <View style={s.screen} onLayout={(e) => setBox({ w: e.nativeEvent.layout.width, h: e.nativeEvent.layout.height })}>
       <Tabs.Screen options={{ tabBarStyle: { display: 'none' } }} />
       <SpaceScene act={act} onPressCat={petMiaomiao} />
 
@@ -114,7 +119,7 @@ export default function Space() {
         <Text style={s.questHint}>張可以領取</Text>
       </Pressable>
 
-      <Animated.View style={[s.bubble, { transform: [{ translateY: bubble.interpolate({ inputRange: [0, 1], outputRange: [0, -4] }) }] }]}>
+      <Animated.View style={[s.bubble, { bottom: box.h - catTop + 10, left: Math.min(170 * k, box.w - 220), transform: [{ translateY: bubble.interpolate({ inputRange: [0, 1], outputRange: [0, -4] }) }] }]}>
         <Text style={s.bubbleText}>{say}</Text>
         <Pressable style={s.outButton} onPress={() => speak('我出去探險一下，很快就回來！')}>
           <Text style={s.outButtonText}>讓牠出門</Text>
@@ -202,7 +207,7 @@ const s = StyleSheet.create({
   questBadge: { minWidth: 17, height: 17, borderRadius: 9, backgroundColor: '#EF8354', alignItems: 'center', justifyContent: 'center' },
   questBadgeText: { color: '#FFF', fontSize: 9, fontWeight: '800' },
   questHint: { color: '#8B7E6B', fontSize: 9.5 },
-  bubble: { position: 'absolute', right: 18, top: '37.7%', width: 202, minHeight: 96, borderRadius: 22, padding: 15, backgroundColor: 'rgba(255,255,255,0.94)', zIndex: 6, shadowColor: '#806B4C', shadowOpacity: 0.12, shadowRadius: 16, shadowOffset: { width: 0, height: 8 }, elevation: 3 },
+  bubble: { position: 'absolute', width: 202, minHeight: 96, borderRadius: 22, padding: 15, backgroundColor: 'rgba(255,255,255,0.94)', zIndex: 6, shadowColor: '#806B4C', shadowOpacity: 0.12, shadowRadius: 16, shadowOffset: { width: 0, height: 8 }, elevation: 3 },
   bubbleText: { paddingRight: 2, color: '#302C26', fontSize: 13.5, lineHeight: 20, fontWeight: '600' },
   outButton: { alignSelf: 'flex-start', marginTop: 9, height: 28, paddingHorizontal: 12, borderRadius: 14, backgroundColor: '#26231F', justifyContent: 'center' },
   outButtonText: { color: '#FFF', fontSize: 10.5, fontWeight: '700' },
