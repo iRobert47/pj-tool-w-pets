@@ -1,0 +1,12 @@
+node_modules/
+.expo/
+.env
+.agents/
+.codex/
+.DS_Store
+.vercel/
+supabase/functions/.env
+supabase/.temp/
+ios/
+android/
+dist/

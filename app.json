@@ -1,0 +1,45 @@
+{
+  "expo": {
+    "name": "秒喵",
+    "slug": "miaomiao-app",
+    "scheme": "miaomiao",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "ios": {
+      "bundleIdentifier": "com.robert.miaomiao",
+      "supportsTablet": false,
+      "infoPlist": {
+        "NSCameraUsageDescription": "拍下筆記或白板，讓秒喵幫你整理成待辦。",
+        "NSPhotoLibraryUsageDescription": "從相簿選照片，讓秒喵幫你整理成待辦。"
+      }
+    },
+    "android": {
+      "package": "com.robert.miaomiao"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "從相簿選照片，讓秒喵幫你整理成待辦。",
+          "cameraPermission": "拍下筆記或白板，讓秒喵幫你整理成待辦。"
+        }
+      ],
+      "expo-status-bar"
+    ],
+    "experiments": {
+      "typedRoutes": false
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "single",
+      "name": "秒喵",
+      "shortName": "秒喵",
+      "themeColor": "#FFFFFF",
+      "backgroundColor": "#FFFFFF",
+      "favicon": "./public/apple-touch-icon.png"
+    }
+  }
+}
