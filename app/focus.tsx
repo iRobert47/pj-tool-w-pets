@@ -121,7 +121,7 @@ export default function Focus() {
   const pct = stage === 'ready' ? 0 : 1 - left / total;
   const pomoAll = pr * pf + (pr - 1) * pb;
   const targets = useMemo(() => [
-    ...(data?.tasks ?? []).slice(0, 5).map((t) => ({ id: t.id as string | null, title: t.title, projectId: t.project_id })),
+    ...(data?.tasks ?? []).slice(0, 3).map((t) => ({ id: t.id as string | null, title: t.title, projectId: t.project_id })),
     { id: null, title: '自由專注', projectId: null },
   ], [data]);
 
