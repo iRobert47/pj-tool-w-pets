@@ -1,15 +1,17 @@
 // 進入點：判斷要去 歡迎／首次設定／今天，並在資料變動時重排手機提醒
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, DeviceEventEmitter, Platform, StyleSheet, View } from 'react-native';
+import { DeviceEventEmitter, Platform, StyleSheet, View } from 'react-native';
 import { Stack, router } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { supabase } from '../src/lib/supabase';
-import { CHANGED, getEntryRoute } from '../src/lib/api';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { CHANGED, getEntryRoute, getProfile } from '../src/lib/api';
 import { rescheduleReminders } from '../src/lib/notify';
 import { colors } from '../src/lib/theme';
 import { setupWeb } from '../src/web/setup';
 import NoticeHost from '../src/components/NoticeHost';
+import Splash, { SPLASH_NAME_KEY } from '../src/components/Splash';
 
 // 網頁版：先載入字體與設計稿動畫 CSS（在第一次畫面出來前）
 if (Platform.OS === 'web') setupWeb();
@@ -50,6 +52,12 @@ function useWebAppMeta() {
 export default function RootLayout() {
   useWebAppMeta();
   const [ready, setReady] = useState(false);
+  // 啟動畫面至少停 1.4 秒（讓標題和秒喵的動畫跑完），資料好了再淡出
+  const [minShown, setMinShown] = useState(false);
+  const [splashGone, setSplashGone] = useState(false);
+  useEffect(() => { const t = setTimeout(() => setMinShown(true), 1400); return () => clearTimeout(t); }, []);
+  const leaving = ready && minShown;
+  useEffect(() => { if (!leaving) return; const t = setTimeout(() => setSplashGone(true), 500); return () => clearTimeout(t); }, [leaving]);
 
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout> | undefined;
@@ -61,7 +69,12 @@ export default function RootLayout() {
         const atAuth = path.startsWith('/welcome') || path.startsWith('/onboarding');
         if (r === 'signin') router.replace('/welcome');
         else if (r === 'onboarding') router.replace('/onboarding');
-        else { if (Platform.OS !== 'web' || atAuth) router.replace('/'); rescheduleReminders(); }
+        else {
+          if (Platform.OS !== 'web' || atAuth) router.replace('/');
+          rescheduleReminders();
+          // 記住名字，下次啟動畫面可以說「早安，○○」
+          getProfile().then((p) => p?.display_name && AsyncStorage.setItem(SPLASH_NAME_KEY, p.display_name)).catch(() => {});
+        }
       } catch {
         router.replace('/welcome');
       } finally {
@@ -92,11 +105,7 @@ export default function RootLayout() {
           <Stack.Screen name="focus" options={{ presentation: 'fullScreenModal', contentStyle: { backgroundColor: '#1E1A17' } }} />
         </Stack>
         <NoticeHost />
-        {!ready ? (
-          <View style={{ position: 'absolute', inset: 0, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.bg }}>
-            <ActivityIndicator color={colors.ink} />
-          </View>
-        ) : null}
+        {!splashGone ? <Splash leaving={leaving} /> : null}
       </View>
     </SafeAreaProvider>
   );
