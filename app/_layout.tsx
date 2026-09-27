@@ -60,25 +60,28 @@ export default function RootLayout() {
   }, []);
 
   return (
-    <SafeAreaProvider style={[styles.app, Platform.OS === 'web' && styles.webApp]}>
-      <StatusBar style="dark" />
-      <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.bg } }}>
-        <Stack.Screen name="(tabs)" />
-        <Stack.Screen name="welcome" options={{ gestureEnabled: false }} />
-        <Stack.Screen name="onboarding" options={{ gestureEnabled: false }} />
-        <Stack.Screen name="add" options={{ presentation: 'modal' }} />
-        <Stack.Screen name="focus" options={{ presentation: 'fullScreenModal', contentStyle: { backgroundColor: '#1E1A17' } }} />
-      </Stack>
-      {!ready ? (
-        <View style={{ position: 'absolute', inset: 0, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.bg }}>
-          <ActivityIndicator color={colors.ink} />
-        </View>
-      ) : null}
+    <SafeAreaProvider style={styles.provider}>
+      <View style={[styles.app, Platform.OS === 'web' && styles.webApp]}>
+        <StatusBar style="dark" />
+        <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.bg } }}>
+          <Stack.Screen name="(tabs)" />
+          <Stack.Screen name="welcome" options={{ gestureEnabled: false }} />
+          <Stack.Screen name="onboarding" options={{ gestureEnabled: false }} />
+          <Stack.Screen name="add" options={{ presentation: 'modal' }} />
+          <Stack.Screen name="focus" options={{ presentation: 'fullScreenModal', contentStyle: { backgroundColor: '#1E1A17' } }} />
+        </Stack>
+        {!ready ? (
+          <View style={{ position: 'absolute', inset: 0, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.bg }}>
+            <ActivityIndicator color={colors.ink} />
+          </View>
+        ) : null}
+      </View>
     </SafeAreaProvider>
   );
 }
 
 const styles = StyleSheet.create({
+  provider: { flex: 1, backgroundColor: '#EEECE8' },
   app: { flex: 1, width: '100%', backgroundColor: colors.bg },
-  webApp: { maxWidth: 430, alignSelf: 'center', overflow: 'hidden' },
+  webApp: { maxWidth: 430, alignSelf: 'center', overflow: 'hidden', shadowColor: '#000', shadowOpacity: 0.08, shadowRadius: 28, shadowOffset: { width: 0, height: 0 } },
 });
