@@ -7,8 +7,7 @@ import { notice } from '../../src/lib/notice';
 import { colors } from '../../src/lib/theme';
 import { feedCat, fishCount, getPet, petCat, renamePet } from '../../src/lib/api';
 import { useData } from '../../src/lib/useData';
-import Miaomiao, { MiaomiaoAction } from '../../src/components/Miaomiao';
-import RoomBackdrop from '../../src/components/RoomBackdrop';
+import SpaceScene, { SpaceAct } from '../../src/components/SpaceScene';
 
 type IconName = 'back' | 'switch' | 'hand' | 'fish' | 'wand' | 'memory' | 'collection' | 'decorate' | 'quest';
 
@@ -36,8 +35,8 @@ export default function Space() {
   const insets = useSafeAreaInsets();
   const { data, reload } = useData(async () => ({ pet: await getPet(), fish: await fishCount() }), [], 'space');
   const [say, setSay] = useState('今天忙了好久，我想出去晃晃。');
-  const [action, setAction] = useState<MiaomiaoAction>('idle');
-  const [actionKey, setActionKey] = useState(0);
+  const [act, setAct] = useState<SpaceAct>(null);
+  const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
   const [editing, setEditing] = useState(false);
   const [name, setName] = useState('');
   const bubble = useRef(new Animated.Value(1)).current;
@@ -56,31 +55,43 @@ export default function Space() {
     setSay(line);
   }
 
-  function play(next: Exclude<MiaomiaoAction, 'idle'>, line: string) {
-    setAction(next);
-    setActionKey((key) => key + 1);
-    speak(line);
-  }
+  useEffect(() => () => timers.current.forEach(clearTimeout), []);
 
-  async function petMiaomiao() {
-    play('pet', '呼嚕呼嚕～再摸一下。');
-    if (pet) {
-      await petCat(pet);
-      reload();
-    }
+  // 設計稿的動作序列：每一步 [動作, 毫秒, 秒喵說的話]，做完回到坐姿
+  function seq(steps: [SpaceAct, number, string][], after: string) {
+    timers.current.forEach(clearTimeout);
+    timers.current = [];
+    let at = 0;
+    steps.forEach(([a, ms, line]) => {
+      timers.current.push(setTimeout(() => { setAct(a); if (line) speak(line); }, at));
+      at += ms;
+    });
+    timers.current.push(setTimeout(() => { setAct(null); speak(after); }, at));
+  }
+  const busy = act !== null;
+
+  function petMiaomiao() {
+    if (busy) return;
+    seq([['pet', 1800, '呼嚕呼嚕……\n再摸一下。']], '嘿嘿。\n今天也辛苦了。');
+    if (pet) petCat(pet).then(reload).catch(() => {});
   }
 
   async function feedMiaomiao() {
-    if (!pet) return;
-    const ok = await feedCat(pet);
-    play('feed', ok ? '好吃！今天也有被好好照顧。' : '小魚乾吃完了，專注 20 分鐘就會再有。');
-    reload();
+    if (busy || !pet) return;
+    if ((data?.fish ?? 0) <= 0) { speak('小魚乾吃完了，\n專注 20 分鐘就會再有。'); return; }
+    seq([['notice', 700, '咦？\n是小魚乾！'], ['run', 800, '我來了！'], ['eat', 1500, '好好吃……'], ['ret', 800, '好好吃……'], ['pet', 1400, '']], '謝謝招待～\n吃飽了想睡午覺。');
+    feedCat(pet).then(reload).catch(() => {});
+  }
+
+  function playWand() {
+    if (busy) return;
+    seq([['wand', 2600, '（盯——）'], ['swipe', 700, '喵！'], ['wand', 1500, '（盯——）'], ['swipe', 700, '喵！'], ['pet', 1200, '']], '再玩一次！\n這根羽毛好好抓。');
   }
 
   return (
     <View style={s.screen}>
       <Tabs.Screen options={{ tabBarStyle: { display: 'none' } }} />
-      <View style={StyleSheet.absoluteFill}><RoomBackdrop /></View>
+      <SpaceScene act={act} onPressCat={petMiaomiao} />
 
       <View style={[s.header, { top: insets.top + 8 }]}>
         <Pressable style={s.roundButton} onPress={() => router.back()} accessibilityLabel="返回">
@@ -111,10 +122,6 @@ export default function Space() {
         <View style={s.bubbleTail} />
       </Animated.View>
 
-      <View style={s.catStage}>
-        <Miaomiao size={250} action={action} actionKey={actionKey} onActionComplete={() => setAction('idle')} onPress={petMiaomiao} />
-      </View>
-
       <View style={s.focusPill}>
         <View style={s.focusDot} />
         <Text style={s.focusLabel}>專注</Text>
@@ -127,7 +134,7 @@ export default function Space() {
           <View style={s.actionDivider} />
           <Action icon="fish" label="餵食" count={`×${data?.fish ?? 0}`} onPress={feedMiaomiao} />
           <View style={s.actionDivider} />
-          <Action icon="wand" label="逗貓棒" onPress={() => play('play', '這次一定抓得到！')} />
+          <Action icon="wand" label="逗貓棒" onPress={playWand} />
         </View>
       </View>
 
