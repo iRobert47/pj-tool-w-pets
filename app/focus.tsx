@@ -144,11 +144,15 @@ export default function Focus() {
   const compact = box.h < 760;                              // 瀏覽器有網址列、或較矮的手機
   const catBottom = compact ? bottomTop - 6 : Math.min(designBottom, bottomTop - 6);
   const room = catBottom - (controlsBottom + 10);
-  const sc = Math.max(0.4, Math.min(1, room / (214 * k)));
+  // 對話框放在貓頭「上方」的空位，不再疊在貓身上：先扣掉對話框的高度，貓太小就不顯示對話框
+  const BUBBLE_H = 70;
+  const wantBubble = stage === 'ready' || stage === 'rest';
+  const scWithBubble = Math.min(1, (room - BUBBLE_H) / (214 * k));
+  const showBubble = wantBubble && scWithBubble >= 0.6;
+  const sc = Math.max(0.4, Math.min(1, (showBubble ? room - BUBBLE_H : room) / (214 * k)));
   const u = k * sc;                                         // 設計稿 1px 在畫面上的大小
   const gw = 234 * u, gh = 214 * u;
   const gl = 205 * k - gw / 2, gt = catBottom - gh;
-  const showBubble = sc > 0.82 && (stage === 'ready' || stage === 'rest');
 
   return (
     <View style={[s.screen, { paddingTop: insets.top + 6 }]} onLayout={(e) => setBox({ w: e.nativeEvent.layout.width, h: e.nativeEvent.layout.height })}>
@@ -161,7 +165,7 @@ export default function Focus() {
         </View>
       </View>
       {showBubble ? (
-        <View pointerEvents="none" style={[s.bubble, { left: gl + 62 * u, top: gt + 6 * u }]}>
+        <View pointerEvents="none" style={[s.bubble, { left: Math.max(12, gl + 40 * u), top: gt - BUBBLE_H + 4 }]}>
           <Text style={s.bubbleText}>{stage === 'ready' ? '準備好就開始，\n我先跳上去坐好。' : '起來走走、喝口水，\n我也伸個懶腰。'}</Text>
         </View>
       ) : null}
