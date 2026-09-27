@@ -1,7 +1,8 @@
 // 03 專案：每個品牌的進度（完成比例、下一個截止），可以新增品牌
 import React, { useState } from 'react';
-import { Alert, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { notice } from '../../src/lib/notice';
 import { colors } from '../../src/lib/theme';
 import { addDays, relLabel, todayIso } from '../../src/lib/dates';
 import { addProject, listProjects, listTasks } from '../../src/lib/api';
@@ -16,7 +17,7 @@ export default function Projects() {
   const { data } = useData(async () => {
     const [projects, tasks] = await Promise.all([listProjects(), listTasks(addDays(today, -60), addDays(today, 90))]);
     return { projects, tasks };
-  }, []);
+  }, [], 'projects');
   const [adding, setAdding] = useState(false);
   const [tab, setTab] = useState<'all' | 'active' | 'attention'>('all');
   const [name, setName] = useState('');
@@ -25,7 +26,7 @@ export default function Projects() {
   async function create() {
     if (!name.trim()) return;
     try { await addProject(name.trim(), color); setName(''); setAdding(false); }
-    catch (e) { Alert.alert('新增失敗', String(e)); }
+    catch (e) { notice('新增失敗', String(e)); }
   }
 
   return (
@@ -33,8 +34,8 @@ export default function Projects() {
       <View style={s.head}>
         <Text style={s.title}>專案</Text>
         <View style={s.headActions}>
-          <Pressable style={s.iconButton} onPress={() => Alert.alert('搜尋', '專案搜尋功能準備中。')}><Text style={s.iconText}>⌕</Text></Pressable>
-          <Pressable style={s.iconButton} onPress={() => Alert.alert('通知匣', '目前沒有新的專案通知。')}><Text style={s.iconText}>♢</Text></Pressable>
+          <Pressable style={s.iconButton} onPress={() => notice('搜尋', '專案搜尋功能準備中。')}><Text style={s.iconText}>⌕</Text></Pressable>
+          <Pressable style={s.iconButton} onPress={() => notice('通知匣', '目前沒有新的專案通知。')}><Text style={s.iconText}>♢</Text></Pressable>
           <Pressable onPress={() => setAdding(!adding)} hitSlop={10}><Text style={s.add}>{adding ? '取消' : '＋'}</Text></Pressable>
         </View>
       </View>
@@ -46,7 +47,7 @@ export default function Projects() {
         </View>
         <View style={s.reviewBanner}>
           <View style={{ flex: 1 }}><Text style={s.reviewEyebrow}>WEEKLY REVIEW</Text><Text style={s.reviewTitle}>整理這週，讓下週更輕鬆</Text><Text style={s.reviewSub}>3 個專案有待確認的截止日</Text></View>
-          <Pressable style={s.reviewButton} onPress={() => Alert.alert('週回顧', '週回顧流程準備中。')}><Text style={s.reviewButtonText}>開始 ›</Text></Pressable>
+          <Pressable style={s.reviewButton} onPress={() => notice('週回顧', '週回顧流程準備中。')}><Text style={s.reviewButtonText}>開始 ›</Text></Pressable>
         </View>
         {adding ? (
           <View style={s.form}>

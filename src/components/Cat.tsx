@@ -3,7 +3,7 @@ import React, { useEffect, useRef } from 'react';
 import { Animated, Easing, Pressable } from 'react-native';
 import Svg, { Defs, Ellipse, G, LinearGradient, Path, RadialGradient, Stop } from 'react-native-svg';
 
-export default function Cat({ size = 120, onPress, happy = false }: { size?: number; onPress?: () => void; happy?: boolean }) {
+export default function Cat({ size = 120, onPress, happy = false }: { size?: number; onPress?: () => void; happy?: boolean; mood?: 'purr' | 'alert' | 'sleep' }) {
   const breath = useRef(new Animated.Value(0)).current;
   const hop = useRef(new Animated.Value(0)).current;
   useEffect(() => {

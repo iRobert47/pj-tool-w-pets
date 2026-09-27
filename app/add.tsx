@@ -13,7 +13,7 @@ import { Button, Chip } from '../src/components/ui';
 const KIND_LABEL: Record<AiItem['kind'], string> = { milestone: '◆ 里程碑', deadline: '截止', day_task: '日任務', timed: '排時間' };
 
 export default function Add() {
-  const { data: projects } = useData(listProjects, []);
+  const { data: projects } = useData(listProjects, [], 'projects-list');
   const [text, setText] = useState('');
   const [pickedProject, setPickedProject] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);

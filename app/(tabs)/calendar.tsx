@@ -16,7 +16,7 @@ export default function Calendar() {
   const { data } = useData(async () => {
     const [projects, tasks, someday] = await Promise.all([listProjects(), listTasks(days[0], days[6]), listSomeday()]);
     return { projects, tasks, someday };
-  }, [days[0]]);
+  }, [days[0]], 'calendar');
   const projects = data?.projects ?? [];
   const tasks = data?.tasks ?? [];
   const byId = useMemo(() => Object.fromEntries(projects.map((p) => [p.id, p])), [projects]);

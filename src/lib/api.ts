@@ -128,9 +128,9 @@ export async function setDone(t: Task, done: boolean) {
   changed();
 }
 
-/** 移到某一天（保留原本的時間） */
-export async function moveTask(t: Task, toDate: string) {
-  const patch: Record<string, unknown> = { postponed_count: (t.postponed_count ?? 0) + 1 };
+/** 移到某一天要改哪些欄位（保留原本的時間）——畫面先套用，再存到資料庫 */
+export function moveFields(t: Task, toDate: string): Partial<Task> {
+  const patch: Partial<Task> = { postponed_count: (t.postponed_count ?? 0) + 1 };
   if (t.start_at) {
     const shift = new Date(atTime(toDate, '00:00')).getTime() - new Date(atTime(localDateOf(t.start_at), '00:00')).getTime();
     patch.start_at = new Date(new Date(t.start_at).getTime() + shift).toISOString();
@@ -139,7 +139,12 @@ export async function moveTask(t: Task, toDate: string) {
     patch.due_date = toDate;
     if (t.kind === 'someday') patch.kind = 'day_task';
   }
-  must(await supabase.from('tasks').update(patch).eq('id', t.id));
+  return patch;
+}
+
+/** 移到某一天（保留原本的時間） */
+export async function moveTask(t: Task, toDate: string) {
+  must(await supabase.from('tasks').update(moveFields(t, toDate)).eq('id', t.id));
   changed();
 }
 

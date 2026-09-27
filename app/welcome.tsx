@@ -1,7 +1,8 @@
 // 00 歡迎／登入：Email＋密碼（沒有帳號會直接幫你建立）
 import React, { useState } from 'react';
-import { Alert, KeyboardAvoidingView, Platform, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { router } from 'expo-router';
+import { notice } from '../src/lib/notice';
 import { colors } from '../src/lib/theme';
 import { supabase } from '../src/lib/supabase';
 import { getEntryRoute } from '../src/lib/api';
@@ -42,7 +43,7 @@ export default function Welcome() {
       </View>
       <View style={s.form}>
         {!showEmail ? <>
-          <Pressable style={s.apple} onPress={() => Alert.alert('Apple 登入', '目前測試版請先使用 Email 登入。')}><Text style={s.appleText}>●　使用 Apple 繼續</Text></Pressable>
+          <Pressable style={s.apple} onPress={() => notice('Apple 登入', '目前測試版請先使用 Email 登入。')}><Text style={s.appleText}>●　使用 Apple 繼續</Text></Pressable>
           <Pressable style={s.emailButton} onPress={() => setShowEmail(true)}><Text style={s.emailButtonText}>使用 Email 繼續</Text></Pressable>
         </> : <>
           <TextInput value={email} onChangeText={setEmail} placeholder="Email" autoCapitalize="none" keyboardType="email-address" autoComplete="email" placeholderTextColor={colors.muted} style={s.input} />

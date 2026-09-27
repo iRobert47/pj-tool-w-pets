@@ -6,11 +6,13 @@ import { useKeepAwake } from 'expo-keep-awake';
 import * as Notifications from 'expo-notifications';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Cat from '../src/components/Cat';
+import Stage from '../src/components/Stage';
+import { FOCUS_BG_SVG, FOCUS_CUSHION_SVG } from '../src/design/focusScene';
 import { endFocus, focusMinutes, listTasks, startFocus, taskDay } from '../src/lib/api';
 import { todayIso, weekOf } from '../src/lib/dates';
 import { useData } from '../src/lib/useData';
 
-const DARK = '#1E1A17', CREAM = '#F3E6CF', TEXT = '#F6EBD9', DIM = '#B5AA99';
+const DARK = '#211D19', CREAM = '#F3E6CF', TEXT = '#F6EBD9', DIM = '#B5AA99';
 const OFF_B = 'rgba(255,255,255,0.30)', OFF_BG = 'rgba(255,255,255,0.08)';
 
 type Stage = 'ready' | 'focus' | 'rest' | 'done';
@@ -23,7 +25,7 @@ export default function Focus() {
   const { data } = useData(async () => {
     const [tasks, todayMin, weekMin] = await Promise.all([listTasks(today, today), focusMinutes(today), focusMinutes(weekOf(today)[0])]);
     return { tasks: tasks.filter((t) => taskDay(t) === today && t.kind !== 'event' && !t.done_at), todayMin, weekMin };
-  }, []);
+  }, [], 'focus');
 
   const [target, setTarget] = useState<{ id: string | null; title: string; projectId: string | null }>(
     params.taskId ? { id: params.taskId, title: params.title ?? '', projectId: params.projectId || null } : { id: null, title: '自由專注', projectId: null },
@@ -127,8 +129,22 @@ export default function Focus() {
   const pill = (on: boolean) => [s.pill, on ? { backgroundColor: CREAM, borderColor: CREAM } : { backgroundColor: OFF_BG, borderColor: OFF_B }];
   const pillText = (on: boolean) => [s.pillText, { color: on ? DARK : '#EFE7DA' }];
 
+  // 設計稿的場景：窗外下雨、檯燈、地毯；專注時檯燈亮起
+  const lamp = stage === 'focus' ? { glow: '0.32', cone: '1', shade: '#F5CB8E' } : stage === 'rest' ? { glow: '0.22', cone: '0.7', shade: '#F5CB8E' } : { glow: '0.1', cone: '0.2', shade: '#B89A74' };
+  const sceneHtml = FOCUS_BG_SVG.replace(/__GLOW__/g, lamp.glow).replace(/__CONE__/g, lamp.cone).replace(/__SHADE__/g, lamp.shade) + FOCUS_CUSHION_SVG.replace('<svg ', '<svg style="position:absolute;left:98px;top:648px" ');
+
   return (
     <View style={[s.screen, { paddingTop: insets.top + 6 }]}>
+      <Stage html={sceneHtml} bg={DARK}>
+        <View style={{ position: 'absolute', left: 88, top: 494, width: 234, height: 215 }}>
+          <Cat size={234} happy={stage === 'done'} mood={stage === 'focus' ? 'purr' : undefined} />
+        </View>
+        {stage === 'ready' ? (
+          <View style={s.bubble}><Text style={s.bubbleText}>準備好就開始，{'\n'}我先跳上去坐好。</Text></View>
+        ) : stage === 'rest' ? (
+          <View style={s.bubble}><Text style={s.bubbleText}>起來走走、喝口水，{'\n'}我也伸個懶腰。</Text></View>
+        ) : null}
+      </Stage>
       <View style={s.top}>
         {stage === 'ready' || stage === 'done' ? <Pressable onPress={() => router.back()} hitSlop={10}><Text style={s.back}>‹ 返回</Text></Pressable> : <View />}
       </View>
@@ -193,9 +209,6 @@ export default function Focus() {
           </>
         ) : null}
 
-        <View style={{ marginTop: 34 }}>
-          <Cat size={stage === 'done' ? 180 : 150} happy={stage === 'done'} />
-        </View>
       </ScrollView>
 
       <View style={[s.bottom, { paddingBottom: insets.bottom + 20 }]}>
@@ -214,6 +227,8 @@ export default function Focus() {
 }
 
 const s = StyleSheet.create({
+  bubble: { position: 'absolute', left: 150, top: 500, maxWidth: 170, backgroundColor: '#F3E9D8', borderRadius: 16, borderBottomLeftRadius: 4, paddingHorizontal: 14, paddingVertical: 10 },
+  bubbleText: { color: '#211D19', fontSize: 14, fontWeight: '500', lineHeight: 21 },
   screen: { flex: 1, backgroundColor: DARK },
   top: { height: 44, paddingHorizontal: 16, justifyContent: 'center' },
   back: { color: DIM, fontSize: 15 },

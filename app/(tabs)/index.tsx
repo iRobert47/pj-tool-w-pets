@@ -1,11 +1,15 @@
 // 01 今天：週條、秒喵、專案進度、今天要做的事
-import React, { useMemo, useRef, useState } from 'react';
-import { Alert, Animated, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { Animated, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import { colors } from '../../src/lib/theme';
 import { WEEKDAYS, addDays, fromIso, hhmm, todayIso, weekOf } from '../../src/lib/dates';
-import { Project, Task, addTask, deleteTask, getPet, getProfile, listProjects, listTasks, moveTask, restoreTask, setDone, taskDay, updateTask } from '../../src/lib/api';
+import { Project, Task, addTask, deleteTask, getPet, getProfile, listProjects, listTasks, moveFields, moveTask, restoreTask, setDone, taskDay, updateTask } from '../../src/lib/api';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Banner from '../../src/components/Banner';
+import InboxSheet, { InboxItem } from '../../src/components/InboxSheet';
+import AchievementCard from '../../src/components/AchievementCard';
 import { useData } from '../../src/lib/useData';
 import WeekStrip from '../../src/components/WeekStrip';
 import ProjectProgress from '../../src/components/ProjectProgress';
@@ -26,10 +30,15 @@ export default function Today() {
   const [toast, setToast] = useState<{ msg: string; undo?: () => void } | null>(null);
   const [purr, setPurr] = useState(false);
   const toastTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const [inboxOpen, setInboxOpen] = useState(false);
+  const [seen, setSeen] = useState(0);            // 打開通知匣時看過的數量
+  const [dismissed, setDismissed] = useState<Record<string, true>>({});
+  const [achv, setAchv] = useState(false);
+  const [clock, setClock] = useState(Date.now());
 
   const today = todayIso();
   const week = weekOf(day);
-  const { data } = useData(async () => {
+  const { data, setData, reload } = useData(async () => {
     const [projects, tasks, profile, pet] = await Promise.all([
       listProjects(),
       listTasks(week[0] < today ? week[0] : today, addDays(today, 14) > week[6] ? addDays(today, 14) : week[6]),
@@ -37,7 +46,7 @@ export default function Today() {
       getPet(),
     ]);
     return { projects, tasks, profile, pet };
-  }, [week[0]]);
+  }, [week[0]], 'today');
 
   const projects = data?.projects ?? [];
   const tasks = data?.tasks ?? [];
@@ -65,6 +74,59 @@ export default function Today() {
     : next ? `${hhmm(next.start_at)} 有「${next.title}」，先做手上的吧。`
     : openTasks.length && doneCount === openTasks.length ? `${name || '你'}，今天的都做完了！` : `${name ? name + '，' : ''}今天先挑一件小的開始。`;
 
+  // 每分鐘更新一次「現在」，讓提醒橫幅準時出現
+  useEffect(() => { const t = setInterval(() => setClock(Date.now()), 60000); return () => clearInterval(t); }, []);
+
+  // 先改畫面、再存資料庫：勾選／移動／刪除不用等伺服器
+  function patchLocal(id: string, patch: Partial<Task> | null) {
+    setData((prev) => prev && ({ ...prev, tasks: patch ? prev.tasks.map((x) => (x.id === id ? { ...x, ...patch } : x)) : prev.tasks.filter((x) => x.id !== id) }));
+  }
+  function insertLocal(t: Task) {
+    setData((prev) => prev && ({ ...prev, tasks: [...prev.tasks, t] }));
+  }
+  function save(p: Promise<unknown>) {
+    p.catch(() => { flash('沒存到，已經還原'); reload(); });
+  }
+  function toggle(t: Task) {
+    patchLocal(t.id, { done_at: t.done_at ? null : new Date().toISOString() });
+    save(setDone(t, !t.done_at));
+  }
+
+  // 提醒橫幅：60 分鐘內開始的行程、60 分鐘內到期的截止（按「我知道了」就不再跳）
+  const todayKey = 'dismissed:' + today;
+  useEffect(() => { AsyncStorage.getItem(todayKey).then((v) => { if (v) setDismissed(JSON.parse(v)); }).catch(() => {}); }, [todayKey]);
+  function dismiss(id: string) {
+    setDismissed((prev) => { const next = { ...prev, [id]: true as const }; AsyncStorage.setItem(todayKey, JSON.stringify(next)).catch(() => {}); return next; });
+  }
+  const soon = (ts: string | null) => ts != null && new Date(ts).getTime() - clock > 0 && new Date(ts).getTime() - clock <= 60 * 60000;
+  const minsTo = (ts: string) => Math.max(1, Math.round((new Date(ts).getTime() - clock) / 60000));
+  const upcoming = tasks.filter((t) => !t.done_at && t.start_at && soon(t.start_at)).sort((a, b) => (a.start_at! < b.start_at! ? -1 : 1))[0];
+  const dueSoon = tasks.filter((t) => !t.done_at && t.due_at && soon(t.due_at)).sort((a, b) => (a.due_at! < b.due_at! ? -1 : 1))[0];
+  const bannerTask = [upcoming, dueSoon].find((t) => t && !dismissed[t.id + (t.due_at && t === dueSoon ? ':due' : '')]);
+
+  // 通知匣內容
+  const inboxItems: InboxItem[] = [];
+  tasks.filter((t) => !t.done_at && t.start_at && new Date(t.start_at).getTime() > clock && taskDay(t) === today).slice(0, 3)
+    .forEach((t) => inboxItems.push({ id: t.id, section: '接下來', title: `${hhmm(t.start_at)} ${t.title}`, sub: `${minsTo(t.start_at!)} 分鐘後${t.location ? '・' + t.location : ''}`, tint: '#E6EEF6' }));
+  tasks.filter((t) => !t.done_at && t.due_at && taskDay(t) === today && new Date(t.due_at).getTime() > clock)
+    .forEach((t) => inboxItems.push({ id: t.id + ':due', section: '接下來', title: `${hhmm(t.due_at)} 前・${t.title}`, sub: '今天截止', tint: colors.dueBg }));
+  if (data?.pet && data.pet.fullness < 40) inboxItems.push({ id: 'pet-hungry', section: '秒喵', title: `${data.pet.name}肚子有點餓`, sub: '專注 20 分鐘就能換一條小魚乾', tint: '#F4EFE5', action: { label: '去看看', onPress: () => router.push('/space') } });
+  else inboxItems.push({ id: 'pet-hi', section: '秒喵', title: `${data?.pet?.name ?? '秒喵'}在窗邊等你`, sub: '忙完記得回來摸摸牠', tint: '#F4EFE5', action: { label: '去看看', onPress: () => router.push('/space') } });
+  const todayDone = tasks.filter((t) => taskDay(t) === today && t.kind !== 'event' && t.done_at).length;
+  if (todayDone >= 3) inboxItems.push({ id: 'achv-half', section: '成就', title: '今天過半了', sub: `完成 ${todayDone} 件・解鎖新動作「伸懶腰」`, tint: colors.dueBg });
+  const badge = Math.max(0, inboxItems.length - seen);
+
+  // 成就：今天第 3 件完成時跳一次
+  const prevDone = useRef<number | null>(null);
+  useEffect(() => {
+    if (!data) return;
+    const was = prevDone.current;
+    prevDone.current = todayDone;
+    if (was !== null && was < 3 && todayDone >= 3) {
+      AsyncStorage.getItem('achv:' + today).then((v) => { if (!v) { setAchv(true); AsyncStorage.setItem('achv:' + today, '1').catch(() => {}); } }).catch(() => setAchv(true));
+    }
+  }, [todayDone, data, today]);
+
   function flash(msg: string, undo?: () => void) {
     clearTimeout(toastTimer.current);
     setToast({ msg, undo });
@@ -75,18 +137,32 @@ export default function Today() {
     const v = draft.trim();
     if (!v) { setAdding(null); return; }
     setDraft('');
-    await addTask({ title: v, projectId: p.id === '__none' ? null : p.id, area: p.area, date: day });
+    insertLocal({ id: 'tmp-' + Date.now(), project_id: p.id === '__none' ? null : p.id, kind: 'day_task', area: p.area, title: v, note: null, due_date: day, due_at: null, start_at: null, end_at: null, remind_at: null, done_at: null, location: null, postponed_count: 0 });
+    save(addTask({ title: v, projectId: p.id === '__none' ? null : p.id, area: p.area, date: day }));
   }
 
   async function onAction(a: SheetAction) {
     const t = sel!;
     setSel(null);
     const before = { ...t };
-    if (a === 'done') await setDone(t, !t.done_at);
-    if (a === 'tomorrow') { await moveTask(t, addDays(taskDay(t) ?? today, 1)); flash(`「${t.title}」移到明天`, () => updateTask(t.id, pick(before))); }
-    if (a === 'weekend') { const sat = weekOf(today)[6]; await moveTask(t, sat <= today ? addDays(sat, 7) : sat); flash(`「${t.title}」移到週六`, () => updateTask(t.id, pick(before))); }
-    if (a === 'someday') { await updateTask(t.id, { kind: 'someday', due_date: null, due_at: null, start_at: null, end_at: null, remind_at: null }); flash(`「${t.title}」放到之後再說`, () => updateTask(t.id, pick(before))); }
-    if (a === 'delete') { await deleteTask(t); flash(`已刪除「${t.title}」`, () => restoreTask(before)); }
+    const undoFields = () => { patchLocal(t.id, pick(before)); save(updateTask(t.id, pick(before))); };
+    const moveTo = (to: string, label: string) => {
+      patchLocal(t.id, moveFields(t, to));
+      save(moveTask(t, to));
+      flash(`「${t.title}」移到${label}`, undoFields);
+    };
+    if (a === 'done') toggle(t);
+    if (a === 'tomorrow') moveTo(addDays(taskDay(t) ?? today, 1), '明天');
+    if (a === 'weekend') { const sat = weekOf(today)[6]; moveTo(sat <= today ? addDays(sat, 7) : sat, '週六'); }
+    if (a === 'someday') {
+      const patch: Partial<Task> = { kind: 'someday', due_date: null, due_at: null, start_at: null, end_at: null, remind_at: null };
+      patchLocal(t.id, patch); save(updateTask(t.id, patch));
+      flash(`「${t.title}」放到之後再說`, undoFields);
+    }
+    if (a === 'delete') {
+      patchLocal(t.id, null); save(deleteTask(t));
+      flash(`已刪除「${t.title}」`, () => { insertLocal(before); save(restoreTask(before)); });
+    }
     if (a === 'focus') router.push({ pathname: '/focus', params: { taskId: t.id, title: t.title, projectId: t.project_id ?? '' } });
   }
 
@@ -119,9 +195,9 @@ export default function Today() {
           <Pressable onPress={() => router.push('/focus')} style={s.focusPill} accessibilityLabel="開始專注">
             <Text style={s.focusText}>◷ 專注</Text>
           </Pressable>
-          <Pressable onPress={() => Alert.alert('通知匣', '11:00 YMT 提案會議\nMiaomiao 想出去晃晃')} style={s.inbox} accessibilityLabel="通知匣，2 則未讀">
+          <Pressable onPress={() => { setInboxOpen(true); setSeen(inboxItems.length); }} style={s.inbox} accessibilityLabel={`通知匣，${badge} 則未讀`}>
             <Text style={s.bell}>♢</Text>
-            <View style={s.badge}><Text style={s.badgeText}>2</Text></View>
+            {badge > 0 ? <View style={s.badge}><Text style={s.badgeText}>{badge}</Text></View> : null}
           </Pressable>
         </View>
       </View>
@@ -161,7 +237,7 @@ export default function Today() {
                 <Text style={s.groupMeta}>{g.items.filter((t) => t.kind !== 'event' && !t.done_at).length ? `剩 ${g.items.filter((t) => t.kind !== 'event' && !t.done_at).length} 件` : g.items.length ? '都完成了' : ''}</Text>
               </View>
               {g.items.map((t) => (
-                <TaskRow key={t.id} task={t} color={projOf(t).color} onToggle={() => setDone(t, !t.done_at)} onOpen={() => setSel(t)} />
+                <TaskRow key={t.id} task={t} color={projOf(t).color} onToggle={() => toggle(t)} onOpen={() => setSel(t)} />
               ))}
               {adding === g.key && g.project ? (
                 <View style={[s.addRow, { borderBottomColor: g.color }]}>
@@ -188,6 +264,41 @@ export default function Today() {
       ) : null}
 
       <TaskSheet task={sel} projectName={sel ? projOf(sel).name : ''} color={sel ? projOf(sel).color : colors.ink} onClose={() => setSel(null)} onAction={onAction} />
+
+      {bannerTask && bannerTask === upcoming ? (
+        <Banner
+          key={bannerTask.id}
+          kind="meeting" top={insets.top + 8}
+          eyebrow={`下一小時・${minsTo(bannerTask.start_at!)} 分鐘後`} right="現在"
+          title={`${hhmm(bannerTask.start_at)} ${bannerTask.title}`}
+          body={bannerTask.location ? bannerTask.location : `${projOf(bannerTask).name}`}
+          actions={[
+            { label: '我知道了', primary: true, onPress: () => dismiss(bannerTask.id) },
+            { label: '稍後提醒', onPress: () => dismiss(bannerTask.id) },
+          ]}
+          onAutoHide={() => dismiss(bannerTask.id)}
+        />
+      ) : bannerTask ? (
+        <Banner
+          key={bannerTask.id + ':due'}
+          kind="due" top={insets.top + 8}
+          eyebrow={`${bannerTask.kind === 'day_task' ? '日任務' : '截止'}・${minsTo(bannerTask.due_at!)} 分鐘後`} right={hhmm(bannerTask.due_at)}
+          title={bannerTask.title}
+          body={`${hhmm(bannerTask.due_at)} 前要完成。`}
+          actions={[
+            { label: '我知道了', primary: true, onPress: () => dismiss(bannerTask.id + ':due') },
+            { label: '已完成', onPress: () => { dismiss(bannerTask.id + ':due'); toggle(bannerTask); } },
+            { label: '移到明天', onPress: () => { dismiss(bannerTask.id + ':due'); patchLocal(bannerTask.id, moveFields(bannerTask, addDays(today, 1))); save(moveTask(bannerTask, addDays(today, 1))); } },
+          ]}
+          onAutoHide={() => dismiss(bannerTask.id + ':due')}
+        />
+      ) : null}
+
+      <InboxSheet open={inboxOpen} items={inboxItems} onClose={() => setInboxOpen(false)} topInset={insets.top} />
+      <AchievementCard
+        open={achv} title="今天過半了" body={`今天完成 ${todayDone} 件事。\n${petName}學會了新動作：伸懶腰。`}
+        onClose={() => setAchv(false)} onGo={() => { setAchv(false); router.push('/space'); }}
+      />
     </View>
   );
 }

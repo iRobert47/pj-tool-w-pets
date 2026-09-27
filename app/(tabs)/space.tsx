@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Alert, Animated, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Animated, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { Tabs, router } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Path } from 'react-native-svg';
+import { notice } from '../../src/lib/notice';
 import { colors } from '../../src/lib/theme';
 import { feedCat, fishCount, getPet, petCat, renamePet } from '../../src/lib/api';
 import { useData } from '../../src/lib/useData';
@@ -33,7 +34,7 @@ function Icon({ name, size = 22, color = '#25221D' }: { name: IconName; size?: n
 
 export default function Space() {
   const insets = useSafeAreaInsets();
-  const { data, reload } = useData(async () => ({ pet: await getPet(), fish: await fishCount() }), []);
+  const { data, reload } = useData(async () => ({ pet: await getPet(), fish: await fishCount() }), [], 'space');
   const [say, setSay] = useState('今天忙了好久，我想出去晃晃。');
   const [action, setAction] = useState<MiaomiaoAction>('idle');
   const [actionKey, setActionKey] = useState(0);
@@ -89,13 +90,13 @@ export default function Space() {
           <Text style={s.petName}>{pet?.name || 'Miaomiao'}</Text>
           <Text style={s.days}>相伴 142 天</Text>
         </Pressable>
-        <Pressable style={s.partnerSwitch} onPress={() => Alert.alert('切換夥伴', '目前只有 Miaomiao 在房間裡。')}>
+        <Pressable style={s.partnerSwitch} onPress={() => notice('切換夥伴', '目前只有 Miaomiao 在房間裡。')}>
           <Icon name="switch" size={17} />
           <Text style={s.switchText}>切換</Text>
         </Pressable>
       </View>
 
-      <Pressable style={[s.questPill, { top: insets.top + 62 }]} onPress={() => Alert.alert('任務牆', '有 2 張任務卡可以領取。')}>
+      <Pressable style={[s.questPill, { top: insets.top + 62 }]} onPress={() => notice('任務牆', '有 2 張任務卡可以領取。')}>
         <Icon name="quest" size={16} color="#6F5A3E" />
         <Text style={s.questText}>任務牆</Text>
         <View style={s.questBadge}><Text style={s.questBadgeText}>2</Text></View>
@@ -131,10 +132,10 @@ export default function Space() {
       </View>
 
       <View style={[s.roomNav, { bottom: Math.max(insets.bottom, 14) }]}>
-        <RoomNav icon="memory" label="回憶" onPress={() => Alert.alert('回憶', '一起生活的片段會收藏在這裡。')} />
-        <RoomNav icon="collection" label="收藏" onPress={() => Alert.alert('收藏', 'Miaomiao 帶回來的收藏品。')} />
-        <RoomNav icon="decorate" label="佈置" onPress={() => Alert.alert('佈置', '房間佈置功能準備中。')} />
-        <RoomNav icon="quest" label="任務牆" onPress={() => Alert.alert('任務牆', '有 2 張任務卡可以領取。')} />
+        <RoomNav icon="memory" label="回憶" onPress={() => notice('回憶', '一起生活的片段會收藏在這裡。')} />
+        <RoomNav icon="collection" label="收藏" onPress={() => notice('收藏', 'Miaomiao 帶回來的收藏品。')} />
+        <RoomNav icon="decorate" label="佈置" onPress={() => notice('佈置', '房間佈置功能準備中。')} />
+        <RoomNav icon="quest" label="任務牆" onPress={() => notice('任務牆', '有 2 張任務卡可以領取。')} />
       </View>
 
       {editing ? (

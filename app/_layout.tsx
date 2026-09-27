@@ -8,6 +8,11 @@ import { supabase } from '../src/lib/supabase';
 import { CHANGED, getEntryRoute } from '../src/lib/api';
 import { rescheduleReminders } from '../src/lib/notify';
 import { colors } from '../src/lib/theme';
+import { setupWeb } from '../src/web/setup';
+import NoticeHost from '../src/components/NoticeHost';
+
+// 網頁版：先載入字體與設計稿動畫 CSS（在第一次畫面出來前）
+if (Platform.OS === 'web') setupWeb();
 
 // 網頁版：加到 iPhone 主畫面時，像 App 一樣全螢幕打開
 function useWebAppMeta() {
@@ -51,9 +56,12 @@ export default function RootLayout() {
     const route = async () => {
       try {
         const r = await getEntryRoute();
+        // 只在需要時才跳轉；已登入就留在原本的網址（重新整理不會被帶回今天）
+        const path = Platform.OS === 'web' && typeof window !== 'undefined' ? window.location.pathname : '';
+        const atAuth = path.startsWith('/welcome') || path.startsWith('/onboarding');
         if (r === 'signin') router.replace('/welcome');
         else if (r === 'onboarding') router.replace('/onboarding');
-        else { router.replace('/'); rescheduleReminders(); }
+        else { if (Platform.OS !== 'web' || atAuth) router.replace('/'); rescheduleReminders(); }
       } catch {
         router.replace('/welcome');
       } finally {
@@ -83,6 +91,7 @@ export default function RootLayout() {
           <Stack.Screen name="add" options={{ presentation: 'modal' }} />
           <Stack.Screen name="focus" options={{ presentation: 'fullScreenModal', contentStyle: { backgroundColor: '#1E1A17' } }} />
         </Stack>
+        <NoticeHost />
         {!ready ? (
           <View style={{ position: 'absolute', inset: 0, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.bg }}>
             <ActivityIndicator color={colors.ink} />
