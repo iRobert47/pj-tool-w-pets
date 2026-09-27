@@ -1,19 +1,26 @@
 // ＋ 快速新增：一句話自動抓專案／日期／時間；拍照或貼一大段文字交給 AI 判斷
 import React, { useMemo, useState } from 'react';
 import { ActivityIndicator, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import * as ImagePicker from 'expo-image-picker';
 import { colors } from '../src/lib/theme';
 import { parseQuick } from '../src/lib/parse';
-import { AiItem, addTask, listProjects, parseWithAi, saveAiItems, uploadPhoto } from '../src/lib/api';
+import { AiItem, addProject, addTask, listProjects, parseWithAi, saveAiItems, uploadPhoto } from '../src/lib/api';
 import { useData } from '../src/lib/useData';
 import { relLabel } from '../src/lib/dates';
 import { Button, Chip } from '../src/components/ui';
+import { PROJECT_PALETTE } from '../src/components/ProjectSheet';
 
 const KIND_LABEL: Record<AiItem['kind'], string> = { milestone: '◆ 里程碑', deadline: '截止', day_task: '日任務', timed: '排時間' };
 
 export default function Add() {
+  const params = useLocalSearchParams<{ mode?: string }>();
+  const [mode, setMode] = useState<'task' | 'project'>(params.mode === 'project' ? 'project' : 'task');
   const { data: projects } = useData(listProjects, [], 'projects-list');
+  const [pName, setPName] = useState('');
+  const [pColor, setPColor] = useState<string | null>(null);
+  const usedColors = (projects ?? []).map((x) => x.color);
+  const color = pColor ?? PROJECT_PALETTE.find((c) => !usedColors.includes(c)) ?? PROJECT_PALETTE[0];
   const [text, setText] = useState('');
   const [pickedProject, setPickedProject] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
@@ -31,6 +38,13 @@ export default function Add() {
       await addTask({ title: p.title, projectId: project?.id ?? null, date: p.date, time: p.time, isDeadline: p.isDeadline });
       router.back();
     } catch (e) { setErr(String(e)); } finally { setBusy(false); }
+  }
+
+  async function createProject() {
+    if (!pName.trim()) return;
+    setBusy(true);
+    try { await addProject(pName.trim(), color); router.back(); }
+    catch (e) { setErr(String(e)); } finally { setBusy(false); }
   }
 
   async function runAi(input: Parameters<typeof parseWithAi>[0]) {
@@ -67,8 +81,31 @@ export default function Add() {
         <View style={{ width: 40 }} />
       </View>
 
+      {!ai ? (
+        <View style={s.seg} accessibilityRole="tablist">
+          {([['task', '事項'], ['project', '專案']] as const).map(([k, label]) => (
+            <Pressable key={k} onPress={() => { setMode(k); setErr(null); }} style={[s.segItem, mode === k && s.segOn]} accessibilityRole="tab" accessibilityState={{ selected: mode === k }}>
+              <Text style={[s.segText, mode === k && { color: '#FFFFFF' }]}>{label}</Text>
+            </Pressable>
+          ))}
+        </View>
+      ) : null}
+
       <ScrollView contentContainerStyle={{ padding: 16, paddingBottom: 40 }} keyboardShouldPersistTaps="handled">
-        {!ai ? (
+        {mode === 'project' && !ai ? (
+          <>
+            <Text style={s.hint}>新增一個品牌或專案，之後在首頁「專案進度」就能看到它的截止。</Text>
+            <View style={s.inputWrap}>
+              <TextInput autoFocus value={pName} onChangeText={setPName} placeholder="品牌／專案名稱，例如：東琳" placeholderTextColor={colors.muted} style={[s.input, { minHeight: 28 }]} returnKeyType="done" onSubmitEditing={createProject} />
+            </View>
+            <Text style={[s.label, { marginTop: 16 }]}>顏色</Text>
+            <View style={s.palette}>
+              {PROJECT_PALETTE.map((c) => (
+                <Pressable key={c} onPress={() => setPColor(c)} style={[s.swatch, { backgroundColor: c }, color === c && s.swatchOn]} accessibilityLabel={`顏色 ${c}`} />
+              ))}
+            </View>
+          </>
+        ) : !ai ? (
           <>
             <Text style={s.hint}>一句話就好，日期、時間、專案會自動抓。語音可以用鍵盤上的麥克風。</Text>
             <View style={s.inputWrap}>
@@ -127,7 +164,8 @@ export default function Add() {
       </ScrollView>
 
       <View style={s.footer}>
-        {ai ? <Button label={`加入 ${ai.items.filter((i) => i.on).length} 件`} onPress={saveAi} loading={busy} />
+        {mode === 'project' && !ai ? <Button label="建立專案" onPress={createProject} disabled={!pName.trim()} loading={busy} />
+          : ai ? <Button label={`加入 ${ai.items.filter((i) => i.on).length} 件`} onPress={saveAi} loading={busy} />
           : <Button label={p.date ? `加入到 ${relLabel(p.date)}` : '加入到今天'} onPress={save} disabled={!text.trim() || long} loading={busy} />}
       </View>
     </KeyboardAvoidingView>
@@ -152,6 +190,13 @@ const s = StyleSheet.create({
   outline: { borderWidth: 1, borderColor: '#D4D4D4' },
   aiCard: { borderRadius: 14, backgroundColor: colors.card, padding: 12, marginBottom: 8 },
   aiKind: { fontSize: 11, fontWeight: '700', color: colors.ink3, marginBottom: 2 },
+  seg: { flexDirection: 'row', alignSelf: 'center', backgroundColor: colors.card, borderRadius: 12, padding: 3, marginTop: 4 },
+  segItem: { height: 34, minWidth: 84, paddingHorizontal: 16, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
+  segOn: { backgroundColor: colors.ink },
+  segText: { fontSize: 14, fontWeight: '600', color: colors.ink },
+  palette: { flexDirection: 'row', flexWrap: 'wrap', gap: 12 },
+  swatch: { width: 34, height: 34, borderRadius: 17 },
+  swatchOn: { borderWidth: 3, borderColor: colors.ink },
   err: { color: colors.due, marginTop: 12, fontSize: 13, lineHeight: 19 },
   footer: { padding: 16, paddingBottom: 34, borderTopWidth: 1, borderTopColor: colors.line },
 });

@@ -1,7 +1,7 @@
 // 底部導覽：今天、行事曆、＋、專案、秒喵（五等分，＋ 在正中間）
 import React from 'react';
 import { Pressable, StyleSheet, Text, View, type ColorValue } from 'react-native';
-import { Tabs, router } from 'expo-router';
+import { Tabs, router, usePathname } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Circle, Path, Rect } from 'react-native-svg';
 import { colors } from '../../src/lib/theme';
@@ -51,18 +51,25 @@ export default function TabsLayout() {
         name="new"
         options={{
           title: '',
-          tabBarButton: () => (
-            <View style={s.plusWrap}>
-              <Pressable onPress={() => router.push('/add')} style={s.plus} accessibilityLabel="新增">
-                <Text style={s.plusText}>+</Text>
-              </Pressable>
-            </View>
-          ),
+          tabBarButton: () => <PlusButton />,
         }}
       />
       <Tabs.Screen name="projects" options={{ title: '專案', tabBarIcon: ({ color }) => icon.projects(color) }} />
       <Tabs.Screen name="space" options={{ title: '秒喵', tabBarIcon: ({ color }) => icon.space(color) }} />
     </Tabs>
+  );
+}
+
+// 中間的 ＋：在「專案」頁按，直接開「新增專案」；其他頁開「新增事項」（進去後都能切換）
+function PlusButton() {
+  const path = usePathname();
+  const onProjects = path.startsWith('/projects');
+  return (
+    <View style={s.plusWrap}>
+      <Pressable onPress={() => router.push(onProjects ? { pathname: '/add', params: { mode: 'project' } } : '/add')} style={s.plus} accessibilityLabel={onProjects ? '新增專案' : '新增'}>
+        <Text style={s.plusText}>+</Text>
+      </Pressable>
+    </View>
   );
 }
 
