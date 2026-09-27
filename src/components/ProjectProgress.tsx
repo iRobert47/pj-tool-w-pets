@@ -26,7 +26,7 @@ export default function ProjectProgress({ projects, tasks, onPressProject, onPre
               <Text style={s.nameText} numberOfLines={1}>{p.short_name || p.name}</Text>
               <Text style={s.count}>{thisWeek ? `本週 ${thisWeek} 件` : '本週沒有'}</Text>
             </Pressable>
-            <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 6, alignItems: 'center' }}>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ flex: 1 }} contentContainerStyle={{ gap: 6, alignItems: 'center' }}>
               {ds.length === 0 ? <Text style={s.none}>近兩週沒有截止</Text> : null}
               {ds.slice(0, 6).map((t) => {
                 const n = diffDays(t.due_date!, today);
@@ -40,12 +40,12 @@ export default function ProjectProgress({ projects, tasks, onPressProject, onPre
                   </Pressable>
                 );
               })}
-              {onAdd ? (
-                <Pressable onPress={() => onAdd(p)} style={s.add} accessibilityLabel={`新增${p.name}的截止`} hitSlop={6}>
-                  <Text style={s.addText}>＋</Text>
-                </Pressable>
-              ) : null}
             </ScrollView>
+            {onAdd ? (
+              <Pressable onPress={() => onAdd(p)} style={s.add} accessibilityLabel={`新增${p.name}的截止`} hitSlop={6}>
+                <Text style={s.addText}>＋</Text>
+              </Pressable>
+            ) : null}
           </View>
         );
       })}
@@ -55,7 +55,7 @@ export default function ProjectProgress({ projects, tasks, onPressProject, onPre
 
 const s = StyleSheet.create({
   card: { borderRadius: 16, borderWidth: 1, borderColor: colors.line, backgroundColor: '#FFFFFF', overflow: 'hidden' },
-  row: { flexDirection: 'row', alignItems: 'center', gap: 10, minHeight: 60, paddingHorizontal: 12, paddingVertical: 8 },
+  row: { flexDirection: 'row', alignItems: 'center', gap: 10, minHeight: 60, paddingLeft: 12, paddingRight: 8, paddingVertical: 8 },
   rowLine: { borderTopWidth: 1, borderTopColor: colors.line },
   bar: { width: 4, alignSelf: 'stretch', borderRadius: 2 },
   name: { width: 72 },

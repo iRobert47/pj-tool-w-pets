@@ -2,6 +2,7 @@
 import React from 'react';
 import { Pressable, StyleSheet, Text, View, type ColorValue } from 'react-native';
 import { Tabs, router } from 'expo-router';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Circle, Path, Rect } from 'react-native-svg';
 import { colors } from '../../src/lib/theme';
 
@@ -29,6 +30,8 @@ const icon = {
 };
 
 export default function TabsLayout() {
+  // 底部導覽列的高度要加上 iPhone 底部橫條的安全區，否則圖示下的文字會被切掉
+  const insets = useSafeAreaInsets();
   return (
     <Tabs
       screenOptions={{
@@ -36,7 +39,7 @@ export default function TabsLayout() {
         animation: 'shift',
         tabBarActiveTintColor: colors.ink,
         tabBarInactiveTintColor: colors.muted,
-        tabBarStyle: { backgroundColor: colors.bg, borderTopColor: colors.line, height: 84, paddingTop: 6 },
+        tabBarStyle: { backgroundColor: colors.bg, borderTopColor: colors.line, height: 58 + Math.max(insets.bottom, 8), paddingTop: 6, paddingBottom: Math.max(insets.bottom, 8) },
         sceneStyle: { backgroundColor: colors.bg },
         tabBarLabelStyle: { fontSize: 11, fontWeight: '600' },
       }}
