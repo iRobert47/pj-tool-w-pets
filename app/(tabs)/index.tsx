@@ -1,6 +1,6 @@
 // 01 今天：週條、秒喵、專案進度、今天要做的事
 import React, { useMemo, useRef, useState } from 'react';
-import { Animated, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Alert, Animated, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import { colors } from '../../src/lib/theme';
@@ -115,9 +115,15 @@ export default function Today() {
           <Text style={s.month}>{d.getMonth() + 1} 月</Text>
           <Text style={s.sub}>{day === today ? '今天' : `${d.getMonth() + 1} 月 ${d.getDate()} 日`}・星期{WEEKDAYS[d.getDay()]}</Text>
         </View>
-        <Pressable onPress={() => router.push('/focus')} style={s.focusPill} accessibilityLabel="開始專注">
-          <Text style={s.focusText}>◷ 專注</Text>
-        </Pressable>
+        <View style={s.headerActions}>
+          <Pressable onPress={() => router.push('/focus')} style={s.focusPill} accessibilityLabel="開始專注">
+            <Text style={s.focusText}>◷ 專注</Text>
+          </Pressable>
+          <Pressable onPress={() => Alert.alert('通知匣', '11:00 YMT 提案會議\nMiaomiao 想出去晃晃')} style={s.inbox} accessibilityLabel="通知匣，2 則未讀">
+            <Text style={s.bell}>♢</Text>
+            <View style={s.badge}><Text style={s.badgeText}>2</Text></View>
+          </Pressable>
+        </View>
       </View>
       <WeekStrip selected={day} onSelect={(x) => { setDay(x); setAdding(null); }} dots={dots} />
 
@@ -200,10 +206,15 @@ function pick(t: Task): Partial<Task> {
 const s = StyleSheet.create({
   screen: { flex: 1, backgroundColor: colors.bg },
   header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 20 },
+  headerActions: { flexDirection: 'row', alignItems: 'center', gap: 8 },
   month: { fontSize: 24, fontWeight: '700', color: colors.ink },
   sub: { fontSize: 13, color: colors.ink2, marginTop: 2 },
   focusPill: { height: 44, paddingHorizontal: 16, borderRadius: 22, backgroundColor: colors.ink, justifyContent: 'center' },
   focusText: { color: '#FFFFFF', fontSize: 14, fontWeight: '600' },
+  inbox: { width: 44, height: 44, borderRadius: 22, borderWidth: 1, borderColor: colors.line, alignItems: 'center', justifyContent: 'center', backgroundColor: '#FFFFFF' },
+  bell: { color: colors.ink, fontSize: 25, lineHeight: 27, transform: [{ rotate: '45deg' }] },
+  badge: { position: 'absolute', right: -2, top: -3, minWidth: 17, height: 17, borderRadius: 9, paddingHorizontal: 4, backgroundColor: '#FF7A59', alignItems: 'center', justifyContent: 'center' },
+  badgeText: { color: '#FFFFFF', fontSize: 9, fontWeight: '800' },
   content: { paddingHorizontal: 20, paddingBottom: 120 },
   catCard: { flexDirection: 'row', alignItems: 'center', gap: 8, marginTop: 8, padding: 8, paddingRight: 14, borderRadius: 16, backgroundColor: colors.card },
   catLine: { fontSize: 14, fontWeight: '600', color: colors.ink, lineHeight: 20 },

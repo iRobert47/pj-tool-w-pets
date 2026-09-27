@@ -18,6 +18,7 @@ export default function Projects() {
     return { projects, tasks };
   }, []);
   const [adding, setAdding] = useState(false);
+  const [tab, setTab] = useState<'all' | 'active' | 'attention'>('all');
   const [name, setName] = useState('');
   const [color, setColor] = useState(PALETTE[0]);
 
@@ -31,9 +32,22 @@ export default function Projects() {
     <View style={[s.screen, { paddingTop: insets.top + 8 }]}>
       <View style={s.head}>
         <Text style={s.title}>專案</Text>
-        <Pressable onPress={() => setAdding(!adding)} hitSlop={10}><Text style={s.add}>{adding ? '取消' : '＋ 新品牌'}</Text></Pressable>
+        <View style={s.headActions}>
+          <Pressable style={s.iconButton} onPress={() => Alert.alert('搜尋', '專案搜尋功能準備中。')}><Text style={s.iconText}>⌕</Text></Pressable>
+          <Pressable style={s.iconButton} onPress={() => Alert.alert('通知匣', '目前沒有新的專案通知。')}><Text style={s.iconText}>♢</Text></Pressable>
+          <Pressable onPress={() => setAdding(!adding)} hitSlop={10}><Text style={s.add}>{adding ? '取消' : '＋'}</Text></Pressable>
+        </View>
       </View>
       <ScrollView contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 120 }} keyboardShouldPersistTaps="handled">
+        <View style={s.tabs}>
+          {([['all', '全部'], ['active', '進行中'], ['attention', '需要處理']] as const).map(([key, label]) => (
+            <Pressable key={key} style={[s.tab, tab === key && s.tabOn]} onPress={() => setTab(key)}><Text style={[s.tabText, tab === key && s.tabTextOn]}>{label}</Text></Pressable>
+          ))}
+        </View>
+        <View style={s.reviewBanner}>
+          <View style={{ flex: 1 }}><Text style={s.reviewEyebrow}>WEEKLY REVIEW</Text><Text style={s.reviewTitle}>整理這週，讓下週更輕鬆</Text><Text style={s.reviewSub}>3 個專案有待確認的截止日</Text></View>
+          <Pressable style={s.reviewButton} onPress={() => Alert.alert('週回顧', '週回顧流程準備中。')}><Text style={s.reviewButtonText}>開始 ›</Text></Pressable>
+        </View>
         {adding ? (
           <View style={s.form}>
             <TextInput value={name} onChangeText={setName} placeholder="品牌／專案名稱" placeholderTextColor={colors.muted} style={s.input} autoFocus />
@@ -44,12 +58,13 @@ export default function Projects() {
           </View>
         ) : null}
 
-        {(data?.projects ?? []).map((p) => {
+        {(data?.projects ?? []).filter((p) => tab !== 'active' || p.status === 'active').map((p) => {
           const ts = (data?.tasks ?? []).filter((t) => t.project_id === p.id && t.kind !== 'event');
           const done = ts.filter((t) => t.done_at).length;
           const pct = ts.length ? Math.round((done / ts.length) * 100) : 0;
           const next = ts.filter((t) => !t.done_at && t.due_date && t.due_date >= today && ['deadline', 'milestone'].includes(t.kind)).sort((a, b) => (a.due_date! < b.due_date! ? -1 : 1))[0];
           const later = ts.filter((t) => !t.done_at && t.due_date && t.due_date >= today).length;
+          if (tab === 'attention' && !next) return null;
           return (
             <View key={p.id} style={s.card}>
               <View style={s.cardHead}>
@@ -79,7 +94,21 @@ const s = StyleSheet.create({
   screen: { flex: 1, backgroundColor: colors.bg },
   head: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 20, paddingBottom: 10 },
   title: { fontSize: 24, fontWeight: '700', color: colors.ink },
-  add: { fontSize: 14, fontWeight: '600', color: colors.ink },
+  headActions: { flexDirection: 'row', alignItems: 'center', gap: 7 },
+  iconButton: { width: 36, height: 36, borderRadius: 18, borderWidth: 1, borderColor: colors.line, alignItems: 'center', justifyContent: 'center' },
+  iconText: { color: colors.ink, fontSize: 20 },
+  add: { width: 36, height: 36, borderRadius: 18, overflow: 'hidden', textAlign: 'center', textAlignVertical: 'center', lineHeight: 34, fontSize: 22, fontWeight: '500', color: '#FFFFFF', backgroundColor: colors.ink },
+  tabs: { flexDirection: 'row', gap: 6, marginBottom: 14 },
+  tab: { height: 34, paddingHorizontal: 14, borderRadius: 17, backgroundColor: colors.card, justifyContent: 'center' },
+  tabOn: { backgroundColor: colors.ink },
+  tabText: { color: colors.ink2, fontSize: 12.5, fontWeight: '600' },
+  tabTextOn: { color: '#FFFFFF' },
+  reviewBanner: { minHeight: 106, padding: 16, marginBottom: 18, borderRadius: 20, backgroundColor: '#F4EFE5', flexDirection: 'row', alignItems: 'center', gap: 10 },
+  reviewEyebrow: { color: '#9A8160', fontSize: 9, fontWeight: '800', letterSpacing: 1.1 },
+  reviewTitle: { color: colors.ink, fontSize: 15, fontWeight: '700', marginTop: 5 },
+  reviewSub: { color: colors.ink3, fontSize: 11.5, marginTop: 4 },
+  reviewButton: { height: 34, paddingHorizontal: 12, borderRadius: 17, backgroundColor: '#FFFFFF', justifyContent: 'center' },
+  reviewButtonText: { color: colors.ink, fontSize: 12, fontWeight: '700' },
   form: { gap: 12, padding: 14, borderRadius: 16, backgroundColor: colors.card, marginBottom: 14 },
   input: { height: 48, borderRadius: 12, backgroundColor: '#FFFFFF', paddingHorizontal: 14, fontSize: 16, color: colors.ink },
   palette: { flexDirection: 'row', gap: 10 },
