@@ -1,6 +1,6 @@
 // 05 專注：單次或番茄鐘；時間記在選的那件事上。用「開始時間」算剩餘，App 切到背景也不會跑掉。
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { AppState, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
+import { AppState, Platform, Pressable, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useKeepAwake } from 'expo-keep-awake';
 import * as Notifications from 'expo-notifications';
@@ -44,9 +44,11 @@ export default function Focus() {
   const segStart = useRef(0);
   const notifId = useRef<string | null>(null);
   const focusedRef = useRef(0);
-  const [box, setBox] = useState({ w: 390, h: 844 });
-  const [controlsBottom, setControlsBottom] = useState(470);
-  const [bottomTop, setBottomTop] = useState(760);
+  // 先用視窗大小估算，畫面排好後（onLayout）再用實際位置
+  const win = useWindowDimensions();
+  const [box, setBox] = useState({ w: Math.min(win.width, 430), h: win.height });
+  const [controlsBottom, setControlsBottom] = useState(win.height < 760 ? 400 : 470);
+  const [bottomTop, setBottomTop] = useState(win.height - 92);
 
   const planMin = mode === 'single' ? single : pf;
   const total = stage === 'rest' ? pb * 60 : planMin * 60;
