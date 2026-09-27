@@ -52,10 +52,10 @@ function useWebAppMeta() {
 export default function RootLayout() {
   useWebAppMeta();
   const [ready, setReady] = useState(false);
-  // 啟動畫面至少停 1.4 秒（讓標題和秒喵的動畫跑完），資料好了再淡出
+  // 啟動畫面至少停 2.6 秒（讓標題和秒喵的動畫跑完），資料好了再淡出
   const [minShown, setMinShown] = useState(false);
   const [splashGone, setSplashGone] = useState(false);
-  useEffect(() => { const t = setTimeout(() => setMinShown(true), 1400); return () => clearTimeout(t); }, []);
+  useEffect(() => { const t = setTimeout(() => setMinShown(true), 2600); return () => clearTimeout(t); }, []);
   const leaving = ready && minShown;
   useEffect(() => { if (!leaving) return; const t = setTimeout(() => setSplashGone(true), 500); return () => clearTimeout(t); }, [leaving]);
 
