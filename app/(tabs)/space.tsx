@@ -154,20 +154,28 @@ export default function Space() {
 }
 
 function Action({ icon, label, count, onPress }: { icon: IconName; label: string; count?: string; onPress: () => void }) {
+  const scale = useRef(new Animated.Value(1)).current;
+  const spring = (toValue: number) => Animated.spring(scale, { toValue, useNativeDriver: true, speed: toValue < 1 ? 38 : 20, bounciness: toValue < 1 ? 0 : 8 }).start();
   return (
-    <Pressable style={({ pressed }) => [s.action, pressed && s.pressed]} onPress={onPress}>
-      <Icon name={icon} size={22} />
-      <Text style={s.actionText}>{label}</Text>
-      {count ? <Text style={s.actionCount}>{count}</Text> : null}
+    <Pressable style={s.action} onPress={onPress} onPressIn={() => spring(0.92)} onPressOut={() => spring(1)}>
+      <Animated.View style={[s.actionContent, { transform: [{ scale }] }]}>
+        <Icon name={icon} size={22} />
+        <Text style={s.actionText}>{label}</Text>
+        {count ? <Text style={s.actionCount}>{count}</Text> : null}
+      </Animated.View>
     </Pressable>
   );
 }
 
 function RoomNav({ icon, label, onPress }: { icon: IconName; label: string; onPress: () => void }) {
+  const scale = useRef(new Animated.Value(1)).current;
+  const spring = (toValue: number) => Animated.spring(scale, { toValue, useNativeDriver: true, speed: toValue < 1 ? 38 : 20, bounciness: toValue < 1 ? 0 : 8 }).start();
   return (
-    <Pressable style={({ pressed }) => [s.roomNavItem, pressed && s.pressed]} onPress={onPress}>
-      <Icon name={icon} size={21} color="#756B5C" />
-      <Text style={s.roomNavText}>{label}</Text>
+    <Pressable style={s.roomNavItem} onPress={onPress} onPressIn={() => spring(0.9)} onPressOut={() => spring(1)}>
+      <Animated.View style={[s.roomNavContent, { transform: [{ scale }] }]}>
+        <Icon name={icon} size={21} color="#756B5C" />
+        <Text style={s.roomNavText}>{label}</Text>
+      </Animated.View>
     </Pressable>
   );
 }
@@ -198,14 +206,15 @@ const s = StyleSheet.create({
   focusValue: { color: '#3D372F', fontSize: 11, fontWeight: '700' },
   actionsWrap: { position: 'absolute', left: 0, right: 0, alignItems: 'center', zIndex: 8 },
   actions: { width: 320, height: 66, paddingHorizontal: 10, borderRadius: 33, backgroundColor: 'rgba(255,255,255,0.93)', flexDirection: 'row', alignItems: 'center', shadowColor: '#6C5B43', shadowOpacity: 0.14, shadowRadius: 18, shadowOffset: { width: 0, height: 8 }, elevation: 5 },
-  action: { flex: 1, height: 54, alignItems: 'center', justifyContent: 'center', gap: 2 },
+  action: { flex: 1, height: 54 },
+  actionContent: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 2 },
   actionText: { color: '#3C372F', fontSize: 10.5, fontWeight: '700' },
   actionCount: { position: 'absolute', top: 4, right: 12, color: '#8B7E6B', fontSize: 9.5, fontWeight: '700' },
   actionDivider: { width: 1, height: 30, backgroundColor: '#E9E0D2' },
   roomNav: { position: 'absolute', left: 30, right: 30, height: 48, flexDirection: 'row', justifyContent: 'space-between', zIndex: 8 },
-  roomNavItem: { width: 66, alignItems: 'center', justifyContent: 'center', gap: 4 },
+  roomNavItem: { width: 66, alignItems: 'center', justifyContent: 'center' },
+  roomNavContent: { alignItems: 'center', justifyContent: 'center', gap: 4 },
   roomNavText: { color: '#756B5C', fontSize: 9.5, fontWeight: '600' },
-  pressed: { opacity: 0.6, transform: [{ scale: 0.96 }] },
   renameScrim: { position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, backgroundColor: 'rgba(29,25,20,0.28)', alignItems: 'center', justifyContent: 'center', zIndex: 20, paddingHorizontal: 28 },
   renameCard: { width: '100%', padding: 22, borderRadius: 24, backgroundColor: '#FFFDF9' },
   renameTitle: { color: colors.ink, fontSize: 17, fontWeight: '700', marginBottom: 14 },

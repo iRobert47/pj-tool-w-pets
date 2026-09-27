@@ -33,9 +33,11 @@ export default function TabsLayout() {
     <Tabs
       screenOptions={{
         headerShown: false,
+        animation: 'shift',
         tabBarActiveTintColor: colors.ink,
         tabBarInactiveTintColor: colors.muted,
         tabBarStyle: { backgroundColor: colors.bg, borderTopColor: colors.line, height: 84, paddingTop: 6 },
+        sceneStyle: { backgroundColor: colors.bg },
         tabBarLabelStyle: { fontSize: 11, fontWeight: '600' },
       }}
     >

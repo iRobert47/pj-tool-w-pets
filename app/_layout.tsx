@@ -26,6 +26,19 @@ function useWebAppMeta() {
     add('meta', { name: 'theme-color', content: '#FFFFFF' });
     add('link', { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' });
     add('link', { rel: 'manifest', href: '/manifest.json' });
+    const style = document.createElement('style');
+    style.textContent = `
+      html, body, #root { min-height: 100%; background: #EEECE8; }
+      body { margin: 0; overscroll-behavior: none; }
+      * { -webkit-tap-highlight-color: transparent; }
+      [role="button"], button, a { cursor: pointer; }
+      @media (prefers-reduced-motion: no-preference) {
+        [role="button"], button, a { transition: opacity 140ms ease, filter 140ms ease; }
+        [role="button"]:active, button:active, a:active { opacity: .72; filter: brightness(.98); }
+      }
+    `;
+    document.head.appendChild(style);
+    return () => style.remove();
   }, []);
 }
 

@@ -29,6 +29,8 @@ const WEB_FRAMES: Record<MiaomiaoAction, { src: string; duration: number }[]> = 
   ],
 };
 
+const ALL_WEB_SOURCES = [...new Set(Object.values(WEB_FRAMES).flat().map((frame) => frame.src))];
+
 export default function Miaomiao({
   size = 220,
   action = 'idle',
@@ -53,6 +55,11 @@ export default function Miaomiao({
   }, [onActionComplete]);
 
   useEffect(() => {
+    if (Platform.OS !== 'web') return;
+    ALL_WEB_SOURCES.forEach((src) => { void Image.prefetch(src); });
+  }, []);
+
+  useEffect(() => {
     const loop = Animated.loop(Animated.sequence([
       Animated.timing(breathe, { toValue: 1, duration: 1700, easing: Easing.inOut(Easing.sin), useNativeDriver: true }),
       Animated.timing(breathe, { toValue: 0, duration: 1700, easing: Easing.inOut(Easing.sin), useNativeDriver: true }),
@@ -69,24 +76,34 @@ export default function Miaomiao({
       return () => clearTimeout(nativeTimer);
     }
     let index = 0;
+    let cancelled = false;
     let timer: ReturnType<typeof setTimeout>;
     const advance = () => {
       timer = setTimeout(() => {
+        if (cancelled) return;
         index += 1;
         if (index >= sequence.length) {
           completeRef.current?.();
           return;
         }
-        Animated.sequence([
-          Animated.timing(fade, { toValue: 0.3, duration: 70, useNativeDriver: true }),
-          Animated.timing(fade, { toValue: 1, duration: 100, useNativeDriver: true }),
-        ]).start();
-        setFrame(index);
-        advance();
+        Animated.timing(fade, { toValue: 0, duration: 75, easing: Easing.out(Easing.quad), useNativeDriver: true }).start(({ finished }) => {
+          if (!finished || cancelled) return;
+          setFrame(index);
+          requestAnimationFrame(() => {
+            Animated.timing(fade, { toValue: 1, duration: 125, easing: Easing.out(Easing.cubic), useNativeDriver: true }).start(({ finished: entered }) => {
+              if (entered && !cancelled) advance();
+            });
+          });
+        });
       }, sequence[index].duration);
     };
     advance();
-    return () => clearTimeout(timer);
+    return () => {
+      cancelled = true;
+      clearTimeout(timer);
+      fade.stopAnimation();
+      fade.setValue(1);
+    };
   }, [action, actionKey, fade, sequence]);
 
   if (Platform.OS !== 'web') {
