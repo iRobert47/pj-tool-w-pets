@@ -1,6 +1,6 @@
 // 底部導覽：今天、行事曆、＋、專案、秒喵（五等分，＋ 在正中間）
 import React from 'react';
-import { Pressable, StyleSheet, Text, View, type ColorValue } from 'react-native';
+import { Platform, Pressable, StyleSheet, Text, View, type ColorValue } from 'react-native';
 import { Tabs, router, usePathname } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Circle, Path, Rect } from 'react-native-svg';
@@ -32,6 +32,7 @@ const icon = {
 export default function TabsLayout() {
   // 底部導覽列的高度要加上 iPhone 底部橫條的安全區，否則圖示下的文字會被切掉
   const insets = useSafeAreaInsets();
+  const bottom = Math.max(insets.bottom, homeAppBottom(), 8);
   return (
     <Tabs
       screenOptions={{
@@ -39,7 +40,7 @@ export default function TabsLayout() {
         animation: 'shift',
         tabBarActiveTintColor: colors.ink,
         tabBarInactiveTintColor: colors.muted,
-        tabBarStyle: { backgroundColor: colors.bg, borderTopColor: colors.line, height: 64 + Math.max(insets.bottom, 8), paddingTop: 6, paddingBottom: Math.max(insets.bottom, 8) },
+        tabBarStyle: { backgroundColor: colors.bg, borderTopColor: colors.line, height: 64 + bottom, paddingTop: 6, paddingBottom: bottom },
         sceneStyle: { backgroundColor: colors.bg },
         // 中文字（Noto Sans TC）比英文高，行高不給足會被切掉下緣
         tabBarLabelStyle: { fontSize: 11, fontWeight: '600', lineHeight: 16, height: 16, marginTop: 2 },
@@ -58,6 +59,15 @@ export default function TabsLayout() {
       <Tabs.Screen name="space" options={{ title: '秒喵', tabBarIcon: ({ color }) => icon.space(color) }} />
     </Tabs>
   );
+}
+
+// 加到 iPhone 主畫面的網頁 App 會畫到最底下的橫條區，但瀏覽器回報的安全區是 0，這裡自己留 22px
+function homeAppBottom() {
+  if (Platform.OS !== 'web' || typeof window === 'undefined') return 0;
+  const nav = window.navigator as Navigator & { standalone?: boolean };
+  const standalone = nav.standalone === true || window.matchMedia?.('(display-mode: standalone)').matches;
+  const iphone = /iPhone|iPod/.test(nav.userAgent);
+  return standalone && iphone && window.screen.height >= 812 ? 22 : 0;   // 有 Home 橫條的機型
 }
 
 // 中間的 ＋：在「專案」頁按，直接開「新增專案」；其他頁開「新增事項」（進去後都能切換）
