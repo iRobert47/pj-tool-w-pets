@@ -65,7 +65,10 @@ export async function listProjects(): Promise<Project[]> {
 }
 
 export async function addProject(name: string, color: string, area: 'work' | 'life' = 'work') {
-  must(await supabase.from('projects').insert({ name, short_name: name, color, area }));
+  // 新專案排在最後面
+  const last = await supabase.from('projects').select('sort_order').order('sort_order', { ascending: false }).limit(1);
+  const sort_order = ((last.data?.[0]?.sort_order as number | undefined) ?? 0) + 1;
+  must(await supabase.from('projects').insert({ name, short_name: name, color, area, sort_order }));
   changed();
 }
 

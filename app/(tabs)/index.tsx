@@ -5,7 +5,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import { colors } from '../../src/lib/theme';
 import { WEEKDAYS, addDays, atTime, fromIso, hhmm, todayIso, weekOf } from '../../src/lib/dates';
-import { Project, Task, addTask, deleteTask, getPet, getProfile, listProjects, listTasks, moveFields, moveTask, restoreTask, setDone, taskDay, updateTask } from '../../src/lib/api';
+import { Project, Task, addProject, addTask, deleteTask, getPet, getProfile, listProjects, listTasks, moveFields, moveTask, restoreTask, setDone, taskDay, updateTask } from '../../src/lib/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Banner from '../../src/components/Banner';
 import InboxSheet, { InboxItem } from '../../src/components/InboxSheet';
@@ -14,6 +14,7 @@ import DeadlineSheet, { DeadlineDraft } from '../../src/components/DeadlineSheet
 import { useData } from '../../src/lib/useData';
 import WeekStrip from '../../src/components/WeekStrip';
 import ProjectProgress from '../../src/components/ProjectProgress';
+import ProjectSheet from '../../src/components/ProjectSheet';
 import TaskRow from '../../src/components/TaskRow';
 import TaskSheet, { SheetAction } from '../../src/components/TaskSheet';
 import Cat from '../../src/components/Cat';
@@ -35,6 +36,7 @@ export default function Today() {
   const [seen, setSeen] = useState(0);            // 打開通知匣時看過的數量
   const [dismissed, setDismissed] = useState<Record<string, true>>({});
   const [achv, setAchv] = useState(false);
+  const [newProject, setNewProject] = useState(false);
   const [editDue, setEditDue] = useState<{ project: Project; task: Task | null } | null>(null);
   const [clock, setClock] = useState(Date.now());
 
@@ -145,6 +147,14 @@ export default function Today() {
       flash(`已加入「${d.title}」`);
     }
   }
+  // 新增專案：先放進畫面（臨時 id），存好後重讀拿到真的 id
+  function createProject(name: string, color: string) {
+    setNewProject(false);
+    const tmp: Project = { id: 'tmp-' + Date.now(), name, short_name: name, aliases: [], color, area: 'work', status: 'active', sort_order: 999, due_on: null } as unknown as Project;
+    setData((prev) => (prev ? { ...prev, projects: [...prev.projects, tmp] } : prev));
+    save(addProject(name, color));
+    flash(`已新增專案「${name}」`);
+  }
   function deleteDeadline() {
     const t = editDue?.task;
     setEditDue(null);
@@ -243,8 +253,7 @@ export default function Today() {
         <View style={{ marginTop: 18 }}>
           <SectionTitle title="專案進度" sub="接下來的截止" right={<Pressable onPress={() => router.push('/calendar')} hitSlop={8}><Text style={s.link}>整週 ›</Text></Pressable>} />
           <View style={{ marginTop: 6 }}>
-            {projects.length ? <ProjectProgress projects={projects} tasks={tasks} onPressProject={() => router.push('/projects')} onPressItem={(t, p) => setEditDue({ project: p, task: t })} onAdd={(p) => setEditDue({ project: p, task: null })} />
-              : <Text style={s.empty}>還沒有專案。到「專案」頁新增第一個品牌。</Text>}
+            <ProjectProgress projects={projects} tasks={tasks} onPressProject={() => router.push('/projects')} onPressItem={(t, p) => setEditDue({ project: p, task: t })} onAdd={(p) => setEditDue({ project: p, task: null })} onAddProject={() => setNewProject(true)} />
           </View>
         </View>
 
@@ -322,6 +331,7 @@ export default function Today() {
         />
       ) : null}
 
+      <ProjectSheet open={newProject} used={projects.map((p) => p.color)} onClose={() => setNewProject(false)} onSave={createProject} />
       <DeadlineSheet open={!!editDue} project={editDue?.project ?? null} task={editDue?.task ?? null} onClose={() => setEditDue(null)} onSave={saveDeadline} onDelete={deleteDeadline} />
       <InboxSheet open={inboxOpen} items={inboxItems} onClose={() => setInboxOpen(false)} topInset={insets.top} />
       <AchievementCard

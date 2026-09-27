@@ -5,10 +5,11 @@ import { diffDays, hhmm, relLabel, todayIso } from '../lib/dates';
 import type { Project, Task } from '../lib/api';
 
 /** 首頁「專案進度」：每個品牌一列，列出最近的截止（今天、明天橘底） */
-export default function ProjectProgress({ projects, tasks, onPressProject, onPressItem, onAdd }: {
+export default function ProjectProgress({ projects, tasks, onPressProject, onPressItem, onAdd, onAddProject }: {
   projects: Project[]; tasks: Task[]; onPressProject?: (p: Project) => void;
   onPressItem?: (t: Task, p: Project) => void;   // 點截止 → 編輯
-  onAdd?: (p: Project) => void;                  // 列尾的 ＋ → 新增
+  onAdd?: (p: Project) => void;                  // 列尾的 ＋ → 新增截止
+  onAddProject?: () => void;                     // 最下面「＋ 新增專案」
 }) {
   const today = todayIso();
   const DUE_KINDS = ['deadline', 'milestone', 'day_task'];
@@ -49,6 +50,12 @@ export default function ProjectProgress({ projects, tasks, onPressProject, onPre
           </View>
         );
       })}
+      {onAddProject ? (
+        <Pressable onPress={onAddProject} style={({ pressed }) => [s.newRow, projects.length > 0 && s.rowLine, pressed && { backgroundColor: colors.card }]} accessibilityLabel="新增專案">
+          <Text style={s.newPlus}>＋</Text>
+          <Text style={s.newText}>新增專案</Text>
+        </Pressable>
+      ) : null}
     </View>
   );
 }
@@ -64,6 +71,9 @@ const s = StyleSheet.create({
   none: { fontSize: 12, color: colors.muted },
   add: { width: 34, height: 34, borderRadius: 10, borderWidth: 1, borderStyle: 'dashed', borderColor: '#C9C9C9', alignItems: 'center', justifyContent: 'center' },
   addText: { fontSize: 17, color: colors.ink3, lineHeight: 19 },
+  newRow: { flexDirection: 'row', alignItems: 'center', gap: 8, height: 48, paddingHorizontal: 14 },
+  newPlus: { fontSize: 18, color: colors.ink, lineHeight: 20 },
+  newText: { fontSize: 14, fontWeight: '600', color: colors.ink },
   item: { borderRadius: 9, paddingHorizontal: 8, paddingVertical: 4, maxWidth: 130 },
   date: { fontSize: 11, fontWeight: '700' },
   title: { fontSize: 12, color: colors.ink },
