@@ -1,13 +1,13 @@
 // 05 專注：單次或番茄鐘；時間記在選的那件事上。用「開始時間」算剩餘，App 切到背景也不會跑掉。
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { AppState, Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { AppState, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useKeepAwake } from 'expo-keep-awake';
 import * as Notifications from 'expo-notifications';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Cat from '../src/components/Cat';
 import Stage from '../src/components/Stage';
-import { FOCUS_BG_SVG, FOCUS_CUSHION_SVG } from '../src/design/focusScene';
+import { FOCUS_BG_SVG } from '../src/design/focusScene';
 import { endFocus, focusMinutes, listTasks, startFocus, taskDay } from '../src/lib/api';
 import { todayIso, weekOf } from '../src/lib/dates';
 import { useData } from '../src/lib/useData';
@@ -44,6 +44,9 @@ export default function Focus() {
   const segStart = useRef(0);
   const notifId = useRef<string | null>(null);
   const focusedRef = useRef(0);
+  const [box, setBox] = useState({ w: 390, h: 844 });
+  const [controlsBottom, setControlsBottom] = useState(470);
+  const [bottomTop, setBottomTop] = useState(760);
 
   const planMin = mode === 'single' ? single : pf;
   const total = stage === 'rest' ? pb * 60 : planMin * 60;
@@ -131,28 +134,43 @@ export default function Focus() {
 
   // 設計稿的場景：窗外下雨、檯燈、地毯；專注時檯燈亮起
   const lamp = stage === 'focus' ? { glow: '0.32', cone: '1', shade: '#F5CB8E' } : stage === 'rest' ? { glow: '0.22', cone: '0.7', shade: '#F5CB8E' } : { glow: '0.1', cone: '0.2', shade: '#B89A74' };
-  const sceneHtml = FOCUS_BG_SVG.replace(/__GLOW__/g, lamp.glow).replace(/__CONE__/g, lamp.cone).replace(/__SHADE__/g, lamp.shade) + FOCUS_CUSHION_SVG.replace('<svg ', '<svg style="position:absolute;left:98px;top:648px" ');
+  const sceneHtml = FOCUS_BG_SVG.replace(/__GLOW__/g, lamp.glow).replace(/__CONE__/g, lamp.cone).replace(/__SHADE__/g, lamp.shade);
+
+  // 秒喵和坐墊放在「控制區」和「底部按鈕」之間：手機畫面較矮（例如瀏覽器有網址列）時自動縮小，不會壓到時間和按鈕
+  const k = box.w / 390;
+  const designBottom = box.h - (844 - 708) * k;            // 設計稿坐墊底部的位置
+  const compact = box.h < 760;                              // 瀏覽器有網址列、或較矮的手機
+  const catBottom = compact ? bottomTop - 6 : Math.min(designBottom, bottomTop - 6);
+  const room = catBottom - (controlsBottom + 10);
+  const sc = Math.max(0.4, Math.min(1, room / (214 * k)));
+  const u = k * sc;                                         // 設計稿 1px 在畫面上的大小
+  const gw = 234 * u, gh = 214 * u;
+  const gl = 205 * k - gw / 2, gt = catBottom - gh;
+  const showBubble = sc > 0.82 && (stage === 'ready' || stage === 'rest');
 
   return (
-    <View style={[s.screen, { paddingTop: insets.top + 6 }]}>
-      <Stage html={sceneHtml} bg={DARK}>
-        <View style={{ position: 'absolute', left: 88, top: 494, width: 234, height: 215 }}>
-          <Cat size={234} happy={stage === 'done'} mood={stage === 'focus' ? 'purr' : undefined} />
+    <View style={[s.screen, { paddingTop: insets.top + 6 }]} onLayout={(e) => setBox({ w: e.nativeEvent.layout.width, h: e.nativeEvent.layout.height })}>
+      <Stage html={sceneHtml} bg={DARK} />
+      <View pointerEvents="none" style={{ position: 'absolute', left: gl, top: gt, width: gw, height: gh }}>
+        <View style={{ position: 'absolute', left: 17 * u, top: 199 * u, width: 200 * u, height: 14 * u, borderRadius: 7 * u, backgroundColor: 'rgba(21,17,14,0.6)' }} />
+        <View style={{ position: 'absolute', left: 16 * u, top: 164 * u, width: 202 * u, height: 42 * u, borderRadius: 21 * u, backgroundColor: '#F1ECE3', borderWidth: Math.max(1, 3 * u), borderColor: '#D9CFBF' }} />
+        <View style={{ position: 'absolute', left: 0, top: 0 }}>
+          <Cat size={gw} happy={stage === 'done'} mood={stage === 'focus' ? 'purr' : undefined} />
         </View>
-        {stage === 'ready' ? (
-          <View style={s.bubble}><Text style={s.bubbleText}>準備好就開始，{'\n'}我先跳上去坐好。</Text></View>
-        ) : stage === 'rest' ? (
-          <View style={s.bubble}><Text style={s.bubbleText}>起來走走、喝口水，{'\n'}我也伸個懶腰。</Text></View>
-        ) : null}
-      </Stage>
+      </View>
+      {showBubble ? (
+        <View pointerEvents="none" style={[s.bubble, { left: gl + 62 * u, top: gt + 6 * u }]}>
+          <Text style={s.bubbleText}>{stage === 'ready' ? '準備好就開始，\n我先跳上去坐好。' : '起來走走、喝口水，\n我也伸個懶腰。'}</Text>
+        </View>
+      ) : null}
       <View style={s.top}>
         {stage === 'ready' || stage === 'done' ? <Pressable onPress={() => router.back()} hitSlop={10}><Text style={s.back}>‹ 返回</Text></Pressable> : <View />}
       </View>
 
-      <ScrollView contentContainerStyle={{ alignItems: 'center', paddingBottom: 30 }}>
+      <View style={{ alignItems: 'center' }} onLayout={(e) => setControlsBottom(e.nativeEvent.layout.y + e.nativeEvent.layout.height)}>
         {stage === 'ready' ? (
           <>
-            <Text style={s.small}>要專注在什麼？</Text>
+            <Text style={[s.small, compact && { marginTop: 6 }]}>要專注在什麼？</Text>
             <View style={s.wrap}>
               {targets.map((t) => {
                 const on = t.id === target.id && t.title === target.title;
@@ -162,13 +180,13 @@ export default function Focus() {
           </>
         ) : stage !== 'done' ? (
           <>
-            <Text style={s.small}>{stage === 'rest' ? '休息一下' : target.id ? '專注中' : '自由專注'}</Text>
+            <Text style={[s.small, compact && { marginTop: 6 }]}>{stage === 'rest' ? '休息一下' : target.id ? '專注中' : '自由專注'}</Text>
             <Text style={s.taskTitle}>{target.title}</Text>
           </>
         ) : null}
 
         {stage !== 'done' ? (
-          <Text style={[s.clock, stage === 'rest' && { color: '#B9D3B2' }]}>{mm}:{ss}</Text>
+          <Text style={[s.clock, compact && s.clockCompact, stage === 'rest' && { color: '#B9D3B2' }]}>{mm}:{ss}</Text>
         ) : (
           <View style={{ alignItems: 'center', marginTop: 40 }}>
             <Text style={s.doneTitle}>專注了 {focusedMin} 分鐘</Text>
@@ -209,9 +227,9 @@ export default function Focus() {
           </>
         ) : null}
 
-      </ScrollView>
+      </View>
 
-      <View style={[s.bottom, { paddingBottom: insets.bottom + 20 }]}>
+      <View style={[s.bottom, { paddingBottom: insets.bottom + 20 }]} onLayout={(e) => setBottomTop(e.nativeEvent.layout.y)}>
         {stage === 'ready' ? <Pressable onPress={start} style={s.primary}><Text style={s.primaryText}>開始專注</Text></Pressable> : null}
         {stage === 'focus' ? <Pressable onLongPress={stopEarly} delayLongPress={700} style={s.secondary}><Text style={s.secondaryText}>長按結束</Text></Pressable> : null}
         {stage === 'rest' ? (
@@ -227,7 +245,8 @@ export default function Focus() {
 }
 
 const s = StyleSheet.create({
-  bubble: { position: 'absolute', left: 150, top: 500, maxWidth: 170, backgroundColor: '#F3E9D8', borderRadius: 16, borderBottomLeftRadius: 4, paddingHorizontal: 14, paddingVertical: 10 },
+  clockCompact: { fontSize: 64, marginTop: 8, letterSpacing: -1 },
+  bubble: { position: 'absolute', maxWidth: 170, backgroundColor: '#F3E9D8', borderRadius: 16, borderBottomLeftRadius: 4, paddingHorizontal: 14, paddingVertical: 10 },
   bubbleText: { color: '#211D19', fontSize: 14, fontWeight: '500', lineHeight: 21 },
   screen: { flex: 1, backgroundColor: DARK },
   top: { height: 44, paddingHorizontal: 16, justifyContent: 'center' },
@@ -247,7 +266,7 @@ const s = StyleSheet.create({
   barFill: { height: 3 },
   doneTitle: { color: TEXT, fontSize: 28, fontWeight: '600' },
   doneSub: { color: DIM, fontSize: 15, marginTop: 10, textAlign: 'center', paddingHorizontal: 30, lineHeight: 22 },
-  bottom: { alignItems: 'center', gap: 10, paddingTop: 10 },
+  bottom: { marginTop: 'auto', alignItems: 'center', gap: 10, paddingTop: 10 },
   primary: { width: 240, height: 56, borderRadius: 28, backgroundColor: CREAM, alignItems: 'center', justifyContent: 'center' },
   primaryText: { color: DARK, fontSize: 17, fontWeight: '600' },
   secondary: { width: 240, height: 52, borderRadius: 26, borderWidth: 1, borderColor: OFF_B, backgroundColor: OFF_BG, alignItems: 'center', justifyContent: 'center' },
