@@ -1,6 +1,6 @@
 // 進入點：判斷要去 歡迎／首次設定／今天，並在資料變動時重排手機提醒
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, DeviceEventEmitter, Platform, View } from 'react-native';
+import { ActivityIndicator, DeviceEventEmitter, Platform, StyleSheet, View } from 'react-native';
 import { Stack, router } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -60,7 +60,7 @@ export default function RootLayout() {
   }, []);
 
   return (
-    <SafeAreaProvider>
+    <SafeAreaProvider style={[styles.app, Platform.OS === 'web' && styles.webApp]}>
       <StatusBar style="dark" />
       <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.bg } }}>
         <Stack.Screen name="(tabs)" />
@@ -77,3 +77,8 @@ export default function RootLayout() {
     </SafeAreaProvider>
   );
 }
+
+const styles = StyleSheet.create({
+  app: { flex: 1, width: '100%', backgroundColor: colors.bg },
+  webApp: { maxWidth: 430, alignSelf: 'center', overflow: 'hidden' },
+});
