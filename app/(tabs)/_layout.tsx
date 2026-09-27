@@ -39,9 +39,10 @@ export default function TabsLayout() {
         animation: 'shift',
         tabBarActiveTintColor: colors.ink,
         tabBarInactiveTintColor: colors.muted,
-        tabBarStyle: { backgroundColor: colors.bg, borderTopColor: colors.line, height: 58 + Math.max(insets.bottom, 8), paddingTop: 6, paddingBottom: Math.max(insets.bottom, 8) },
+        tabBarStyle: { backgroundColor: colors.bg, borderTopColor: colors.line, height: 64 + Math.max(insets.bottom, 8), paddingTop: 6, paddingBottom: Math.max(insets.bottom, 8) },
         sceneStyle: { backgroundColor: colors.bg },
-        tabBarLabelStyle: { fontSize: 11, fontWeight: '600' },
+        // 中文字（Noto Sans TC）比英文高，行高不給足會被切掉下緣
+        tabBarLabelStyle: { fontSize: 11, fontWeight: '600', lineHeight: 16, height: 16, marginTop: 2 },
       }}
     >
       <Tabs.Screen name="index" options={{ title: '今天', tabBarIcon: ({ color }) => icon.index(color) }} />
